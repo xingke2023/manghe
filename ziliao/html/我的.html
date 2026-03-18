@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>我的主页</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+    .devil-horns {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translateX(-50%);
+      background-image: url('data:image/svg+xml;utf8,<svg width="100" height="35" viewBox="0 0 100 35" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.1513 34.0254C16.3317 24.2388 20.354 13.0601 22.2182 0.490723L1.08203 12.016C3.41434 20.1472 6.55163 27.5323 10.1513 34.0254Z" fill="%23FF4141"/><path d="M89.8487 34.0254C83.6683 24.2388 79.646 13.0601 77.7818 0.490723L98.918 12.016C96.5857 20.1472 93.4484 27.5323 89.8487 34.0254Z" fill="%23FF4141"/></svg>');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      z-index: 10;
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#FF4141",
+            "background-light": "#F9F6FF",
+            "background-dark": "#1A1820",
+            "card-light": "#FFFFFF",
+            "card-dark": "#2C2A35",
+            "text-primary-light": "#1F2937",
+            "text-primary-dark": "#E5E7EB",
+            "text-secondary-light": "#6B7280",
+            "text-secondary-dark": "#9CA3AF",
+            "border-light": "#F3F4F6",
+            "border-dark": "#374151",
+            "tag-light": "#E0F2F1",
+            "tag-dark": "#14532D",
+            "tag-text-light": "#047857",
+            "tag-text-dark": "#A7F3D0",
+          },
+          fontFamily: {
+            display: ["'Noto Sans SC'", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-display bg-gradient-to-br from-rose-50 to-amber-50 dark:from-[#2a243a] dark:to-[#1a1820] min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-md mx-auto">
+<header class="text-center py-8">
+<h1 class="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark">我的</h1>
+</header>
+<main class="space-y-6">
+<section class="flex items-center space-x-4 px-4">
+<div class="relative">
+<div class="absolute devil-horns"></div>
+<img alt="User profile picture" class="w-24 h-24 rounded-full object-cover border-4 border-dashed border-primary/50 p-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcslTcqCNVKWUpJRh3yKFNT13vUhzb_VUSk7W3y9k_WQbJzCo6TEICvObbHGU-IsnDpKZe_MO9MJQ9k_wnS1A2kVbWSFtpLdAjxR_4khx1s1GvXNN9eMLDsG_hI97IovIwqdwSraCzKVOT4FJmn_pwPWKeyTJc4WNKcGaCXKSj_atyYJcdP6Q0e7acR0JBFgT3FEqMwYkfaO51HSHuamnPtj4-n64rJDslD8cTyPT3bL9webYaBznt-FzRQfOnEydeREH5fp2v8g"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">爱情岛之子么</h2>
+<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined">photo_camera</span>
+</button>
+</div>
+<div class="mt-1 flex items-center gap-2 text-sm">
+<span class="inline-flex items-center gap-1 bg-gray-800 text-yellow-300 px-2.5 py-1 rounded-full font-semibold text-xs">
+<span class="material-symbols-outlined !text-sm !font-semibold">diamond</span>
+              VIP
+            </span>
+<span class="text-text-secondary-light dark:text-text-secondary-dark">有效期 2026-01-01</span>
+</div>
+</div>
+</section>
+<section class="bg-card-light dark:bg-card-dark rounded-2xl shadow-lg p-4 mx-2">
+<ul class="divide-y divide-border-light dark:divide-border-dark">
+<li class="flex items-center justify-between py-4 cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">article</span>
+<span class="font-medium text-text-primary-light dark:text-text-primary-dark">发盒凭证</span>
+<span class="bg-tag-light dark:bg-tag-dark text-tag-text-light dark:text-tag-text-dark text-xs font-semibold px-2 py-0.5 rounded-md">3张可用</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</li>
+<li class="flex items-center justify-between py-4 cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">favorite</span>
+<span class="font-medium text-text-primary-light dark:text-text-primary-dark">我的履约</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</li>
+<li class="flex items-center justify-between py-4 cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">history</span>
+<span class="font-medium text-text-primary-light dark:text-text-primary-dark">发盒记录</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</li>
+<li class="flex items-center justify-between py-4 cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">person_pin</span>
+<span class="font-medium text-text-primary-light dark:text-text-primary-dark">关注的TA</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</li>
+<li class="flex items-center justify-between py-4 cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">headset_mic</span>
+<span class="font-medium text-text-primary-light dark:text-text-primary-dark">小恶魔客服</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</li>
+</ul>
+</section>
+</main>
+<div class="fixed bottom-8 right-8">
+<button class="bg-primary text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-background-dark flex items-center gap-2 transition-transform hover:scale-105">
+<span class="material-symbols-outlined">inventory_2</span>
+        我要发盒
+      </button>
+</div>
+</div>
+
+</body></html>

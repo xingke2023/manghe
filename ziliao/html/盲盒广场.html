@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>约会盲盒</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#A855F7",
+              "background-light": "#F8F8F8",
+              "background-dark": "#121212",
+            },
+            fontFamily: {
+              display: ["Noto Sans SC", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+        .devil-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background-color: #EDE9FE;border-radius: 9999px;
+            font-size: 20px;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-black font-display">
+<div class="max-w-sm mx-auto bg-background-light dark:bg-background-dark min-h-screen">
+<div class="p-4 pt-6 space-y-4">
+<header class="flex justify-between items-center">
+<div class="flex items-center space-x-2">
+<span class="devil-icon text-primary">😈</span>
+<h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">约会盲盒</h1>
+</div>
+<button class="px-4 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full shadow-sm">
+                    拆盒次数 N次
+                </button>
+</header>
+<nav class="flex items-end space-x-6 border-b border-gray-200 dark:border-zinc-700">
+<a class="pb-2 text-lg font-bold text-gray-900 dark:text-gray-50 border-b-2 border-gray-900 dark:border-gray-50" href="#">盲盒广场</a>
+<a class="pb-2 text-base text-gray-500 dark:text-gray-400" href="#">我关注的</a>
+</nav>
+<div class="flex overflow-x-auto space-x-2 pb-2 -mx-4 px-4" style="scrollbar-width: none; -ms-overflow-style: none;">
+<style>
+                    .flex::-webkit-scrollbar { display: none; }
+                 </style>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm font-medium text-white bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-800 rounded-full">全部</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">时间</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">地区</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">美食探索</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">文艺沉浸</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">技能交换</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">观影交流</button>
+<button class="flex-shrink-0 px-4 py-1.5 text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-full">深度对话</button>
+</div>
+<main class="space-y-4 pb-16">
+<div class="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-2xl p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-lg font-bold text-red-500">约会盲盒主题</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400">时间: 03-31 16:00  地点: &lt;深圳市&gt;&lt;地区&gt;</p>
+</div>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">AA</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-start space-x-3">
+<div class="relative">
+<img alt="User avatar with headphones" class="w-20 h-20 rounded-full border-2 border-blue-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKE9p2w5le-pUCJVACBN1Ngj0nbhu-p5xKdK4AOFLSl6Hpgo6XQrBPWNfnypWRC_WGQI7LjUabqCVwE-rGgHKrLYqs0or2uwV6KcHM-KFExYEOOJl7Ytc829_FdfZZOj7PMHFaXYl1QNaQBHd6hPpKILkuKRYSI3mOC0KFc1gUizF6dnkh9zFaXzchT-cw6ifcO8oeYqzxuE9OjkfTHeo0bOl34i-MU4X7_QiAsIxqv_XaUVE_fzyrSM7DLaLFT5MWV_tGqwI-F8M"/>
+<span class="absolute -bottom-1 -right-1 flex items-center justify-center w-6 h-6 bg-zinc-800 dark:bg-zinc-900 rounded-full">
+<span class="material-icons-outlined text-white text-sm transform -rotate-45">arrow_forward</span>
+</span>
+</div>
+<div class="pt-1">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-200">&lt;昵称&gt;</p>
+<span class="text-xs px-2 py-0.5 bg-gray-100 dark:bg-zinc-700 rounded-full text-gray-500 dark:text-gray-300">95 后</span>
+</div>
+</div>
+<div class="w-24 h-24 bg-gray-100 dark:bg-zinc-700 rounded-lg flex items-center justify-center">
+<span class="material-icons-outlined text-gray-400 dark:text-gray-500">image</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">期待同行者</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">好玩</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">i人</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">小众文化好奇</span>
+</div>
+</div>
+<div class="relative bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-2xl p-4 space-y-3">
+<span class="absolute -top-3 right-4 text-xs px-3 py-1 bg-amber-300 text-amber-800 font-semibold rounded-full border-2 border-background-light dark:border-background-dark">拆过</span>
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-lg font-bold text-red-500">约会盲盒主题</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400">时间: 03-31 16:00  地点: &lt;深圳市&gt;&lt;地区&gt;</p>
+</div>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">AA</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-start space-x-3">
+<div class="relative">
+<img alt="User avatar with headphones" class="w-20 h-20 rounded-full border-2 border-blue-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkeno2pv0Vv5WvSMw_ysIsHcQ10C7iOBqkladHu6ZJzkT6Gul8LqDv8oVIqFgiElie6vVgZOEkC4JyDST2xgIWXQ1PCi_gje6KVcEDPCwOVuj0HlRSkfM8l7LbhnDH938gVQ2EtgKnmzpuc-AsUmfxMAuKu_PBrUPXnHVTTu_yIEXausQUBlcsaTc6hJrB9B2X0cZZNJZaFrtfUi1Rxoekz26n4-8Gc6obT3Rd1GZcHn38Qr9RpVUv6Lf0n5h9JlgxpwS2Ea8YTck"/>
+<span class="absolute -bottom-1 -right-1 flex items-center justify-center w-6 h-6 bg-zinc-800 dark:bg-zinc-900 rounded-full">
+<span class="material-icons-outlined text-white text-sm transform -rotate-45">arrow_forward</span>
+</span>
+</div>
+<div class="pt-1">
+<p class="text-sm font-medium text-gray-700 dark:text-gray-200">&lt;昵称&gt;</p>
+<span class="text-xs px-2 py-0.5 bg-gray-100 dark:bg-zinc-700 rounded-full text-gray-500 dark:text-gray-300">95 后</span>
+</div>
+</div>
+<div class="w-24 h-24 bg-gray-100 dark:bg-zinc-700 rounded-lg flex items-center justify-center">
+<span class="material-icons-outlined text-gray-400 dark:text-gray-500">image</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">期待同行者</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">好玩</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">i人</span>
+<span class="text-xs px-3 py-1 bg-white dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 rounded-full text-gray-600 dark:text-gray-300">小众文化好奇</span>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

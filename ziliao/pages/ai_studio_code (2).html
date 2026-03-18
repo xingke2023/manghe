@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天界面还原-本地图片版</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 手机容器 */
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+        .status-icons i { margin-left: 5px; }
+
+        /* 顶部导航栏 */
+        .nav-bar {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .back-btn { font-size: 20px; color: #333; margin-right: 15px; }
+        .user-info { display: flex; align-items: center; flex: 1; }
+        .user-avatar-top {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+        }
+        /* 顶部小头像，直接引用切好的图 */
+        .user-avatar-top img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: -2px;
+        }
+        .user-name-block { display: flex; flex-direction: column; }
+        .user-name { font-size: 16px; font-weight: bold; color: #000; }
+        .user-status { font-size: 10px; color: #999; }
+        .nav-actions { display: flex; gap: 10px; font-size: 18px; color: #000; }
+
+        /* 聊天内容区域 */
+        .chat-area {
+            flex: 1;
+            background-color: #fff;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 顶部行程卡片 */
+        .top-card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .card-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .card-info h3 { font-size: 15px; margin-bottom: 5px; font-weight: bold; color: #333; }
+        .card-info p { font-size: 12px; color: #999; }
+        .success-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #d1fae5;
+            color: #10b981;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 0 12px 0 8px;
+            font-weight: bold;
+        }
+        .card-arrow { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #ccc; }
+
+        /* 时间分割线 */
+        .time-divider {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 消息行通用 */
+        .message-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .message-row.right { flex-direction: row-reverse; }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+            object-fit: cover;
+        }
+
+        /* 气泡样式 */
+        .bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+        }
+        
+        /* 盲盒卡片特殊样式 */
+        .bubble.blind-box-container {
+            background-color: #f7f8fa;
+            padding: 0; 
+            overflow: hidden;
+            width: 250px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        /* 这里的 banner 直接使用你切好的图片，保证100%还原字体和设计 */
+        .blind-box-banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .blind-box-footer {
+            padding: 10px 12px;
+            background-color: #fff;
+            font-size: 12px;
+            color: #333;
+            border-top: 1px solid #eee;
+        }
+        .blind-box-footer-user {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            color: #666;
+        }
+        .blind-box-footer-user img {
+            width: 16px; 
+            height: 16px; 
+            border-radius: 50%; 
+            margin-right: 5px;
+        }
+        .blind-box-footer-text {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 普通文本气泡 */
+        .bubble.text-blue {
+            background-color: #3b82f6;
+            color: white;
+            border-top-right-radius: 2px;
+        }
+        .bubble.text-grey {
+            background-color: #f0f0f0;
+            color: #333;
+            border-top-left-radius: 2px;
+        }
+
+        /* 系统通知 */
+        .system-notice {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .notice-content {
+            background-color: #f5f5f5;
+            color: #999;
+            font-size: 12px;
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+        .highlight-green { color: #10b981; font-weight: bold; }
+
+        /* 底部输入框 */
+        .footer-input {
+            height: 60px;
+            border-top: 1px solid #eee;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .input-box {
+            flex: 1;
+            height: 40px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
+            font-size: 14px;
+            outline: none;
+        }
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .send-btn i { color: #fff; font-size: 16px; transform: rotate(45deg); margin-right: 2px; margin-bottom: 2px;}
+
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span>9:27</span>
+            <div class="status-icons">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- 顶部导航 -->
+        <div class="nav-bar">
+            <i class="fas fa-chevron-left back-btn"></i>
+            <div class="user-info">
+                <div class="user-avatar-top">
+                    <!-- 引用本地图片：女生头像 -->
+                    <img src="./avatar_girl.png" alt="头像">
+                    <div class="online-dot"></div>
+                </div>
+                <div class="user-name-block">
+                    <span class="user-name">海边的毛毛</span>
+                    <span class="user-status">最近在线时间</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <i class="fas fa-ellipsis-h"></i>
+                <i class="far fa-dot-circle"></i>
+            </div>
+        </div>
+
+        <!-- 聊天内容 -->
+        <div class="chat-area">
+            
+            <!-- 顶部约会卡片 -->
+            <div class="top-card">
+                <!-- 引用本地图片：爬山图 -->
+                <img src="./hiking.png" class="card-img" alt="hiking">
+                <div class="card-info">
+                    <h3>约会主题：我们一起去爬山</h3>
+                    <p>约会时间：2025-08-31 20:00</p>
+                </div>
+                <div class="success-badge">成功赴约</div>
+                <i class="fas fa-chevron-right card-arrow"></i>
+            </div>
+
+            <!-- 时间分割线 -->
+            <div class="time-divider">
+                <span>🤝 X月X日 你们开始产生连接</span>
+                <span>14:30</span>
+            </div>
+
+            <!-- 左侧：盲盒消息 -->
+            <div class="message-row left">
+                <!-- 引用本地图片：女生头像 -->
+                <img src="./avatar_girl.png" class="avatar">
+                <div class="bubble blind-box-container">
+                    <!-- 引用本地图片：盲盒Banner（切图） -->
+                    <img src="./blindbox_banner.png" class="blind-box-banner-img" alt="盲盒">
+                    
+                    <div class="blind-box-footer">
+                        <div class="blind-box-footer-user">
+                            <img src="./avatar_girl.png">
+                            <span>海边的毛毛</span>
+                        </div>
+                        <div class="blind-box-footer-text">发起：《我是约会主题名称》约会盲盒</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：我发送的消息 -->
+            <div class="message-row right">
+                <!-- 引用本地图片：男生头像 -->
+                <img src="./avatar_boy.png" class="avatar">
+                <div class="bubble text-blue">
+                    您的约会盲盒吸引我了！
+                </div>
+            </div>
+
+            <!-- 左侧：对方回复 -->
+            <div class="message-row left">
+                <!-- 引用本地图片：女生头像 -->
+                <img src="./avatar_girl.png" class="avatar">
+                <div class="bubble text-grey">
+                    哈哈哈哈背锅是产品汪的工作之一嘛
+                </div>
+            </div>
+
+            <!-- 系统通知 -->
+            <div class="system-notice">
+                <div class="notice-content">
+                    您已<span class="highlight-green">接受</span>对方的拆盒，请记得准时应约！
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 底部输入框 -->
+        <div class="footer-input">
+            <input type="text" class="input-box" placeholder="请输入聊天内容">
+            <div class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

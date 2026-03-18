@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>专属头像生成器</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#ef4444",
+            "background-light": "#f8fafc",
+            "background-dark": "#18181b",
+          },
+          fontFamily: {
+            display: ["'Noto Sans SC'", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-md mx-auto">
+<header class="text-center mb-8">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">生成你的专属头像</h1>
+</header>
+<main class="flex flex-col items-center gap-8">
+<div class="relative w-full aspect-square max-w-sm">
+<div class="absolute inset-0 bg-gradient-to-br from-red-100 to-blue-200 dark:from-red-900/20 dark:to-blue-900/20 rounded-3xl shadow-lg transform -rotate-3"></div>
+<img alt="A stylized cartoonish boy avatar wearing a beanie, sunglasses, and a green jacket." class="relative w-full h-full object-cover rounded-3xl shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFdLr3Z1qNxzwzKppHmJla5kD7JvwJO5RRXBEWngUZ_wNJO4_umd-tlrXkgRnO5Jw3rkFQZHXIeYu6BUUaJ6c7ELUTRTRQCtncYFWQb8BSV5ji6NzKEGrki3487xr2m5Dnc_sIUjjp9eRO3dU0I7YHbnOcJGUNdiaMDmqVKywEuUPIYQepAPZ0h87P45Lq7RTmHiMrcaWnyN55VfINAPFbhyLeI3nbuKgH16TVDHtosMHbKpKFkXybh4-g_iQYRniAupy1H8222Q"/>
+</div>
+<div class="flex items-center justify-center gap-4">
+<button class="flex items-center justify-center h-12 w-12 bg-white dark:bg-zinc-800 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-all duration-300">
+<span class="material-icons-outlined text-gray-600 dark:text-gray-300">refresh</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 bg-white dark:bg-zinc-800 rounded-full shadow-md text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-100 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-all duration-300">
+<span class="material-icons-outlined text-base">edit</span>
+            换张图片
+          </button>
+</div>
+<div class="flex items-center justify-center gap-4 sm:gap-6 pt-4">
+<button class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 ring-2 ring-primary ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark transition-transform duration-300 hover:scale-105 focus:outline-none">
+<img alt="Thumbnail of the selected boy avatar." class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM_UPc3e-JCNlvuQSobNOQKZPghlpqaOOWavB7wZgo3GygyKWvyZL5Oi9E_x483rouDCPEWnWEAn_n4DcJO1l9-BeQ6r9UU7vceKxlp2TyaLNRijYvfLCjCozLrHwEQEcNcHdCZ3-gcsm8UdB0OiS2k_9oft4zAZZTVhibkAE_8Ferroz8vVZMHjF-No3n_owDKtzFpxx5xCnu1BOtS3AYsMHrQB4iVzornjvsCGG9eM4cMxH5TW78wd59xI7B3wRyn6exgT1GDA"/>
+</button>
+<button class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 ring-2 ring-transparent ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark transition-all duration-300 hover:scale-105 hover:ring-gray-300 dark:hover:ring-gray-600 focus:outline-none focus:ring-primary">
+<img alt="Thumbnail of an avatar with white hair and red horns." class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK7F2lJVVfrTBapWMvllIYnT7QnZLKmZ_jr4yhLViBwBKaez1W_ZXYaO_rzmch3-R1HHqxo4ZxUE2uLUW9IAkqYBoXhhtsGaBVbAO-Mw8LLuLIJop3bpbLQFpbnQ90ejQtUzBPI65kyCqzBjF5cRxXbeHuggXOXOv2wZyfA-yuUFNFkm6P0kX9IW7NRGO_ZB5lpvBHNr1ONUPr1iooYx4-DI8BedpraoxZwvR95ymfi3PrWBFXF5Oytc7DcwmUqcs-4JZOsI-sng"/>
+</button>
+</div>
+</main>
+<footer class="mt-12">
+<div class="flex items-center justify-center gap-4">
+<button class="flex items-center justify-center gap-2 w-1/2 max-w-[200px] bg-primary text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-all duration-300 transform hover:scale-105">
+<span class="material-icons-outlined">download</span>
+            保存头像
+          </button>
+<button class="w-1/2 max-w-[200px] bg-gray-900 dark:bg-gray-200 text-white dark:text-gray-900 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-black dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:focus:ring-gray-200 focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-all duration-300 transform hover:scale-105">
+            选好了
+          </button>
+</div>
+</footer>
+</div>
+</div>
+
+</body></html>

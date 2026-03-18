@@ -2,217 +2,91 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Architecture
+## Project Overview
 
-This is a full-stack application with **separate backend and frontend** in a monorepo structure:
+"约会盲盒" (Dating Blind Box) — a matchmaking mini-program where users publish blind box dating events, others apply to join, one applicant gets locked in, and both complete offline fulfillment via GPS checkin + mutual QR code scanning.
 
-- **Backend**: Laravel 12 API (PHP 8.4) in `backend/` directory
-- **Frontend**: Next.js 16 (React 19.2, TypeScript) in `frontend/` directory
+## Architecture
 
-### Authentication Flow
-Laravel Sanctum provides token-based authentication. The flow is:
-1. Frontend sends credentials to `/api/login` or `/api/register`
-2. Backend returns Sanctum token + user object
-3. Frontend stores token in localStorage
-4. Frontend sends token via `Authorization: Bearer {token}` header for protected routes
+- **Backend**: Laravel 12 API (PHP 8.4) — `backend/`
+- **Frontend**: Next.js 16 (React 19, TypeScript) — `frontend/`
+- **Database**: MySQL (`manghe` database, root, no password). Tables already exist — not managed by Laravel migrations.
+- **Database docs**: `database/README.md` (business logic) and `database/schema.sql` (full DDL)
 
-**Key Implementation**:
-- `AuthProvider` (frontend/lib/auth-context.tsx) manages global auth state
-- `useAuth` hook provides auth methods to components
-- API client (frontend/lib/api/client.ts) auto-injects tokens
+### Authentication
+Laravel Sanctum token-based auth. Frontend stores token in localStorage, sends via `Authorization: Bearer {token}`.
+- `frontend/lib/auth-context.tsx` — AuthProvider + useAuth hook (exposes `user`, `token`, `loading`)
+- `frontend/lib/api/client.ts` — ApiClient: `get(endpoint, token)`, `post(endpoint, data, token)`, `put`, `delete`
+- `backend/app/Http/Controllers/Api/AuthController.php` — login/register/logout/me
 
-### CORS & Cross-Origin Setup
-Backend is configured to accept requests from frontend via:
-- `backend/.env`: `SANCTUM_STATEFUL_DOMAINS` specifies allowed origins
-- `backend/bootstrap/app.php`: Sanctum middleware prepended to API routes
-- Current ports: Backend 8068, Frontend 3111 (both bound to 0.0.0.0 for remote access)
+### Backend Models (`backend/app/Models/`, 20 models)
+- **User**: User, UserProfile, Admin, UserFollow, ValueTest
+- **Blind box**: BlindBox, BoxApplication, BoxView, BoxVoucher, DailyBoxViewStat
+- **Fulfillment**: Checkin, MeetingCode, MeetingVerification, Deposit, AppointmentAppeal
+- **Communication**: ChatSession, ChatMessage, ProfileViewPermission, Notification
+- **Config**: SystemConfig (`SystemConfig::getValue('key')` helper)
 
-### API Architecture
-- Routes defined in `backend/routes/api.php`
-- All routes prefixed with `/api`
-- Controllers in `backend/app/Http/Controllers/Api/`
-- PostController uses route model binding and authorization checks (owner-only operations)
+### Key Business Flow
+1. User passes value test → pays deposit → uses voucher → publishes blind box
+2. Others browse plaza (daily quota: 3 free / 10 member) → apply (anti-flake fee)
+3. Creator locks one applicant → others auto-rejected
+4. Both GPS checkin within 300m → mutual QR scan → fulfillment complete
+5. 4 settlement scenarios in `database/README.md`
+
+### Notification System (`app/Services/NotificationService.php`)
+```php
+NotificationService::send(userId: $id, type: 'new_application', title: '...', content: '...', relatedType: 'blind_box', relatedId: $boxId, linkUrl: '/messages');
+```
+11 types: `new_application`, `application_locked`, `application_rejected`, `profile_view_request`, `profile_view_approved`, `profile_view_rejected`, `fulfillment_perfect`, `fulfillment_creator_missed`, `fulfillment_applicant_missed`, `value_test_approved`, `value_test_rejected`
+
+### Recommendation Algorithm (`BlindBoxController@index`)
+Default sort = 兴趣匹配(60%) + 新近度(40%). Uses `auth('sanctum')->user()` on public route. Falls back to `latest()` if user unauthenticated or has no interests.
 
 ## Development Commands
 
-### Backend (Laravel)
 ```bash
-cd backend
+# Backend
+cd backend && php artisan serve --host=0.0.0.0 --port=8068
+cd backend && php artisan test
+cd backend && vendor/bin/pint --dirty
+cd backend && php artisan route:list
 
-# Start server (remote access)
-php artisan serve --host=0.0.0.0 --port=8068
-
-# Database
-php artisan migrate              # Run migrations
-php artisan migrate:fresh        # Reset database
-php artisan db:seed              # Seed data (demo user: demo@example.com / password)
-
-# Testing
-php artisan test                 # Run all tests (Pest)
-php artisan test --filter=testName  # Run specific test
-
-# Cache
-php artisan cache:clear
-php artisan config:cache         # Cache config for production
-php artisan route:cache          # Cache routes for production
-
-# Utilities
-php artisan route:list           # List all routes
-php artisan make:controller Api/ExampleController  # New controller
-php artisan make:model Example -mf  # Model + migration + factory
+# Frontend
+cd frontend && npm run dev          # port 3111
+cd frontend && NEXT_TURBOPACK=0 npx next build
 ```
 
-### Frontend (Next.js)
-```bash
-cd frontend
+## Conventions
 
-# Start dev server (configured for port 3111, remote access)
-npm run dev
-
-# Build
-npm run build
-npm start                        # Production server
-
-# Linting
-npm run lint
-
-# Add shadcn/ui components
-npx shadcn@latest add [component-name]
-```
-
-## File Structure Patterns
-
-### Backend
-- **Controllers**: `app/Http/Controllers/Api/` - API endpoints
-- **Models**: `app/Models/` - Eloquent models with relationships
-- **Routes**: `routes/api.php` - API route definitions
-- **Migrations**: `database/migrations/` - Database schema
-- **Factories**: `database/factories/` - Test data generation
-- **Config**: `bootstrap/app.php` - Middleware, routing, exceptions
+### Backend (Laravel 12)
+- Middleware: `bootstrap/app.php` (no Kernel.php)
+- Casts: `casts()` method, not `$casts` property
+- Validation: Form Request classes, not inline
+- Models: always type relationship return types (`HasMany`, `BelongsTo`, etc.)
+- DB: `Model::query()`, avoid `DB::` facade
+- Tests: Pest v4 — `it('description', function() { ... })`
 
 ### Frontend
-- **Pages**: `app/*/page.tsx` - Next.js App Router pages
-- **API Layer**: `lib/api/` - HTTP client, type definitions, service methods
-- **Auth**: `lib/auth-context.tsx` - Global authentication state
-- **UI Components**: `components/ui/` - shadcn/ui components
-- **Layout**: `app/layout.tsx` - Root layout with AuthProvider wrapper
+- App Router, `'use client'` for interactive pages
+- Route groups: `app/(app)/` has bottom tab layout; login/register do not
+- API pattern: types in `lib/api/types.ts`, services in `lib/api/*.ts`, each function takes `token` as last param
+- Mobile-first, max-width 480px centered
 
-## Key Configuration Files
+## Environment
 
-### Backend Environment (backend/.env)
-```
-APP_URL=http://0.0.0.0:8068
-FRONTEND_URL=http://0.0.0.0:3111
-SANCTUM_STATEFUL_DOMAINS=localhost:3111,localhost,0.0.0.0:3111,0.0.0.0
-DB_CONNECTION=sqlite
-```
+| | Value |
+|---|---|
+| Backend port | `0.0.0.0:8068` |
+| Frontend port | `0.0.0.0:3111` |
+| DB | `manghe`, root, no password |
+| Frontend API URL | `http://localhost:8068/api` |
 
-### Frontend Environment (frontend/.env.local)
-```
-NEXT_PUBLIC_API_URL=http://0.0.0.0:8068/api
-```
+## Current State
 
-## Common Development Tasks
+**全部功能 100% 完成**（见 `TODO.md`）。
 
-### Adding a New API Endpoint
-1. Create controller method in `backend/app/Http/Controllers/Api/`
-2. Add route in `backend/routes/api.php`
-3. Add TypeScript types in `frontend/lib/api/types.ts`
-4. Add API method in `frontend/lib/api/` service file
-5. Use in components via API client
-
-### Adding a New Model with CRUD
-```bash
-cd backend
-php artisan make:model Example -mfc  # Model + migration + factory + controller
-# Edit migration, model relationships, factory
-php artisan migrate
-# Add routes to routes/api.php
-# Create corresponding TypeScript types and API methods in frontend
-```
-
-### Adding a New Page
-1. Create `frontend/app/[pagename]/page.tsx`
-2. Use `'use client'` directive if using hooks or interactivity
-3. Import `useAuth` from `@/lib/auth-context` for auth state
-4. Use components from `@/components/ui/` for UI
-
-### Working with Database
-```bash
-# Reset and seed (development only)
-cd backend
-php artisan migrate:fresh --seed
-
-# Interactive testing
-php artisan tinker
-# >>> User::factory(5)->create();
-# >>> Post::factory(10)->create();
-```
-
-## Testing Approach
-
-### Backend (Pest)
-- Tests in `backend/tests/Feature/` and `backend/tests/Unit/`
-- Use factories for model creation
-- Test structure: `it('description', function() { ... })`
-- Run specific file: `php artisan test tests/Feature/ExampleTest.php`
-
-### API Testing with cURL
-```bash
-# Login
-curl -X POST http://0.0.0.0:8068/api/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"demo@example.com","password":"password"}'
-
-# Create post (replace TOKEN)
-curl -X POST http://0.0.0.0:8068/api/posts \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer TOKEN" \
-  -d '{"title":"Test","content":"Content","published":true}'
-```
-
-## Important Laravel 12 Patterns
-
-### Middleware Registration
-Use `bootstrap/app.php` instead of `app/Http/Kernel.php` (removed in Laravel 11+):
-```php
-->withMiddleware(function (Middleware $middleware): void {
-    $middleware->api(prepend: [
-        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-    ]);
-})
-```
-
-### Model Casts
-Prefer `casts()` method over `$casts` property:
-```php
-protected function casts(): array {
-    return ['published' => 'boolean'];
-}
-```
-
-### Authorization
-PostController implements owner-only operations by checking `$post->user_id !== $request->user()->id`
-
-## Technology Versions
-
-- Laravel 12.10.1, PHP 8.4.1, Sanctum 4.2.1, Pest 4.1.6
-- Next.js 16.0.5, React 19.2.0, TypeScript 5.x, Tailwind CSS 4.x
-- Database: SQLite (development), migrate to MySQL/PostgreSQL for production
-
-## Troubleshooting
-
-### CORS Issues
-- Verify both servers are running on correct ports
-- Check `SANCTUM_STATEFUL_DOMAINS` in backend/.env includes frontend URL
-- Clear browser cache and localStorage
-
-### Authentication Issues
-- Clear localStorage: `localStorage.clear()` in browser console
-- Verify `NEXT_PUBLIC_API_URL` in frontend/.env.local matches backend
-- Check token is being sent: inspect Network tab in DevTools
-
-### Port Conflicts
-Current setup uses non-standard ports (8068, 3111) to avoid conflicts. Modify:
-- Backend: `backend/.env` APP_URL and serve command
-- Frontend: `frontend/package.json` dev script and `.env.local`
+- 27 MySQL tables, 20 Eloquent models
+- All APIs complete: auth, blind-box CRUD, applications, chat, fulfillment, notifications, follows, vouchers
+- All frontend pages complete: plaza, detail, publish flow, messages, profile, fulfillment, notifications
+- Full requirements: `需求.txt` / `需求总结.txt` (Chinese)
+- Design mockups: `ziliao/pages/` (PNG, organized by feature)

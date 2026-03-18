@@ -5,49 +5,43 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    /**
+     * Login or register by phone number (mock, no SMS verification for now).
+     */
+    public function login(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'max:20'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = User::query()->firstOrCreate(
+            ['phone' => $request->phone],
+            ['nickname' => '用户'.substr($request->phone, -4)]
+        );
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'User registered successfully',
+            'message' => 'Login successful',
             'user' => $user,
             'token' => $token,
-        ], 201);
+        ]);
     }
 
-    public function login(Request $request)
+    /**
+     * Dev-only: login as a specific user by ID (for testing).
+     */
+    public function loginAsUser(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        if (app()->isProduction()) {
+            abort(404);
         }
 
+        $request->validate(['user_id' => ['required', 'integer']]);
+        $user = User::query()->findOrFail($request->user_id);
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -61,15 +55,11 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+        return response()->json(['message' => 'Logged out successfully']);
     }
 
     public function me(Request $request)
     {
-        return response()->json([
-            'user' => $request->user(),
-        ]);
+        return response()->json(['user' => $request->user()]);
     }
 }

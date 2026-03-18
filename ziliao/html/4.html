@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>创建个人资料</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#212121",
+            "background-light": "#F9FAFB",
+            "background-dark": "#121212",
+          },
+          fontFamily: {
+            display: ["Noto Sans SC", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem", // 12px
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .dashed-circle {
+      border: 2px dashed #D1D5DB;
+    }
+    .dark .dashed-circle {
+      border-color: #4B5563;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200 min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-md mx-auto">
+<div class="relative w-full p-8 space-y-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+<div class="absolute top-0 left-0 right-0 h-24 bg-pink-100/50 dark:bg-pink-900/20 rounded-t-2xl -z-10"></div>
+<div class="text-center">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">开启约会盲盒之旅！</h1>
+</div>
+<div class="flex flex-col items-center space-y-2">
+<button class="w-28 h-28 rounded-full flex items-center justify-center dashed-circle bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-icons text-4xl text-gray-400 dark:text-gray-500">add</span>
+</button>
+<span class="text-sm text-gray-500 dark:text-gray-400">上传头像</span>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-[auto,1fr] items-center gap-4">
+<label class="font-medium text-gray-700 dark:text-gray-300" for="nickname">昵称</label>
+<input class="w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500" id="nickname" placeholder="请输入昵称" type="text"/>
+</div>
+<div class="grid grid-cols-[auto,1fr] items-center gap-4">
+<label class="font-medium text-gray-700 dark:text-gray-300">年龄</label>
+<button class="w-full flex justify-between items-center text-left p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 dark:text-gray-500" type="button">
+<span>请选择年龄</span>
+<span class="material-icons text-gray-500 dark:text-gray-400">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-[auto,1fr] items-center gap-4">
+<label class="font-medium text-gray-700 dark:text-gray-300">身高</label>
+<button class="w-full flex justify-between items-center text-left p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 dark:text-gray-500" type="button">
+<span>请选择身高</span>
+<span class="material-icons text-gray-500 dark:text-gray-400">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-[auto,1fr] items-center gap-4">
+<label class="font-medium text-gray-700 dark:text-gray-300">常驻地</label>
+<button class="w-full flex justify-between items-center text-left p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 dark:text-gray-500" type="button">
+<span>请选择常驻地</span>
+<span class="material-icons text-gray-500 dark:text-gray-400">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-[auto,1fr] items-center gap-4">
+<label class="font-medium text-gray-700 dark:text-gray-300">性别</label>
+<div class="flex items-center gap-4">
+<button class="flex-1 py-3 px-4 text-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-pink-500 focus:outline-none" type="button">男</button>
+<button class="flex-1 py-3 px-4 text-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-pink-500 focus:outline-none" type="button">女</button>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity" type="submit">
+            下一步
+          </button>
+</div>
+</form>
+</div>
+</div>
+
+</body></html>

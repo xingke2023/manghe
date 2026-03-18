@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注册页面</title>
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
+        background: #ffffff;
+    }
+    .container {
+        padding: 20px 24px;
+        background: linear-gradient(#fdeeee, #ffffff);
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* 顶部进度条 */
+    .progress-wrapper {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .progress-bg {
+        width: 100%;
+        height: 4px;
+        background: #ffe5e5;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        width: 25%; /* 你可以改进度，如 25% / 50% / 100% */
+        height: 4px;
+        background: #ff4d4f;
+        border-radius: 2px;
+    }
+
+    /* 右侧插画 */
+    .illustration-box {
+        width: 130px;
+        height: 160px;
+        border: 2px dashed #ccc;
+        border-radius: 12px;
+        position: absolute;
+        right: 24px;
+        top: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .illustration {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* 标题 */
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 30px;
+        width: 60%;
+    }
+    .subtitle {
+        font-size: 14px;
+        color: #999;
+        margin-top: 6px;
+        width: 60%;
+    }
+
+    /* 上传头像 */
+    .avatar-upload {
+        width: 160px;
+        height: 160px;
+        margin: 40px auto 12px;
+        border: 2px dashed #bbb;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 48px;
+        color: #555;
+        background: #fff;
+        overflow: hidden;
+    }
+    .upload-text {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    /* 表单项 */
+    .form-item {
+        margin-bottom: 18px;
+    }
+    .label {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    input, .selector {
+        width: 100%;
+        height: 48px;
+        padding: 0 14px;
+        font-size: 15px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        outline: none;
+        background: #fff;
+    }
+
+    .selector {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* 性别 */
+    .gender-box {
+        display: flex;
+        gap: 16px;
+        margin-top: 6px;
+    }
+    .gender-option {
+        flex: 1;
+        height: 48px;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .gender-option.active {
+        border-color: #333;
+        background: #f7f7f7;
+    }
+
+    /* 按钮 */
+    .btn {
+        margin-top: 50px;
+        width: 100%;
+        height: 54px;
+        background: #000;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 顶部进度条 -->
+    <div class="progress-wrapper">
+        <div class="progress-bg">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- 右侧插画框 -->
+    <div class="illustration-box">
+        <img class="illustration" src="your-image.png" alt="illustration">
+    </div>
+
+    <!-- 标题 -->
+    <div class="title">开启约会盲盒之旅！</div>
+    <div class="subtitle">找圈子，让每个周末都好玩～</div>
+
+    <!-- 上传头像 -->
+    <div class="avatar-upload">+</div>
+    <div class="upload-text">上传头像</div>
+
+    <!-- 昵称 -->
+    <div class="form-item">
+        <div class="label">昵称</div>
+        <input type="text" placeholder="请输入昵称">
+    </div>
+
+    <!-- 年龄 -->
+    <div class="form-item">
+        <div class="label">年龄</div>
+        <div class="selector">
+            请选择年龄
+            <span>›</span>
+        </div>
+    </div>
+
+    <!-- 身高 -->
+    <div class="form-item">
+        <div class="label">身高</div>
+        <div class="selector">
+            请选择身高
+            <span>›</span>
+        </div>
+    </div>
+
+    <!-- 常驻地 -->
+    <div class="form-item">
+        <div class="label">常驻地</div>
+        <div class="selector">
+            请选择常驻地
+            <span>›</span>
+        </div>
+    </div>
+
+    <!-- 性别 -->
+    <div class="form-item">
+        <div class="label">性别</div>
+        <div class="gender-box">
+            <div class="gender-option active">男</div>
+            <div class="gender-option">女</div>
+        </div>
+    </div>
+
+    <!-- 按钮 -->
+    <div class="btn">下一步</div>
+
+</div>
+
+</body>
+</html>
