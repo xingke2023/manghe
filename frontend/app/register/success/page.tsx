@@ -1,9 +1,18 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
 
 export default function RegisterSuccessPage() {
   const router = useRouter();
+  const { token, refreshUser } = useAuth();
+
+  async function handleStart() {
+    if (token) {
+      await refreshUser(token);
+    }
+    router.replace('/');
+  }
 
   return (
     <div
@@ -36,7 +45,7 @@ export default function RegisterSuccessPage() {
 
       <div className="w-full px-5 pb-12">
         <button
-          onClick={() => router.replace('/')}
+          onClick={handleStart}
           className="w-full bg-gray-900 text-white font-bold text-[17px] py-4 rounded-2xl active:scale-[0.98] transition-transform"
         >
           立即体验

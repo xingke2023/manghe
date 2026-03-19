@@ -1,9 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { getMyProfile, updateProfile, type MyProfile } from '@/lib/api/me';
+import { getAvatarUrl } from '@/lib/utils';
+
+function dicebearUrl(seed: string | number) {
+  return `https://api.dicebear.com/9.x/open-peeps/svg?seed=${seed}&backgroundColor=ffd6c8,fce4d6,fff0e8,e8f4ff,d6f0e8,f0e8ff`;
+}
+
+function buildSeeds(userId: number) {
+  const offsets = [0, 7, 13, 21, 37, 42, 55, 68, 74, 81, 99, 103, 117, 128, 136, 145, 157, 163, 172, 189, 204, 213, 227, 238];
+  return offsets.map(o => userId + o);
+}
 
 const DATING_PURPOSES = ['找兴趣搭子', '脱单', 'Dating', '婚恋'];
 const INTERESTS_OPTIONS = [
@@ -18,6 +28,10 @@ export default function EditProfilePage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [currentAvatarUrl, setCurrentAvatarUrl] = useState<string | undefined>(undefined);
+  const [selectedSeed, setSelectedSeed] = useState<number | null>(null);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
 
   // Form state
   const [nickname, setNickname] = useState('');
@@ -38,6 +52,8 @@ export default function EditProfilePage() {
     if (!token) return;
     getMyProfile(token).then(r => {
       const u = r.user;
+      setUserId(u.id);
+      setCurrentAvatarUrl(u.avatar_url);
       setNickname(u.nickname ?? '');
       setGender(u.gender ?? 0);
       setAge(u.age?.toString() ?? '');
@@ -52,6 +68,10 @@ export default function EditProfilePage() {
       setAnnualIncome(u.profile?.annual_income ?? '');
     }).finally(() => setLoading(false));
   }, [token]);
+
+  const seeds = useMemo(() => (userId ? buildSeeds(userId) : []), [userId]);
+  const currentSeed = selectedSeed ?? userId ?? 0;
+  const avatarDisplayUrl = currentSeed ? dicebearUrl(currentSeed) : (currentAvatarUrl ?? undefined);
 
   function togglePurpose(p: string) {
     setDatingPurposes(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]);
@@ -86,6 +106,7 @@ export default function EditProfilePage() {
         occupation: occupation || undefined,
         education: education || undefined,
         annual_income: annualIncome || undefined,
+        ...(avatarDisplayUrl ? { avatar_url: avatarDisplayUrl } : {}),
       } as Parameters<typeof updateProfile>[0], token);
       router.back();
     } catch {
@@ -116,10 +137,18 @@ export default function EditProfilePage() {
 
       {/* Avatar */}
       <div className="flex flex-col items-center py-5 border-b border-gray-50">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-4xl mb-2 cursor-pointer">
-          😈
-        </div>
-        <span className="text-[12px] text-gray-400">AI卡通</span>
+        <button
+          onClick={() => setShowAvatarPicker(true)}
+          className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-white shadow-md active:scale-95 transition-transform mb-2 bg-gray-100"
+        >
+          {avatarDisplayUrl && (
+            <img src={avatarDisplayUrl} alt="avatar" className="w-full h-full object-cover" />
+          )}
+          <div className="absolute inset-0 bg-black/20 flex items-end justify-center pb-1.5">
+            <span className="text-white text-[10px] font-semibold bg-black/40 px-2 py-0.5 rounded-full">换一换</span>
+          </div>
+        </button>
+        <span className="text-[12px] text-gray-400">点击头像可以换风格</span>
       </div>
 
       <div className="px-4 divide-y divide-gray-50">
@@ -335,8 +364,87 @@ export default function EditProfilePage() {
         </div>
       </div>
 
+      {/* Avatar Picker Sheet */}
+      {showAvatarPicker && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={() => setShowAvatarPicker(false)}>
+          <div className="absolute inset-0 bg-black/50" />
+          <div
+            className="relative bg-white rounded-t-3xl w-full max-w-[480px] pb-8 flex flex-col"
+            style={{ maxHeight: '72vh' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Handle */}
+            <div className="flex justify-center pt-3 mb-1 shrink-0">
+              <div className="w-10 h-1 bg-gray-200 rounded-full" />
+            </div>
+
+            {/* Title */}
+            <div className="px-5 py-3 border-b border-gray-100 shrink-0">
+              <p className="text-[16px] font-bold text-gray-900">选择头像风格</p>
+              <p className="text-[12px] text-gray-400 mt-0.5">24 种卡通形象，选一个最像你的</p>
+            </div>
+
+            {/* Preview current selected */}
+            <div className="flex items-center gap-4 px-5 py-3 bg-gray-50 shrink-0">
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#E8373F] shadow-md shrink-0">
+                <img src={dicebearUrl(currentSeed)} alt="" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex-1">
+                <p className="text-[13px] font-semibold text-gray-900">当前选择</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">点击下方网格切换</p>
+              </div>
+              <button
+                onClick={() => setSelectedSeed(Math.floor(Math.random() * 100000))}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-gray-300 text-[12px] text-gray-600 active:bg-gray-100"
+              >
+                🎲 随机
+              </button>
+            </div>
+
+            {/* Grid */}
+            <div className="overflow-y-auto flex-1 px-4 py-3">
+              <div className="grid grid-cols-4 gap-3">
+                {seeds.map(seed => {
+                  const isSelected = seed === currentSeed;
+                  return (
+                    <button
+                      key={seed}
+                      onClick={() => setSelectedSeed(seed)}
+                      className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all active:scale-95 ${isSelected ? 'border-[#E8373F] shadow-md scale-105' : 'border-transparent'}`}
+                    >
+                      <img
+                        src={dicebearUrl(seed)}
+                        alt=""
+                        className="w-full h-full object-cover bg-gray-100"
+                      />
+                      {isSelected && (
+                        <div className="absolute top-1 right-1 w-4 h-4 bg-[#E8373F] rounded-full flex items-center justify-center">
+                          <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Confirm button */}
+            <div className="px-5 pt-2 shrink-0">
+              <button
+                onClick={() => setShowAvatarPicker(false)}
+                className="w-full bg-gray-900 text-white font-bold text-[16px] py-3.5 rounded-2xl active:scale-[0.98] transition-transform"
+              >
+                确定使用
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Bottom buttons */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full bg-white border-t border-gray-100 px-4 py-3 flex gap-3 z-20" style={{ maxWidth: 480 }}>
+      <div className="px-4 py-4 flex gap-3">
         <button
           onClick={() => router.push(`/blind-box/preview`)}
           className="flex-1 border-2 border-gray-900 text-gray-900 font-semibold text-[14px] py-3.5 rounded-2xl"

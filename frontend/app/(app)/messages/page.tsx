@@ -11,6 +11,7 @@ import {
   type PendingProfileViewRequest,
 } from '@/lib/api/blind-boxes';
 import { getUnreadCount } from '@/lib/api/notifications';
+import { getAvatarUrl } from '@/lib/utils';
 
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState<'interested' | 'mybox'>('interested');
@@ -261,12 +262,8 @@ function ProfileViewRequestSection({ token }: { token: string }) {
       <div className="divide-y divide-gray-50">
         {requests.map(req => (
           <div key={req.id} className="flex items-center gap-3 px-3 py-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 overflow-hidden shrink-0 flex items-center justify-center">
-              {req.requester.avatar_url ? (
-                <img src={req.requester.avatar_url} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-base">{req.requester.gender === 2 ? '👩' : '👨'}</span>
-              )}
+            <div className="w-10 h-10 rounded-full overflow-hidden shrink-0">
+              <img src={getAvatarUrl(req.requester.id, req.requester.avatar_url)} alt="" className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-medium text-gray-900 truncate">{req.requester.nickname}</p>
@@ -306,12 +303,8 @@ function SessionItem({ session, onClick }: { session: ChatSession; onClick: () =
     >
       {/* Avatar */}
       <div className="relative shrink-0">
-        {other?.avatar ? (
-          <img src={other.avatar} alt="" className="w-12 h-12 rounded-full object-cover" />
-        ) : (
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-xl">
-            😊
-          </div>
+        {other && (
+          <img src={getAvatarUrl(other.id, other.avatar)} alt="" className="w-12 h-12 rounded-full object-cover" />
         )}
         {hasUnread && (
           <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-[#E8373F] rounded-full flex items-center justify-center text-white text-[10px] font-bold">5</span>

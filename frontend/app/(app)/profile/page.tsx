@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { getMyProfile, getMyVouchers, type MyProfile } from '@/lib/api/me';
+import { getAvatarUrl } from '@/lib/utils';
 
 export default function ProfilePage() {
   const { token } = useAuth();
@@ -54,12 +55,10 @@ export default function ProfilePage() {
         <div className="flex items-center gap-4 mt-3">
           {/* Avatar */}
           <div className="relative shrink-0">
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md" />
+            {profile ? (
+              <img src={getAvatarUrl(profile.id, profile.avatar_url)} alt="" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md" />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 border-4 border-white shadow-md flex items-center justify-center text-3xl">
-                😈
-              </div>
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 border-4 border-white shadow-md" />
             )}
           </div>
 

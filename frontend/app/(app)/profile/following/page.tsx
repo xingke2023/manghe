@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { getMyFollowing, type FollowingUser } from '@/lib/api/me';
+import { getAvatarUrl } from '@/lib/utils';
 
 export default function FollowingPage() {
   const { token } = useAuth();
@@ -55,11 +56,7 @@ export default function FollowingPage() {
         ) : (
           users.map(u => (
             <div key={u.id} className="bg-white rounded-2xl px-4 py-3.5 flex items-center gap-3 shadow-sm">
-              {u.avatar_url ? (
-                <img src={u.avatar_url} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" />
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-xl shrink-0">😊</div>
-              )}
+              <img src={getAvatarUrl(u.id, u.avatar_url)} alt="" className="w-12 h-12 rounded-full object-cover shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[15px] font-medium text-gray-900">{u.nickname}</span>

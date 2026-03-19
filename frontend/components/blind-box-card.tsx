@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlindBox } from '@/lib/api/types';
+import { getAvatarUrl } from '@/lib/utils';
 
 interface BlindBoxCardProps {
   box: BlindBox;
@@ -50,10 +51,8 @@ export function BlindBoxCard({ box, viewed = false }: BlindBoxCardProps) {
             {/* Creator top row */}
             <div className="flex items-center gap-1.5">
               <div className="relative w-7 h-7 rounded-full overflow-hidden bg-gray-200 shrink-0">
-                {creator?.avatar_url ? (
-                  <Image src={creator.avatar_url} alt={creator.nickname} fill className="object-cover" unoptimized />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-orange-200 to-pink-300" />
+                {creator && (
+                  <Image src={getAvatarUrl(creator.id, creator.avatar_url)} alt={creator.nickname} fill className="object-cover" unoptimized />
                 )}
               </div>
               <span className="text-[13px] font-medium text-gray-900 truncate max-w-[80px]">

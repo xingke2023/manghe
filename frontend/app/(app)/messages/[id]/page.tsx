@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { getChatMessages, sendChatMessage, lockApplication, rejectApplication, getApplications, type ChatMessage, type Application } from '@/lib/api/chat';
+import { getAvatarUrl } from '@/lib/utils';
 
 interface SessionInfo {
   id: number;
@@ -112,10 +113,8 @@ export default function ChatPage() {
           </svg>
         </button>
         <div className="flex items-center gap-2">
-          {otherUser?.avatar ? (
-            <img src={otherUser.avatar} alt="" className="w-7 h-7 rounded-full object-cover" />
-          ) : (
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-sm">😊</div>
+          {otherUser && (
+            <img src={getAvatarUrl(otherUser.id, otherUser.avatar)} alt="" className="w-7 h-7 rounded-full object-cover" />
           )}
           <span className="text-[15px] font-semibold">{otherUser?.nickname ?? 'TA'}</span>
           <span className="w-2 h-2 rounded-full bg-green-400 ml-0.5" />

@@ -11,6 +11,7 @@ interface AuthContextType {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: (token: string) => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -48,6 +49,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('auth_user', JSON.stringify(response.user));
   };
 
+  const refreshUser = async (token: string) => {
+    const response = await authApi.me(token);
+    setUser(response.user);
+    localStorage.setItem('auth_user', JSON.stringify(response.user));
+  };
+
   const logout = async () => {
     if (token) {
       try {
@@ -71,6 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         register,
         logout,
+        refreshUser,
         isAuthenticated: !!user && !!token,
       }}
     >

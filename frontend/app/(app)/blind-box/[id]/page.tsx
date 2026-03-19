@@ -8,6 +8,7 @@ import { applyBlindBox, getOrCreateSession, getChatMessages, sendChatMessage, ty
 import { getFollowStatus, followUser, unfollowUser, recordBoxView } from '@/lib/api/me';
 import { useAuth } from '@/lib/auth-context';
 import type { BlindBox } from '@/lib/api/types';
+import { getAvatarUrl } from '@/lib/utils';
 
 export default function BlindBoxDetailPage() {
   const router = useRouter();
@@ -145,12 +146,8 @@ export default function BlindBoxDetailPage() {
         <div className="flex items-end gap-4">
           {/* Avatar */}
           <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gray-200 border-4 border-white shadow-md shrink-0">
-            {creator?.avatar_url ? (
-              <Image src={creator.avatar_url} alt={creator.nickname} fill className="object-cover" unoptimized />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-2xl">
-                {creator?.gender === 1 ? '👦' : '👧'}
-              </div>
+            {creator && (
+              <Image src={getAvatarUrl(creator.id, creator.avatar_url)} alt={creator.nickname} fill className="object-cover" unoptimized />
             )}
           </div>
 
@@ -608,10 +605,8 @@ function ChatBottomSheet({
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2 border-b border-gray-50">
           <div className="flex items-center gap-2.5">
-            {creator?.avatar ? (
-              <img src={creator.avatar} alt="" className="w-9 h-9 rounded-full object-cover" />
-            ) : (
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 flex items-center justify-center text-base">😊</div>
+            {creator && (
+              <img src={getAvatarUrl(creator.id, creator.avatar)} alt="" className="w-9 h-9 rounded-full object-cover" />
             )}
             <span className="text-[15px] font-semibold text-gray-900">{creator?.nickname ?? 'TA'}</span>
           </div>
@@ -646,10 +641,8 @@ function ChatBottomSheet({
               {/* Blind box system card */}
               {blindBox && (
                 <div className="flex items-start gap-2">
-                  {creator?.avatar ? (
-                    <img src={creator.avatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5" />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 shrink-0 mt-0.5 flex items-center justify-center text-sm">😊</div>
+                  {creator && (
+                    <img src={getAvatarUrl(creator.id, creator.avatar)} alt="" className="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5" />
                   )}
                   <div className="flex-1 bg-gray-50 rounded-2xl rounded-tl-sm overflow-hidden border border-gray-100 max-w-[85%]">
                     {/* Banner */}
@@ -668,10 +661,8 @@ function ChatBottomSheet({
                     </div>
                     {/* Info */}
                     <div className="px-3 py-2 flex items-center gap-1.5">
-                      {creator?.avatar ? (
-                        <img src={creator.avatar} alt="" className="w-4 h-4 rounded-full object-cover" />
-                      ) : (
-                        <span className="text-sm">😊</span>
+                      {creator && (
+                        <img src={getAvatarUrl(creator.id, creator.avatar)} alt="" className="w-4 h-4 rounded-full object-cover" />
                       )}
                       <span className="text-[12px] text-gray-500">{creator?.nickname}</span>
                     </div>
@@ -686,7 +677,7 @@ function ChatBottomSheet({
 
               {/* Message bubbles */}
               {messages.map(msg => (
-                <SheetBubble key={msg.id} message={msg} creatorAvatar={creator?.avatar} />
+                <SheetBubble key={msg.id} message={msg} creatorId={creator?.id} creatorAvatar={creator?.avatar} />
               ))}
               <div ref={bottomRef} />
             </>
@@ -718,7 +709,7 @@ function ChatBottomSheet({
   );
 }
 
-function SheetBubble({ message, creatorAvatar }: { message: ChatMessage; creatorAvatar?: string }) {
+function SheetBubble({ message, creatorId, creatorAvatar }: { message: ChatMessage; creatorId?: number; creatorAvatar?: string }) {
   if (message.is_mine) {
     return (
       <div className="flex items-end justify-end gap-2">
@@ -730,10 +721,8 @@ function SheetBubble({ message, creatorAvatar }: { message: ChatMessage; creator
   }
   return (
     <div className="flex items-end gap-2">
-      {creatorAvatar ? (
-        <img src={creatorAvatar} alt="" className="w-8 h-8 rounded-full object-cover shrink-0 mb-0.5" />
-      ) : (
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-200 to-pink-300 shrink-0 mb-0.5 flex items-center justify-center text-sm">😊</div>
+      {creatorId !== undefined && (
+        <img src={getAvatarUrl(creatorId, creatorAvatar)} alt="" className="w-8 h-8 rounded-full object-cover shrink-0 mb-0.5" />
       )}
       <div className="max-w-[72%] bg-gray-100 text-gray-900 px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-[14px] leading-relaxed">
         {message.content}
