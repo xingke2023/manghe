@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""烟雾测试：登录后逐个打客户端会用到的 GET 接口，确认路径和鉴权都对。"""
+"""烟雾测试：登录后逐个打客户端会用到的 GET 接口，确认路径和鉴权都对。
+
+用法：
+    python3 tools/smoke-api.py                                  # 打本地 8068
+    python3 tools/smoke-api.py https://app51.xingke888.com/api  # 打生产
+"""
 import json
+import sys
 import urllib.request
 import urllib.error
 
-BASE = 'http://localhost:8068/api'
+BASE = sys.argv[1].rstrip('/') if len(sys.argv) > 1 else 'http://localhost:8068/api'
+print(f'目标: {BASE}\n')
 
 
 def call(method, path, token=None, body=None):

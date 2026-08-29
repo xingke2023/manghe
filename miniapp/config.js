@@ -5,10 +5,15 @@
  * localhost 地址（config/dev.ts、config/prod.ts 都没覆盖）。这里集中成一个
  * 常量，换环境只改这一处。
  *
- * 注意：请求 localhost 需要在 project.config.json 里保持 urlCheck: false，
- * 否则开发者工具会以"不在域名白名单"为由拦掉请求。
+ * 原生小程序没有构建期变量替换，所以切环境就是把下面两行注释对调。
+ *
+ * 用生产地址时注意两件事：
+ *   1. 真机需在微信后台把 app51.xingke888.com 加进「request 合法域名」，
+ *      否则只有开发者工具（勾了"不校验合法域名"）能通。
+ *   2. 头像回落用的 api.dicebear.com 属外域图片，要加进「downloadFile 合法域名」。
  */
-const API_BASE = 'http://localhost:8068/api'
+const API_BASE = 'https://app51.xingke888.com/api'
+// const API_BASE = 'http://localhost:8068/api'   // 本地开发
 
 module.exports = {
   API_BASE,
