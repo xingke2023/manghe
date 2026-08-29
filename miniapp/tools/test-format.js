@@ -50,8 +50,9 @@ const checks = [
   ['badgeText 0 返回空', format.badgeText(0) === ''],
   ['joinPlace 跳过空值', format.joinPlace('杭州', null, '西湖') === '杭州 西湖'],
   [
-    'getAvatarUrl 无头像时回落 dicebear',
-    format.getAvatarUrl(7, '').indexOf('seed=7') !== -1,
+    'getAvatarUrl 无头像时回落到本站 /avatar/{id}（不再直连 dicebear）',
+    format.getAvatarUrl(7, '').indexOf('/avatar/7') !== -1 &&
+      format.getAvatarUrl(7, '').indexOf('dicebear') === -1,
   ],
   ['getAvatarUrl 有头像时原样返回', format.getAvatarUrl(7, 'http://x/a.png') === 'http://x/a.png'],
 ]

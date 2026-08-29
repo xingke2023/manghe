@@ -2,15 +2,20 @@
  * 纯函数工具，从 Taro 版 lib/utils.ts 平移（原本就不依赖 Taro）。
  */
 
+const config = require('../config')
+
 /**
- * 头像地址。用户没设头像时回落到 dicebear 按 id 生成的卡通头像。
+ * 头像地址。用户没设头像时回落到后端按 id 生成的卡通头像。
  *
- * 注意：dicebear 是外域图片，开发者工具关掉 urlCheck 能显示，
- * 真机需要在小程序后台把 api.dicebear.com 加进 downloadFile 域名白名单。
+ * 后端 /api/avatar/{seed}.png 会拉 dicebear 的 PNG 落盘缓存后再返回，所以
+ * 客户端只访问自己的域名 —— 不需要给 dicebear 配 downloadFile 白名单，
+ * 也避开了微信 <image> 在真机上渲染 SVG 不可靠的问题。
+ *
+ * 后缀 .png 是必需的：Cloudflare 按扩展名决定是否在边缘缓存，没后缀会每次回源。
  */
 function getAvatarUrl(userId, avatarUrl) {
   if (avatarUrl) return avatarUrl
-  return 'https://api.dicebear.com/7.x/open-peeps/svg?seed=' + userId
+  return config.API_BASE + '/avatar/' + userId + '.png'
 }
 
 /**

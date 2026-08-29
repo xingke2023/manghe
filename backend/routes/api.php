@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AvatarController;
 use App\Http\Controllers\Api\BlindBoxController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\DepositController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileViewController;
 use App\Http\Controllers\Api\PublishController;
+use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ValueTestController;
 use App\Http\Controllers\Api\VoucherController;
@@ -20,10 +22,20 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/dev/login-as', [AuthController::class, 'loginAsUser']); // dev only
 
+// 头像：按 seed 生成并缓存在本机，客户端不再直连 dicebear。
+// 放在 /api 下是因为 nginx 只把 /api/ 等少数前缀代理到后端，其它路径会走前端端口。
+// 路径必须带 .png 后缀 —— Cloudflare 按扩展名判断能否缓存，没后缀会被当成
+// 动态请求（cf-cache-status: DYNAMIC）每次回源，加了之后边缘才会命中缓存。
+Route::get('/avatar/{seed}.png', [AvatarController::class, 'show'])
+    ->where('seed', '[0-9]{1,12}');
+
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+
+    // Upload
+    Route::post('/upload/image', [UploadController::class, 'image']);
 
     // Me / profile
     Route::get('/me/profile', [MeController::class, 'show']);
@@ -32,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me/following', [MeController::class, 'following']);
     Route::get('/me/vouchers', [MeController::class, 'vouchers']);
     Route::get('/me/daily-views', [MeController::class, 'dailyViews']);
+    Route::get('/me/applications', [MeController::class, 'applications']);
 
     // Fulfillment
     Route::get('/me/fulfillments', [FulfillmentController::class, 'index']);
@@ -68,10 +81,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Chat
     Route::post('/chat/sessions', [ChatController::class, 'getOrCreateSession']);
     Route::get('/chat/sessions', [ChatController::class, 'sessions']);
+    Route::get('/chat/unread-count', [ChatController::class, 'unreadCount']);
     Route::get('/chat/{sessionId}/messages', [ChatController::class, 'messages']);
     Route::post('/chat/{sessionId}/messages', [ChatController::class, 'sendMessage']);
 
     // User follow / unfollow
+    Route::get('/users/{user}/profile', [UserController::class, 'profile']);
     Route::get('/users/{user}/follow', [UserController::class, 'followStatus']);
     Route::post('/users/{user}/follow', [UserController::class, 'follow']);
     Route::delete('/users/{user}/follow', [UserController::class, 'unfollow']);

@@ -1,19 +1,20 @@
 const meApi = require('../../../api/me')
 const media = require('../../../utils/media')
 const constants = require('../../../constants')
+const config = require('../../../config')
 
 const app = getApp()
 
 /**
- * 这一页的头像不是拍照上传，而是从 dicebear 的 24 个确定性种子里挑一个。
- * 注意用的是 9.x（列表页 fallback 用的是 7.x），两套视觉不同，原版如此。
+ * 头像不是拍照上传，而是从 24 个确定性种子里挑一个。
+ *
+ * 地址走后端 /api/avatar/{seed}.png：服务端按 seed 拉 dicebear 的 PNG 落盘缓存后
+ * 返回，客户端只碰自己的域名。这样既不用配 dicebear 的 downloadFile 白名单，
+ * 也避开微信 <image> 真机渲染 SVG 不可靠的坑。
+ * .png 后缀是必需的，否则 Cloudflare 不在边缘缓存、每次都回源。
  */
-function dicebearUrl(seed) {
-  return (
-    'https://api.dicebear.com/9.x/open-peeps/svg?seed=' +
-    seed +
-    '&backgroundColor=ffd6c8,fce4d6,fff0e8,e8f4ff,d6f0e8,f0e8ff'
-  )
+function seedAvatarUrl(seed) {
+  return config.API_BASE + '/avatar/' + seed + '.png'
 }
 
 const SEED_OFFSETS = [
@@ -24,7 +25,7 @@ const SEED_OFFSETS = [
 function buildSeedList(userId) {
   return SEED_OFFSETS.map(function (offset) {
     const seed = userId + offset
-    return { seed: seed, url: dicebearUrl(seed) }
+    return { seed: seed, url: seedAvatarUrl(seed) }
   })
 }
 
@@ -105,7 +106,7 @@ Page({
           userId: userId,
           currentSeed: userId,
           pendingSeed: userId,
-          avatarUrl: user.avatar_url || dicebearUrl(userId),
+          avatarUrl: user.avatar_url || seedAvatarUrl(userId),
           seedList: buildSeedList(userId),
 
           nickname: user.nickname || '',
@@ -248,7 +249,7 @@ Page({
   onConfirmAvatar: function () {
     this.setData({
       currentSeed: this.data.pendingSeed,
-      avatarUrl: dicebearUrl(this.data.pendingSeed),
+      avatarUrl: seedAvatarUrl(this.data.pendingSeed),
       seedPicked: true,
       showAvatarPicker: false,
     })
