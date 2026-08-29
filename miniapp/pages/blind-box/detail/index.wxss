@@ -1,0 +1,333 @@
+.detail {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* —— 自定义导航 —— */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: linear-gradient(180deg, #ffe8e0 0%, #ffeee6 100%);
+}
+
+/* —— 骨架 —— */
+.skeleton-wrap {
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.sk-hero {
+  height: 320rpx;
+  border-radius: 32rpx;
+}
+.sk-card {
+  height: 220rpx;
+  border-radius: 32rpx;
+}
+
+/* —— 发盒者 hero —— */
+.hero {
+  background: linear-gradient(180deg, #ffeee6 0%, #fff5f0 55%, #f5f5f5 100%);
+  padding: 24rpx 32rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-avatar {
+  border: 6rpx solid #ffffff;
+  border-radius: 9999rpx;
+}
+.hero-name-row {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.hero-name {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.hero-vip {
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  background-color: #fef3c7;
+  color: #b45309;
+  font-size: 20rpx;
+}
+.hero-pills {
+  margin-top: 16rpx;
+  display: flex;
+  gap: 16rpx;
+}
+.hero-pill {
+  padding: 8rpx 22rpx;
+  border-radius: 9999rpx;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+}
+.follow-btn {
+  margin-top: 28rpx;
+  padding: 14rpx 48rpx;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent);
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+.follow-btn.is-following {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-secondary);
+}
+
+/* —— 盲盒计划 —— */
+.plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.plan-title {
+  margin-bottom: 0;
+}
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--color-border);
+}
+.info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.info-label {
+  width: 100rpx;
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: var(--color-text-hint);
+}
+.info-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+
+.chip-gap {
+  gap: 16rpx;
+}
+.about-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+/* —— 兴趣相册 —— */
+.photo-row {
+  display: flex;
+  gap: 16rpx;
+}
+.photo-slot {
+  position: relative;
+  flex: 1;
+  height: 200rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background-color: var(--gray-100);
+}
+.photo-img {
+  width: 100%;
+  height: 100%;
+}
+.photo-img.is-blurred {
+  filter: blur(16rpx);
+}
+.photo-lock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+}
+.photo-request {
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+.photo-request-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+.photo-request-btn {
+  flex-shrink: 0;
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+.photo-empty {
+  padding: 40rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-hint);
+}
+
+/* —— 报名名单 —— */
+.applicant {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid var(--color-border);
+}
+.applicant:last-child {
+  border-bottom: none;
+}
+.applicant-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.applicant-name {
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+.applicant-date {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+.applicant-actions {
+  display: flex;
+  gap: 12rpx;
+  flex-shrink: 0;
+}
+.applicant-reject {
+  background-color: var(--gray-100);
+  color: var(--color-text-secondary);
+}
+.applicant-lock {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+.applicant-loading,
+.applicant-empty {
+  padding: 32rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-hint);
+}
+
+/* —— 底部操作栏 —— */
+.chat-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 9999rpx;
+  border: 1rpx solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+/* button 元素需要抹掉小程序默认样式，才能和 view 版按钮排在一行 */
+.share-btn {
+  flex-shrink: 0;
+  width: auto;
+  padding: 0 36rpx;
+  margin: 0;
+  line-height: 1;
+  font-size: 28rpx;
+}
+.share-btn::after {
+  border: none;
+}
+
+/* —— 聊天弹层 —— */
+.chat-sheet {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+.chat-sheet-head {
+  padding: 8rpx 32rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid var(--color-border);
+}
+.chat-sheet-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.chat-sheet-close {
+  font-size: 32rpx;
+  color: var(--gray-400);
+  padding: 8rpx 12rpx;
+}
+.chat-sheet-body {
+  flex: 1;
+  padding: 24rpx 32rpx;
+}
+.chat-tip {
+  padding: 60rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-hint);
+}
+.msg {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.msg.is-mine {
+  justify-content: flex-end;
+}
+.msg-bubble {
+  max-width: 70%;
+  padding: 20rpx 28rpx;
+  border-radius: 24rpx;
+  background-color: var(--gray-100);
+  color: var(--color-text);
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+.msg.is-mine .msg-bubble {
+  background-color: var(--blue-500);
+  color: #ffffff;
+}
+.chat-sheet-input {
+  padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.chat-input {
+  flex: 1;
+  height: 76rpx;
+  padding: 0 32rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-100);
+  font-size: 28rpx;
+}
+.chat-send {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-900);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+.chat-send.is-disabled {
+  background-color: var(--gray-300);
+}

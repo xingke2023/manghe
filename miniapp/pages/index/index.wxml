@@ -1,0 +1,131 @@
+<view class="plaza">
+  <!-- 渐变头部 -->
+  <view class="hero">
+    <view class="hero-brand">
+      <image class="hero-logo" src="/assets/images/logo-head.png" mode="aspectFit" />
+      <text class="hero-title">约会盲盒</text>
+    </view>
+    <view wx:if="{{quota}}" class="quota-pill">
+      🎲 今日剩余拆盒 {{quota.remaining}}/{{quota.limit}} 次
+    </view>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tabs">
+    <view
+      class="tab {{activeTab === 'plaza' ? 'is-active' : ''}}"
+      bindtap="onTabTap"
+      data-tab="plaza"
+    >盲盒广场</view>
+    <view
+      class="tab {{activeTab === 'following' ? 'is-active' : ''}}"
+      bindtap="onTabTap"
+      data-tab="following"
+    >我关注的</view>
+  </view>
+
+  <!-- ============ 盲盒广场 ============ -->
+  <block wx:if="{{activeTab === 'plaza'}}">
+    <!-- 排序 / 地区 -->
+    <scroll-view class="chip-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+      <view class="chip-row">
+        <view
+          class="chip {{!sort && !city ? 'is-active' : ''}}"
+          bindtap="onResetFilters"
+        >全部</view>
+        <view
+          class="chip {{sort === 'meeting_time' ? 'is-active' : ''}}"
+          bindtap="onSortTap"
+        >时间 {{sort === 'meeting_time' ? '✓' : '▾'}}</view>
+        <view
+          class="chip {{city ? 'is-active' : ''}}"
+          bindtap="onCityTap"
+        >{{city || '地区'}} ▾</view>
+      </view>
+    </scroll-view>
+
+    <!-- 分类 -->
+    <scroll-view class="chip-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+      <view class="chip-row">
+        <view
+          wx:for="{{categories}}"
+          wx:key="*this"
+          class="chip {{category === item ? 'is-active' : ''}}"
+          bindtap="onCategoryTap"
+          data-value="{{item}}"
+        >{{item}}</view>
+      </view>
+    </scroll-view>
+
+    <view class="list">
+      <mh-skeleton wx:if="{{loading && !boxes.length}}" count="3" type="card" />
+
+      <block wx:elif="{{boxes.length}}">
+        <mh-box-card
+          wx:for="{{boxes}}"
+          wx:key="id"
+          box="{{item}}"
+          bindtap="onBoxTap"
+        />
+        <view class="list-footer">
+          <text wx:if="{{loading}}" class="list-footer-text">加载中...</text>
+          <text wx:elif="{{hasMore}}" class="list-footer-text">加载更多...</text>
+          <text wx:else class="list-footer-text">— 已经到底了 —</text>
+        </view>
+      </block>
+
+      <mh-empty
+        wx:else
+        icon="🎁"
+        text="还没有符合条件的盲盒"
+        hint="换个筛选条件试试～"
+      />
+    </view>
+  </block>
+
+  <!-- ============ 我关注的 ============ -->
+  <block wx:else>
+    <view class="list">
+      <mh-skeleton wx:if="{{followingLoading}}" count="2" type="card" />
+
+      <block wx:elif="{{followingGroups.length}}">
+        <view wx:for="{{followingGroups}}" wx:key="index" class="group">
+          <view class="group-head" bindtap="onCreatorTap" data-id="{{item.creator.id}}">
+            <mh-avatar
+              src="{{item.creator.avatar_url}}"
+              user-id="{{item.creator.id}}"
+              size="72"
+            />
+            <view class="group-head-info">
+              <text class="group-name">{{item.creator.nickname}}</text>
+              <text class="group-count">{{item.boxes.length}} 个盲盒</text>
+            </view>
+            <text class="group-arrow">›</text>
+          </view>
+          <scroll-view class="group-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+            <view class="group-row">
+              <mh-box-card
+                wx:for="{{item.boxes}}"
+                wx:for-item="box"
+                wx:key="id"
+                box="{{box}}"
+                compact="{{true}}"
+                bindtap="onBoxTap"
+              />
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+
+      <mh-empty
+        wx:else
+        icon="👀"
+        text="还没有关注的 TA"
+        hint="{{followingError || '去广场发现感兴趣的发盒者吧'}}"
+      />
+    </view>
+  </block>
+
+  <!-- 发盒入口 -->
+  <view wx:if="{{isLoggedIn}}" class="fab" bindtap="goPublish">🎁 我要发盒</view>
+</view>

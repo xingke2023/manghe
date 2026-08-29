@@ -1,0 +1,6 @@
+<view class="success">
+  <image class="mascot" src="/assets/images/logo-head.png" mode="aspectFit" />
+  <text class="title">注册成功！</text>
+  <text class="subtitle">资料已保存，去广场拆一个盲盒吧～</text>
+  <view class="btn btn-primary explore-btn" bindtap="goHome">开始探索</view>
+</view>

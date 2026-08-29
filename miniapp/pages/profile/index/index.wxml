@@ -1,0 +1,42 @@
+<view class="page-wrap">
+  <!-- 未登录 -->
+  <view wx:if="{{!isLoggedIn}}" class="card-list">
+    <view class="card guest">
+      <text class="guest-text">登录后查看你的盲盒与约会记录</text>
+      <view class="btn btn-primary guest-btn" bindtap="goLogin">去登录</view>
+    </view>
+  </view>
+
+  <block wx:else>
+    <!-- 资料卡 -->
+    <view class="card-list">
+      <view class="card head">
+        <mh-avatar src="{{profile.avatar_url}}" user-id="{{profile.id}}" size="128" />
+        <view class="head-info">
+          <text class="head-name">{{displayName}}</text>
+          <text class="head-meta">{{metaText || '资料还没填完'}}</text>
+        </view>
+        <view class="btn-sm head-edit" bindtap="goEdit">编辑资料</view>
+      </view>
+
+      <!-- 菜单 -->
+      <view class="card menu">
+        <view
+          wx:for="{{menu}}"
+          wx:key="url"
+          class="menu-item"
+          bindtap="onMenuTap"
+          data-url="{{item.url}}"
+        >
+          <text class="menu-icon">{{item.icon}}</text>
+          <text class="menu-label">{{item.label}}</text>
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+
+      <view class="card">
+        <view class="logout" bindtap="onLogout">退出登录</view>
+      </view>
+    </view>
+  </block>
+</view>

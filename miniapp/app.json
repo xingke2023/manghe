@@ -1,0 +1,75 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/messages/index/index",
+    "pages/messages/chat/index",
+    "pages/profile/index/index",
+    "pages/profile/edit/index",
+    "pages/profile/preview/index",
+    "pages/profile/other/index",
+    "pages/profile/following/index",
+    "pages/profile/fulfillments/index",
+    "pages/profile/my-applications/index",
+    "pages/profile/my-boxes/index",
+    "pages/profile/vouchers/index",
+    "pages/blind-box/detail/index",
+    "pages/blind-box/edit/index",
+    "pages/notifications/index",
+    "pages/publish/index/index",
+    "pages/publish/value-test/index",
+    "pages/publish/value-test-result/index",
+    "pages/publish/deposit/index",
+    "pages/publish/create/index",
+    "pages/publish/preview/index",
+    "pages/publish/success/index",
+    "pages/auth/login/index",
+    "pages/auth/register/index",
+    "pages/auth/register-preferences/index",
+    "pages/auth/register-interests/index",
+    "pages/auth/register-success/index"
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#E8373F",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/images/tab-home.png",
+        "selectedIconPath": "assets/images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/messages/index/index",
+        "text": "消息",
+        "iconPath": "assets/images/tab-messages.png",
+        "selectedIconPath": "assets/images/tab-messages-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index/index",
+        "text": "我的",
+        "iconPath": "assets/images/tab-profile.png",
+        "selectedIconPath": "assets/images/tab-profile-active.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#F5F5F5",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "约会盲盒",
+    "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于约会地点签到打卡，校验你是否到达约定地点"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

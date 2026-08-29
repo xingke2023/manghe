@@ -1,0 +1,32 @@
+<view class="page-wrap deposit">
+  <view class="dp-head">
+    <text class="dp-emoji">💰</text>
+    <text class="dp-title">支付保证金</text>
+    <text class="dp-desc">保证金用于约束双方按时赴约</text>
+    <text class="dp-desc">履约完成后会原路退还</text>
+  </view>
+
+  <view class="card-list">
+    <view class="card dp-info">
+      <view class="dp-amount-row">
+        <text class="dp-amount-label">保证金金额</text>
+        <text class="dp-amount">¥50.00</text>
+      </view>
+      <view class="dp-notes">
+        <text class="dp-note">· 完美履约后全额退还</text>
+        <text class="dp-note">· 失约将扣除相应金额作为补偿</text>
+        <text class="dp-note">· 盲盒下架且无人锁定时可退款</text>
+      </view>
+    </view>
+
+    <view class="dp-warn">⚠️ 当前为模拟支付，正式版将接入微信支付</view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{paying ? 'is-disabled' : ''}}"
+      bindtap="onPay"
+    >{{paying ? '支付中...' : '确认支付 ¥50.00'}}</view>
+  </view>
+</view>

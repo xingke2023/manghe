@@ -1,0 +1,34 @@
+.follow {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.follow-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.follow-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.follow-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.follow-meta {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+.follow-btn {
+  flex-shrink: 0;
+  background-color: var(--color-card);
+  border: 1rpx solid var(--gray-200);
+  color: var(--color-text-secondary);
+}

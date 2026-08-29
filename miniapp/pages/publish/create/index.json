@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "发布盲盒",
+  "usingComponents": {
+    "mh-empty": "../../../components/empty-state/index"
+  }
+}

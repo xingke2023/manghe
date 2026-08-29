@@ -1,0 +1,64 @@
+.login {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffe8e0 0%, #fff5f0 40%, #f5f5f5 100%);
+  padding: 0 64rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand {
+  padding-top: 160rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.brand-logo {
+  width: 200rpx;
+  height: 200rpx;
+}
+.brand-name {
+  margin-top: 24rpx;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.brand-slogan {
+  margin-top: 12rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.form {
+  width: 100%;
+  margin-top: 100rpx;
+}
+.phone-input {
+  width: 100%;
+  height: 96rpx;
+  background-color: var(--color-card);
+  border-radius: 9999rpx;
+  padding: 0 40rpx;
+  font-size: 30rpx;
+  color: var(--color-text);
+}
+.phone-placeholder {
+  color: var(--color-text-hint);
+}
+.login-btn {
+  margin-top: 32rpx;
+}
+
+.footer {
+  margin-top: 48rpx;
+  display: flex;
+  align-items: center;
+}
+.footer-text {
+  font-size: 26rpx;
+  color: var(--color-text-hint);
+}
+.footer-link {
+  font-size: 26rpx;
+  color: var(--color-accent);
+}

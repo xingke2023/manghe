@@ -1,0 +1,205 @@
+<!-- ============ 第一步：核销发盒凭证 ============ -->
+<view wx:if="{{step === 'voucher'}}" class="page-wrap">
+  <view class="vc-head">
+    <text class="vc-title">选择发盒凭证</text>
+    <text class="vc-sub">每次发布消耗 1 张凭证</text>
+  </view>
+
+  <view class="card-list">
+    <view wx:if="{{vouchersLoading}}" class="loading-wrap">
+      <view class="spinner"></view>
+    </view>
+
+    <block wx:elif="{{vouchers.length}}">
+      <view
+        wx:for="{{vouchers}}"
+        wx:key="id"
+        class="card vc-item {{selectedCode === item.code ? 'is-active' : ''}}"
+        bindtap="onSelectVoucher"
+        data-code="{{item.code}}"
+      >
+        <view class="vc-radio">
+          <view wx:if="{{selectedCode === item.code}}" class="vc-radio-dot"></view>
+        </view>
+        <view class="vc-info">
+          <text class="vc-code">{{item.code}}</text>
+          <text class="vc-valid">有效期至 {{item.valid_text}}</text>
+        </view>
+      </view>
+
+      <text wx:if="{{voucherError}}" class="vc-error">{{voucherError}}</text>
+    </block>
+
+    <mh-empty wx:else icon="🎁" text="暂无可用凭证" hint="请联系客服获取发盒凭证" />
+  </view>
+
+  <view wx:if="{{vouchers.length}}" class="bottom-bar-spacer"></view>
+  <view wx:if="{{vouchers.length}}" class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{selectedCode ? '' : 'is-disabled'}}"
+      bindtap="onRedeem"
+    >{{voucherLoading ? '核销中...' : '使用并继续'}}</view>
+  </view>
+</view>
+
+<!-- ============ 第二步：填写盲盒内容 ============ -->
+<view wx:else class="page-wrap">
+  <view class="card-list">
+    <!-- 封面 -->
+    <view class="card">
+      <view class="card-title">盲盒封面</view>
+      <view class="cover" bindtap="onPickCover">
+        <image wx:if="{{coverUrl}}" class="cover-img" src="{{coverUrl}}" mode="aspectFill" />
+        <view wx:else class="cover-empty">
+          <text class="cover-plus">＋</text>
+          <text class="cover-hint">{{coverUploading ? '上传中...' : '上传封面图'}}</text>
+        </view>
+      </view>
+      <view class="cover-tips">
+        <text class="cover-tip">1、图片比例为 1:1</text>
+        <text class="cover-tip">2、文件大小上限：10MB</text>
+      </view>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="card">
+      <view class="form-row">
+        <text class="form-label">标题</text>
+        <input
+          class="form-input"
+          maxlength="50"
+          value="{{title}}"
+          placeholder="给这次约会起个名字"
+          placeholder-class="form-input-placeholder"
+          bindinput="onInput"
+          data-field="title"
+        />
+      </view>
+      <picker mode="date" value="{{meetingDate}}" start="{{today}}" bindchange="onDateChange">
+        <view class="form-row">
+          <text class="form-label">日期</text>
+          <view class="form-input {{meetingDate ? '' : 'form-input-placeholder'}}">
+            {{meetingDate || '请选择'}}
+          </view>
+        </view>
+      </picker>
+      <picker mode="time" value="{{meetingClock}}" bindchange="onTimeChange">
+        <view class="form-row">
+          <text class="form-label">时间</text>
+          <view class="form-input {{meetingClock ? '' : 'form-input-placeholder'}}">
+            {{meetingClock || '请选择'}}
+          </view>
+        </view>
+      </picker>
+      <view class="form-row">
+        <text class="form-label">城市</text>
+        <input
+          class="form-input"
+          maxlength="20"
+          value="{{city}}"
+          placeholder="例如 杭州"
+          placeholder-class="form-input-placeholder"
+          bindinput="onInput"
+          data-field="city"
+        />
+      </view>
+      <view class="form-row">
+        <text class="form-label">区域</text>
+        <input
+          class="form-input"
+          maxlength="20"
+          value="{{district}}"
+          placeholder="例如 西湖区"
+          placeholder-class="form-input-placeholder"
+          bindinput="onInput"
+          data-field="district"
+        />
+      </view>
+      <view class="form-row">
+        <text class="form-label">地点</text>
+        <input
+          class="form-input"
+          maxlength="60"
+          value="{{location}}"
+          placeholder="具体见面地点"
+          placeholder-class="form-input-placeholder"
+          bindinput="onInput"
+          data-field="location"
+        />
+      </view>
+    </view>
+
+    <!-- 费用 -->
+    <view class="card">
+      <view class="card-title">费用</view>
+      <view class="toggle-group">
+        <view
+          wx:for="{{feeTypes}}"
+          wx:key="value"
+          class="toggle-item {{feeType === item.value ? 'is-active' : ''}}"
+          bindtap="onFeeTap"
+          data-value="{{item.value}}"
+        >{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 期待同行者特质 -->
+    <view class="card">
+      <view class="card-title">期待同行者特质</view>
+      <view class="wrap gap-16">
+        <view
+          wx:for="{{traits}}"
+          wx:key="*this"
+          class="chip is-active"
+          bindtap="onRemoveTrait"
+          data-value="{{item}}"
+        >{{item}}<text class="chip-x"> ✕</text></view>
+      </view>
+      <view class="trait-add">
+        <input
+          class="trait-input"
+          maxlength="10"
+          value="{{traitInput}}"
+          placeholder="输入特质后点添加"
+          placeholder-class="form-input-placeholder"
+          bindinput="onTraitInput"
+          bindconfirm="onAddTrait"
+        />
+        <view class="btn-sm trait-btn" bindtap="onAddTrait">添加</view>
+      </view>
+    </view>
+
+    <!-- 体验价值 -->
+    <view class="card">
+      <view class="card-title">体验价值</view>
+      <view class="exp-grid">
+        <view
+          wx:for="{{expOptions}}"
+          wx:key="label"
+          class="exp-item {{selectedExp[item.label] ? 'is-active' : ''}}"
+          bindtap="onExpTap"
+          data-label="{{item.label}}"
+        >
+          <text class="exp-emoji">{{item.emoji}}</text>
+          <text class="exp-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 协议 -->
+    <view class="agree" bindtap="onToggleAgree">
+      <view class="agree-box {{agreed ? 'is-checked' : ''}}">
+        <text wx:if="{{agreed}}" class="agree-tick">✓</text>
+      </view>
+      <text class="agree-text">已阅读并同意《发布协议》</text>
+    </view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{canSubmit ? '' : 'is-disabled'}}"
+      bindtap="onPreview"
+    >预览盲盒</view>
+  </view>
+</view>

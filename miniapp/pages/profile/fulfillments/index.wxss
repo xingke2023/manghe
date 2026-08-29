@@ -1,0 +1,207 @@
+.ff-tags {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+/* 角色标记 */
+.tag-role-creator {
+  padding: 4rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: #fef9c3;
+  color: #a16207;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+.tag-role-applicant {
+  padding: 4rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: #dcfce7;
+  color: #16a34a;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+/* 结算结果标记 */
+.tag-result-perfect {
+  padding: 4rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: #dcfce7;
+  color: #16a34a;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+.tag-result-mine {
+  padding: 4rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: #fee2e2;
+  color: #ef4444;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+.tag-result-other {
+  padding: 4rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: #ffedd5;
+  color: #f97316;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+
+.ff-body {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.ff-thumb {
+  width: 160rpx;
+  height: 120rpx;
+  border-radius: 20rpx;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #ffe8e0 0%, #fff0e8 100%);
+}
+.ff-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+}
+.ff-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.ff-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.ff-meta {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+}
+.ff-action {
+  flex-shrink: 0;
+}
+.ff-icon-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 9999rpx;
+  border: 1rpx solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+.ff-btn-solid {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+.ff-btn-outline {
+  background-color: var(--color-card);
+  border: 1rpx solid var(--gray-200);
+  color: var(--color-text-secondary);
+}
+
+/* —— 结算说明条 —— */
+.ff-detail {
+  margin-top: 20rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 24rpx;
+}
+.ff-detail-green {
+  background-color: #f0fdf4;
+}
+.ff-detail-red {
+  background-color: #fef2f2;
+}
+.ff-detail-orange {
+  background-color: #fff7ed;
+}
+.ff-detail-text {
+  font-size: 24rpx;
+  font-weight: 500;
+}
+.ff-detail-text-green {
+  color: #15803d;
+}
+.ff-detail-text-red {
+  color: #dc2626;
+}
+.ff-detail-text-orange {
+  color: #ea580c;
+}
+.ff-detail-hint {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  color: var(--gray-400);
+}
+
+/* —— 二维码弹窗 —— */
+.qr-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+.qr-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.qr-code {
+  margin: 16rpx 0;
+  font-size: 60rpx;
+  font-weight: 600;
+  letter-spacing: 12rpx;
+  color: var(--color-text);
+  text-align: center;
+  word-break: break-all;
+}
+.qr-hint {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+.qr-valid {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+.qr-close {
+  width: 100%;
+  margin-top: 24rpx;
+}
+
+/* —— 申诉弹层 —— */
+.appeal-body {
+  padding: 8rpx 32rpx 32rpx;
+}
+.appeal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.appeal-sub {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+.appeal-textarea {
+  margin-top: 24rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background-color: var(--gray-50);
+  min-height: 220rpx;
+}
+.appeal-counter {
+  margin-top: 8rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+.appeal-actions {
+  margin-top: 24rpx;
+  display: flex;
+  gap: 24rpx;
+}

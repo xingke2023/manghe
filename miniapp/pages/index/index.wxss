@@ -1,0 +1,159 @@
+.plaza {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding-bottom: 40rpx;
+}
+
+/* —— 渐变头部 —— */
+.hero {
+  background: linear-gradient(
+    160deg,
+    #ffe8e0 0%,
+    #fff0e8 35%,
+    #fff5f0 65%,
+    #f5f5f5 100%
+  );
+  padding: 40rpx 32rpx 32rpx;
+}
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.hero-logo {
+  width: 72rpx;
+  height: 72rpx;
+}
+.hero-title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.quota-pill {
+  margin-top: 24rpx;
+  align-self: flex-start;
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  border-radius: 9999rpx;
+  background-color: rgba(255, 255, 255, 0.75);
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+/* —— Tab —— */
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  background-color: var(--color-bg);
+  padding: 0 32rpx;
+  gap: 48rpx;
+  border-bottom: 1rpx solid var(--color-border);
+}
+.tab {
+  position: relative;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  color: var(--color-text-secondary);
+}
+.tab.is-active {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent);
+}
+
+/* —— 筛选 chip 横向滚动 —— */
+.chip-scroll {
+  width: 100%;
+  white-space: nowrap;
+  margin-top: 24rpx;
+}
+.chip-row {
+  display: flex;
+  gap: 20rpx;
+  padding: 0 32rpx;
+}
+.chip-row .chip {
+  flex-shrink: 0;
+}
+
+/* —— 列表 —— */
+.list {
+  padding: 24rpx 32rpx 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.list-footer {
+  padding: 32rpx 0 16rpx;
+  text-align: center;
+}
+.list-footer-text {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+
+/* —— 我关注的：按发盒者分组 —— */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.group-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.group-head-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.group-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.group-count {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+.group-arrow {
+  font-size: 36rpx;
+  color: var(--gray-400);
+}
+.group-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+.group-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+/* —— 发盒悬浮按钮 —— */
+.fab {
+  position: fixed;
+  right: 32rpx;
+  bottom: 60rpx;
+  z-index: 20;
+  padding: 24rpx 36rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-900);
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
+}

@@ -1,0 +1,5 @@
+.empty-action {
+  margin-top: 24rpx;
+  background-color: var(--gray-900);
+  color: #ffffff;
+}

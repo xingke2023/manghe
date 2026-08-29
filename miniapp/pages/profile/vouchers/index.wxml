@@ -1,0 +1,34 @@
+<view class="page-wrap">
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="2" type="card" />
+
+    <block wx:elif="{{active.length || history.length}}">
+      <!-- 可用 -->
+      <view wx:for="{{active}}" wx:key="id" class="card voucher">
+        <view class="voucher-top">
+          <text class="voucher-label">凭证券</text>
+          <text class="badge-green">未使用</text>
+        </view>
+        <text class="voucher-code">{{item.code}}</text>
+        <view class="voucher-bottom">
+          <text class="voucher-time">{{item.time_left}}</text>
+          <view class="btn-sm voucher-copy" bindtap="onCopy" data-code="{{item.code}}">复制</view>
+        </view>
+      </view>
+
+      <!-- 历史 -->
+      <block wx:if="{{history.length}}">
+        <view class="history-label">历史发盒凭证</view>
+        <view wx:for="{{history}}" wx:key="id" class="card voucher is-history">
+          <view class="voucher-top">
+            <text class="voucher-label">凭证券</text>
+            <text class="{{item.status_class}}">{{item.status_label}}</text>
+          </view>
+          <text class="voucher-code">{{item.code}}</text>
+        </view>
+      </block>
+    </block>
+
+    <mh-empty wx:else icon="🎫" text="暂无凭证" hint="请联系客服获取" />
+  </view>
+</view>

@@ -1,0 +1,10 @@
+<view class="skeleton-list">
+  <view wx:for="{{repeatList}}" wx:key="*this" class="skeleton-card">
+    <!-- card: 缩略图 + 两行文字；row: 圆头像 + 两行文字 -->
+    <view class="skeleton-block {{type === 'row' ? 'sk-avatar' : 'sk-thumb'}}"></view>
+    <view class="skeleton-body">
+      <view class="skeleton-block sk-line sk-line-title"></view>
+      <view class="skeleton-block sk-line sk-line-sub"></view>
+    </view>
+  </view>
+</view>

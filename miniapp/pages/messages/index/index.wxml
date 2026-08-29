@@ -1,0 +1,46 @@
+<view class="page-wrap">
+  <!-- 通知入口 -->
+  <view class="notice-entry" bindtap="goNotifications">
+    <text class="notice-bell">🔔</text>
+    <text class="notice-text">通知</text>
+    <text wx:if="{{noticeUnread}}" class="notice-badge">{{noticeUnread}}</text>
+    <text class="notice-arrow">›</text>
+  </view>
+
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="3" type="row" />
+
+    <block wx:elif="{{sessions.length}}">
+      <view
+        wx:for="{{sessions}}"
+        wx:key="id"
+        class="session"
+        bindtap="onSessionTap"
+        data-id="{{item.id}}"
+      >
+        <mh-avatar
+          src="{{item.other_user.avatar_url}}"
+          user-id="{{item.other_user.id}}"
+          size="96"
+        />
+        <view class="session-body">
+          <view class="session-top">
+            <text class="session-name ellipsis">{{item.other_user.nickname}}</text>
+            <text class="session-time">{{item.time_text}}</text>
+          </view>
+          <view class="session-bottom">
+            <text class="session-preview ellipsis">{{item.last_message || '还没有消息'}}</text>
+            <text wx:if="{{item.badge}}" class="session-badge">{{item.badge}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <mh-empty
+      wx:else
+      icon="💬"
+      text="暂无消息"
+      hint="{{isLoggedIn ? '去广场找个盲盒聊聊吧' : '登录后可查看消息'}}"
+    />
+  </view>
+</view>

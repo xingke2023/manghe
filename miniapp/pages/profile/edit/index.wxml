@@ -1,0 +1,281 @@
+<view class="page-wrap">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="spinner"></view>
+  </view>
+
+  <block wx:else>
+    <!-- 头像 -->
+    <view class="avatar-section" bindtap="onOpenAvatarPicker">
+      <image class="avatar-big" src="{{avatarUrl}}" mode="aspectFill" />
+      <text class="avatar-hint">点击头像可以换风格</text>
+    </view>
+
+    <view class="card-list">
+      <!-- 基本信息 -->
+      <view class="card">
+        <view class="form-row">
+          <text class="form-label">昵称</text>
+          <input
+            class="form-input"
+            maxlength="12"
+            value="{{nickname}}"
+            placeholder="怎么称呼你"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="nickname"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">年龄</text>
+          <input
+            class="form-input"
+            type="number"
+            maxlength="2"
+            value="{{age}}"
+            placeholder="岁"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="age"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">身高</text>
+          <input
+            class="form-input"
+            type="number"
+            maxlength="3"
+            value="{{height}}"
+            placeholder="cm"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="height"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">常驻地</text>
+          <input
+            class="form-input"
+            maxlength="10"
+            value="{{city}}"
+            placeholder="例如 杭州"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="city"
+          />
+        </view>
+      </view>
+
+      <!-- 性别 -->
+      <view class="card">
+        <view class="card-title">性别</view>
+        <view class="toggle-group">
+          <view
+            class="toggle-item {{gender === 1 ? 'is-active' : ''}}"
+            bindtap="onGenderTap"
+            data-value="1"
+          >♂ 男</view>
+          <view
+            class="toggle-item {{gender === 2 ? 'is-active' : ''}}"
+            bindtap="onGenderTap"
+            data-value="2"
+          >♀ 女</view>
+        </view>
+      </view>
+
+      <!-- 找搭子的目的 -->
+      <view class="card">
+        <view class="card-title">找搭子的目的（可多选）</view>
+        <view class="wrap gap-16">
+          <view
+            wx:for="{{purposeOptions}}"
+            wx:key="*this"
+            class="chip {{selectedPurposes[item] ? 'is-active' : ''}}"
+            bindtap="onPurposeTap"
+            data-value="{{item}}"
+          >{{item}}</view>
+        </view>
+      </view>
+
+      <!-- 对象属性 -->
+      <view class="card">
+        <view class="card-title">对象属性</view>
+        <view class="toggle-group">
+          <view
+            class="toggle-item {{targetGender === 1 ? 'is-active' : ''}}"
+            bindtap="onTargetGenderTap"
+            data-value="1"
+          >♂ 男</view>
+          <view
+            class="toggle-item {{targetGender === 2 ? 'is-active' : ''}}"
+            bindtap="onTargetGenderTap"
+            data-value="2"
+          >♀ 女</view>
+          <view
+            class="toggle-item {{targetGender === 3 ? 'is-active' : ''}}"
+            bindtap="onTargetGenderTap"
+            data-value="3"
+          >😊 不限</view>
+        </view>
+      </view>
+
+      <!-- 关于我 -->
+      <view class="card">
+        <view class="card-title">关于我</view>
+        <textarea
+          class="textarea"
+          maxlength="80"
+          value="{{aboutMe}}"
+          placeholder="介绍一下你自己"
+          placeholder-class="form-input-placeholder"
+          bindinput="onAboutMeInput"
+        />
+        <view class="counter">{{aboutMe.length}}/80</view>
+      </view>
+
+      <!-- 兴趣爱好 -->
+      <view class="card">
+        <view class="card-title">兴趣爱好</view>
+        <view class="wrap gap-16">
+          <view
+            wx:for="{{interestOptions}}"
+            wx:key="*this"
+            class="chip {{selectedInterests[item] ? 'is-active' : ''}}"
+            bindtap="onInterestTap"
+            data-value="{{item}}"
+          >{{item}}</view>
+        </view>
+        <view class="custom-add">
+          <input
+            class="custom-input"
+            maxlength="8"
+            value="{{customInterest}}"
+            placeholder="自定义兴趣"
+            placeholder-class="form-input-placeholder"
+            bindinput="onCustomInterestInput"
+            bindconfirm="onAddCustomInterest"
+          />
+          <view class="btn-sm custom-btn" bindtap="onAddCustomInterest">添加</view>
+        </view>
+      </view>
+
+      <!-- 生活相册 -->
+      <view class="card">
+        <view class="card-title">生活相册<text class="card-title-hint">（最多 6 张）</text></view>
+        <view class="photo-grid">
+          <view wx:for="{{photos}}" wx:key="*this" class="photo-cell">
+            <image
+              class="photo-img"
+              src="{{item}}"
+              mode="aspectFill"
+              bindtap="onPreviewPhoto"
+              data-url="{{item}}"
+            />
+            <view class="photo-del" catchtap="onRemovePhoto" data-index="{{index}}">✕</view>
+          </view>
+          <view wx:if="{{photos.length < 6}}" class="photo-cell photo-add" bindtap="onAddPhoto">
+            <text wx:if="{{uploading}}" class="photo-add-text">上传中</text>
+            <text wx:else class="photo-add-plus">＋</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 真实资料 -->
+      <view class="card">
+        <view class="card-title">真实资料</view>
+        <text class="real-hint">仅平台用于核实，不展示给其他用户</text>
+        <view class="form-row real-first">
+          <text class="form-label">职业</text>
+          <input
+            class="form-input"
+            maxlength="20"
+            value="{{occupation}}"
+            placeholder="选填"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="occupation"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">公司</text>
+          <input
+            class="form-input"
+            maxlength="30"
+            value="{{company}}"
+            placeholder="选填"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="company"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">学校</text>
+          <input
+            class="form-input"
+            maxlength="30"
+            value="{{school}}"
+            placeholder="选填"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="school"
+          />
+        </view>
+
+        <view class="sub-title">学历</view>
+        <view class="wrap gap-16">
+          <view
+            wx:for="{{educationOptions}}"
+            wx:key="*this"
+            class="chip {{education === item ? 'is-active' : ''}}"
+            bindtap="onEducationTap"
+            data-value="{{item}}"
+          >{{item}}</view>
+        </view>
+
+        <view class="sub-title">年收入</view>
+        <view class="wrap gap-16">
+          <view
+            wx:for="{{incomeOptions}}"
+            wx:key="*this"
+            class="chip {{annualIncome === item ? 'is-active' : ''}}"
+            bindtap="onIncomeTap"
+            data-value="{{item}}"
+          >{{item}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-bar-spacer"></view>
+    <view class="bottom-bar">
+      <view class="btn btn-outline flex-1" bindtap="goPreview">预览效果</view>
+      <view
+        class="btn btn-primary flex-1 {{saving ? 'is-disabled' : ''}}"
+        bindtap="onSave"
+      >{{saving ? '保存中...' : '保存修改'}}</view>
+    </view>
+  </block>
+</view>
+
+<!-- 头像风格选择 -->
+<block wx:if="{{showAvatarPicker}}">
+  <view class="mask" bindtap="onCloseAvatarPicker"></view>
+  <view class="sheet picker-sheet">
+    <view class="sheet-handle"></view>
+    <view class="picker-body">
+      <text class="picker-title">选一个头像风格</text>
+      <scroll-view class="picker-scroll" scroll-y>
+        <view class="picker-grid">
+          <view
+            wx:for="{{seedList}}"
+            wx:key="seed"
+            class="picker-cell {{pendingSeed === item.seed ? 'is-active' : ''}}"
+            bindtap="onSeedTap"
+            data-seed="{{item.seed}}"
+          >
+            <image class="picker-img" src="{{item.url}}" mode="aspectFill" />
+          </view>
+        </view>
+      </scroll-view>
+      <view class="btn btn-primary picker-confirm" bindtap="onConfirmAvatar">确定使用</view>
+    </view>
+  </view>
+</block>

@@ -1,0 +1,7 @@
+@import '../../../styles/profile-view.wxss';
+
+.loading-wrap {
+  padding-top: 300rpx;
+  display: flex;
+  justify-content: center;
+}

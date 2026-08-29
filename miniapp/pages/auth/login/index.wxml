@@ -1,0 +1,31 @@
+<view class="login">
+  <view class="brand">
+    <image class="brand-logo" src="/assets/images/logo-head.png" mode="aspectFit" />
+    <text class="brand-name">约会盲盒</text>
+    <text class="brand-slogan">遇见有趣的灵魂</text>
+  </view>
+
+  <view class="form">
+    <input
+      class="phone-input"
+      type="number"
+      maxlength="11"
+      value="{{phone}}"
+      placeholder="请输入手机号"
+      placeholder-class="phone-placeholder"
+      bindinput="onPhoneInput"
+      bindconfirm="onLogin"
+    />
+    <view
+      class="btn btn-accent {{loading ? 'is-disabled' : ''}} login-btn"
+      bindtap="onLogin"
+    >
+      {{loading ? '登录中...' : '登录 / 注册'}}
+    </view>
+  </view>
+
+  <view class="footer" bindtap="goRegister">
+    <text class="footer-text">还没有账号？</text>
+    <text class="footer-link">去完善资料</text>
+  </view>
+</view>

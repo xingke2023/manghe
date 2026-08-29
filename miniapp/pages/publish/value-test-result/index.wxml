@@ -1,0 +1,8 @@
+<view class="result">
+  <text class="result-emoji">{{passed ? '🎉' : '⏳'}}</text>
+  <text class="result-title">{{passed ? '恭喜通过测试！' : '测试已提交'}}</text>
+  <text class="result-desc">{{passed ? '接下来支付保证金，就可以开始发盒了' : '我们会尽快人工审核，请留意通知'}}</text>
+  <view class="btn btn-primary result-btn" bindtap="onAction">
+    {{passed ? '继续发布' : '返回首页'}}
+  </view>
+</view>

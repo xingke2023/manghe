@@ -1,0 +1,11 @@
+<view class="success">
+  <text class="success-emoji">🎉</text>
+  <text class="success-title">发布成功！</text>
+  <text class="success-desc">你的约会盲盒已发布成功</text>
+  <text class="success-desc">等待有缘人来拆盒吧～</text>
+
+  <view class="success-actions">
+    <view class="btn btn-primary" bindtap="goHome">返回首页</view>
+    <view class="btn btn-outline" bindtap="goMyBoxes">查看我的盲盒</view>
+  </view>
+</view>

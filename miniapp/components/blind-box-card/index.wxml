@@ -1,0 +1,38 @@
+<view class="box-card {{compact ? 'is-compact' : ''}}" bindtap="onTap">
+  <!-- 标题 + 费用标签 -->
+  <view class="box-head">
+    <text class="box-title ellipsis-2">{{box.title}}</text>
+    <text wx:if="{{box.fee_label}}" class="tag-accent box-fee">{{box.fee_label}}</text>
+  </view>
+
+  <!-- 封面 -->
+  <view class="box-cover">
+    <image wx:if="{{box.cover_image}}" class="box-cover-img" src="{{box.cover_image}}" mode="aspectFill" />
+    <view wx:else class="box-cover-placeholder">🎁</view>
+  </view>
+
+  <!-- 发盒者 -->
+  <view class="box-creator" wx:if="{{box.creator}}">
+    <mh-avatar src="{{box.creator.avatar_url}}" user-id="{{box.creator.id}}" size="56" />
+    <text class="box-creator-name ellipsis">{{box.creator.nickname}}</text>
+    <text wx:if="{{box.creator.is_member}}" class="box-vip">VIP</text>
+  </view>
+
+  <!-- 时间地点 -->
+  <view class="box-meta">
+    <view class="box-meta-row">
+      <text class="box-meta-icon">📍</text>
+      <text class="box-meta-text ellipsis">{{place}}</text>
+    </view>
+    <view class="box-meta-row">
+      <text class="box-meta-icon">🕐</text>
+      <text class="box-meta-text ellipsis">{{box.meeting_time}}</text>
+    </view>
+  </view>
+
+  <!-- 浏览 / 报名数 -->
+  <view class="box-stats">
+    <text class="box-stat">👁 {{box.view_count || 0}}</text>
+    <text class="box-stat">✋ {{box.apply_count || 0}}</text>
+  </view>
+</view>

@@ -1,0 +1,39 @@
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.skeleton-card {
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+.sk-thumb {
+  width: 160rpx;
+  height: 120rpx;
+  flex-shrink: 0;
+}
+.sk-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 9999rpx;
+  flex-shrink: 0;
+}
+.skeleton-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.sk-line {
+  height: 28rpx;
+}
+.sk-line-title {
+  width: 65%;
+}
+.sk-line-sub {
+  width: 40%;
+}

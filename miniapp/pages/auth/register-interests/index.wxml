@@ -1,0 +1,85 @@
+<view class="page-wrap">
+  <view class="wizard-head">
+    <view class="progress-track">
+      <view class="progress-fill" style="width: 100%"></view>
+    </view>
+    <view class="wizard-step">
+      <text class="wizard-step-title">兴趣爱好</text>
+      <text class="wizard-step-sub">第 3 / 3 步</text>
+    </view>
+  </view>
+
+  <view class="card-list">
+    <!-- 关于我 -->
+    <view class="card">
+      <view class="card-title">关于我</view>
+      <textarea
+        class="textarea"
+        maxlength="80"
+        value="{{aboutMe}}"
+        placeholder="介绍一下你自己，让对方更快认识你～"
+        placeholder-class="form-input-placeholder"
+        bindinput="onAboutMeInput"
+      />
+      <view class="counter">{{aboutMe.length}}/80</view>
+    </view>
+
+    <!-- 兴趣爱好 -->
+    <view class="card">
+      <view class="card-title">兴趣爱好</view>
+      <view class="wrap chip-row">
+        <view
+          wx:for="{{options}}"
+          wx:key="label"
+          class="chip {{selected[item.label] ? 'is-active' : ''}}"
+          bindtap="onInterestTap"
+          data-label="{{item.label}}"
+        >{{item.emoji}}{{item.label}}<text wx:if="{{selected[item.label]}}" class="chip-x"> ✕</text></view>
+
+        <block wx:if="{{showTagInput}}">
+          <view class="tag-input-wrap">
+            <input
+              class="tag-input"
+              maxlength="8"
+              value="{{customTag}}"
+              placeholder="自定义标签"
+              placeholder-class="form-input-placeholder"
+              focus="{{true}}"
+              bindinput="onCustomTagInput"
+              bindconfirm="onConfirmTag"
+            />
+            <text class="tag-confirm" bindtap="onConfirmTag">确认</text>
+          </view>
+        </block>
+        <view wx:else class="chip-outline" bindtap="onShowTagInput">+ 新增标签</view>
+      </view>
+    </view>
+
+    <!-- 兴趣相册 -->
+    <view class="card">
+      <view class="card-title">兴趣相册<text class="card-title-hint">（最多 6 张）</text></view>
+      <view class="photo-grid">
+        <view wx:for="{{photos}}" wx:key="*this" class="photo-cell">
+          <image class="photo-img" src="{{item}}" mode="aspectFill" bindtap="onPreviewPhoto" data-url="{{item}}" />
+          <view class="photo-del" catchtap="onRemovePhoto" data-index="{{index}}">✕</view>
+        </view>
+        <view
+          wx:if="{{photos.length < 6}}"
+          class="photo-cell photo-add"
+          bindtap="onAddPhoto"
+        >
+          <text wx:if="{{uploading}}" class="photo-add-text">上传中</text>
+          <text wx:else class="photo-add-plus">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{saving ? 'is-disabled' : ''}}"
+      bindtap="onFinish"
+    >{{saving ? '保存中...' : '完成注册'}}</view>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+<view class="page-wrap">
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="3" type="card" />
+
+    <block wx:elif="{{boxes.length}}">
+      <view
+        wx:for="{{boxes}}"
+        wx:key="id"
+        class="card-tight box"
+        bindtap="onBoxTap"
+        data-id="{{item.id}}"
+      >
+        <view class="box-top">
+          <text class="box-title ellipsis-2">{{item.title}}</text>
+          <text class="{{item.status_class}}">{{item.status_label}}</text>
+        </view>
+        <view class="box-body">
+          <image
+            wx:if="{{item.cover_image}}"
+            class="box-thumb"
+            src="{{item.cover_image}}"
+            mode="aspectFill"
+          />
+          <view wx:else class="box-thumb box-thumb-empty">🎁</view>
+          <view class="box-meta">
+            <text class="box-meta-text ellipsis">📍 {{item.place || '未填地点'}}</text>
+            <text class="box-meta-text ellipsis">🕐 {{item.meeting_time}}</text>
+            <view class="box-stats">
+              <text class="box-stat">👁 {{item.view_count || 0}}</text>
+              <text class="box-stat">✋ {{item.apply_count || 0}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <mh-empty
+      wx:else
+      icon="🎁"
+      text="还没有发布盲盒"
+      action="去发布"
+      bindaction="goPublish"
+    />
+  </view>
+</view>

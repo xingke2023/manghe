@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的",
+  "usingComponents": {
+    "mh-avatar": "../../../components/avatar/index"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "TA的主页",
+  "usingComponents": {
+    "mh-avatar": "../../../components/avatar/index"
+  }
+}

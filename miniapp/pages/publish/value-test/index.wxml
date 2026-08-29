@@ -1,0 +1,59 @@
+<!-- 引导页 -->
+<view wx:if="{{step === 'intro'}}" class="page-wrap">
+  <view class="card-list">
+    <view class="intro-card">
+      <text class="intro-title">发布约会盲盒</text>
+      <text class="intro-sub">能帮你更高效筛选到「对的人」</text>
+      <view class="intro-inner">
+        🌟 发布前，请先完成小恶魔的灵魂考验～
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">🔍 小恶魔 Tips</view>
+      <view class="tips">
+        <text class="tip">· 共 10 道单选题，凭第一反应作答即可</text>
+        <text class="tip">· 答案只用于筛选发盒资格，不会展示给其他用户</text>
+        <text class="tip">· 通过后需支付保证金，即可开始发盒</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view class="btn btn-primary flex-1" bindtap="onStart">进入测试</view>
+  </view>
+</view>
+
+<!-- 答题 -->
+<view wx:else class="page-wrap">
+  <view class="progress-track quiz-progress">
+    <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+  </view>
+
+  <view class="quiz">
+    <text class="quiz-badge">单选题 {{current + 1}}/{{total}}</text>
+    <text class="quiz-question">{{question.text}}</text>
+
+    <view class="quiz-options">
+      <view
+        wx:for="{{question.options}}"
+        wx:key="key"
+        class="quiz-option {{picked === item.key ? 'is-active' : ''}}"
+        bindtap="onPick"
+        data-key="{{item.key}}"
+      >
+        <text class="quiz-option-key">{{item.key}}</text>
+        <text class="quiz-option-text">{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{picked ? '' : 'is-disabled'}}"
+      bindtap="onNext"
+    >{{submitting ? '提交中...' : (isLast ? '完成' : '下一题')}}</view>
+  </view>
+</view>

@@ -1,0 +1,53 @@
+<view class="chat">
+  <!-- 自定义导航栏 -->
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-bar">
+      <view class="nav-back" bindtap="onBack">‹</view>
+      <text class="nav-title">{{otherName || '聊天'}}</text>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view
+    class="msg-list"
+    scroll-y
+    scroll-into-view="{{scrollAnchor}}"
+    scroll-with-animation
+  >
+    <view wx:if="{{loading}}" class="chat-tip">💬 加载中...</view>
+    <view wx:elif="{{!messages.length}}" class="chat-tip">暂无消息，说点什么吧</view>
+
+    <view
+      wx:for="{{messages}}"
+      wx:key="id"
+      class="msg {{item.is_mine ? 'is-mine' : ''}}"
+    >
+      <mh-avatar
+        wx:if="{{!item.is_mine}}"
+        src="{{otherAvatar}}"
+        user-id="{{otherId}}"
+        size="72"
+      />
+      <text class="msg-bubble">{{item.content}}</text>
+    </view>
+    <view id="msg-bottom" class="msg-anchor"></view>
+  </scroll-view>
+
+  <!-- 输入栏 -->
+  <view class="input-bar">
+    <input
+      class="msg-input"
+      value="{{input}}"
+      maxlength="500"
+      placeholder="说点什么..."
+      placeholder-class="form-input-placeholder"
+      confirm-type="send"
+      bindinput="onInput"
+      bindconfirm="onSend"
+    />
+    <view
+      class="send-btn {{(!input || sending) ? 'is-disabled' : ''}}"
+      bindtap="onSend"
+    >▲</view>
+  </view>
+</view>

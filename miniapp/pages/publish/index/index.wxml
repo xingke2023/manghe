@@ -1,0 +1,4 @@
+<view class="gate">
+  <view class="spinner"></view>
+  <text class="gate-text">正在检查发布条件...</text>
+</view>

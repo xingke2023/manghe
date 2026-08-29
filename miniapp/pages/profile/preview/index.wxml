@@ -1,0 +1,59 @@
+<view class="page-wrap">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="spinner"></view>
+  </view>
+
+  <block wx:else>
+    <view class="pv-hero">
+      <mh-avatar
+        class="pv-avatar"
+        src="{{profile.avatar_url}}"
+        user-id="{{profile.id}}"
+        size="160"
+      />
+      <view class="pv-name-row">
+        <text class="pv-name">{{profile.nickname || '未设置昵称'}}</text>
+        <text wx:if="{{profile.is_member}}" class="pv-vip">会员</text>
+      </view>
+      <text wx:if="{{metaText}}" class="pv-meta">{{metaText}}</text>
+    </view>
+
+    <view class="card-list">
+      <view class="card" wx:if="{{about}}">
+        <view class="card-title">关于我</view>
+        <text class="pv-about">{{about}}</text>
+      </view>
+
+      <view class="card" wx:if="{{purposes.length}}">
+        <view class="card-title">找搭子的目的</view>
+        <view class="pv-chips">
+          <text wx:for="{{purposes}}" wx:key="*this" class="tag-orange">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="card" wx:if="{{interests.length}}">
+        <view class="card-title">兴趣爱好</view>
+        <view class="pv-chips">
+          <text wx:for="{{interests}}" wx:key="*this" class="tag-blue">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="card" wx:if="{{photos.length}}">
+        <view class="card-title">生活相册</view>
+        <view class="pv-photos">
+          <image
+            wx:for="{{photos}}"
+            wx:key="*this"
+            class="pv-photo"
+            src="{{item}}"
+            mode="aspectFill"
+            bindtap="onPhotoTap"
+            data-url="{{item}}"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="pv-footnote">这是其他用户看到的你的资料预览</view>
+  </block>
+</view>

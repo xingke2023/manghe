@@ -1,0 +1,109 @@
+<view class="page-wrap">
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="3" type="card" />
+
+    <block wx:elif="{{items.length}}">
+      <view wx:for="{{items}}" wx:key="application_id" class="card-tight ff">
+        <!-- 角色 + 结算结果 -->
+        <view class="ff-tags">
+          <text class="{{item.role_class}}">{{item.role_label}}</text>
+          <text wx:if="{{item.result_badge_label}}" class="{{item.result_badge_class}}">
+            {{item.result_badge_label}}
+          </text>
+        </view>
+
+        <view class="ff-body">
+          <image
+            wx:if="{{item.cover_image}}"
+            class="ff-thumb"
+            src="{{item.cover_image}}"
+            mode="aspectFill"
+          />
+          <view wx:else class="ff-thumb ff-thumb-empty">🎁</view>
+
+          <view class="ff-info">
+            <text class="ff-title ellipsis-2">{{item.title}}</text>
+            <text class="ff-meta ellipsis">🕐 {{item.meeting_time}}</text>
+            <text wx:if="{{item.place}}" class="ff-meta ellipsis">📍 {{item.place}}</text>
+          </view>
+
+          <!-- 操作区：按角色 / 打卡状态 / 结算状态分支 -->
+          <view class="ff-action">
+            <view
+              wx:if="{{item.can_appeal}}"
+              class="btn-sm ff-btn-outline"
+              bindtap="onOpenAppeal"
+              data-index="{{index}}"
+            >申诉</view>
+            <view
+              wx:elif="{{item.can_scan}}"
+              class="ff-icon-btn"
+              bindtap="onScan"
+              data-box-id="{{item.box_id}}"
+            >📷</view>
+            <view
+              wx:elif="{{item.can_show_code}}"
+              class="ff-icon-btn"
+              bindtap="onGenerateCode"
+              data-index="{{index}}"
+            >📱</view>
+            <view
+              wx:elif="{{item.can_checkin}}"
+              class="btn-sm ff-btn-solid"
+              bindtap="onCheckin"
+              data-box-id="{{item.box_id}}"
+            >打卡</view>
+          </view>
+        </view>
+
+        <!-- 结算说明 -->
+        <view wx:if="{{item.result_detail_text}}" class="ff-detail {{item.result_detail_class}}">
+          <text class="ff-detail-text {{item.result_detail_text_class}}">{{item.result_detail_text}}</text>
+          <text class="ff-detail-hint">{{item.result_detail_hint}}</text>
+        </view>
+      </view>
+    </block>
+
+    <mh-empty wx:else icon="🤝" text="暂无赴约记录" />
+  </view>
+</view>
+
+<!-- 见面二维码 -->
+<block wx:if="{{qrCode}}">
+  <view class="mask" bindtap="onCloseQr"></view>
+  <view class="modal qr-modal">
+    <text class="qr-title">见面码</text>
+    <text class="qr-code">{{qrCode}}</text>
+    <text class="qr-hint">展示给发盒者扫描</text>
+    <text wx:if="{{qrValidUntil}}" class="qr-valid">有效期至 {{qrValidUntil}}</text>
+    <view class="btn btn-outline qr-close" bindtap="onCloseQr">关闭</view>
+  </view>
+</block>
+
+<!-- 申诉 -->
+<block wx:if="{{appealIndex !== null}}">
+  <view class="mask" bindtap="onCloseAppeal"></view>
+  <view class="sheet appeal-sheet">
+    <view class="sheet-handle"></view>
+    <view class="appeal-body">
+      <text class="appeal-title">提交申诉</text>
+      <text class="appeal-sub">请说明具体情况，平台会人工核实</text>
+      <textarea
+        class="textarea appeal-textarea"
+        maxlength="500"
+        value="{{appealReason}}"
+        placeholder="至少 10 个字"
+        placeholder-class="form-input-placeholder"
+        bindinput="onAppealInput"
+      />
+      <view class="appeal-counter">{{appealReason.length}}/500</view>
+      <view class="appeal-actions">
+        <view class="btn btn-outline flex-1" bindtap="onCloseAppeal">取消</view>
+        <view
+          class="btn flex-1 {{appealValid ? 'btn-primary' : 'btn-primary is-disabled'}}"
+          bindtap="onSubmitAppeal"
+        >{{appealSubmitting ? '提交中...' : '提交申诉'}}</view>
+      </view>
+    </view>
+  </view>
+</block>

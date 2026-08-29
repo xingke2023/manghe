@@ -1,0 +1,53 @@
+<view class="page-wrap">
+  <view wx:if="{{!draft}}" class="loading-wrap">
+    <view class="spinner"></view>
+    <text class="loading-text">草稿已失效，正在返回...</text>
+  </view>
+
+  <block wx:else>
+    <view class="card-list">
+      <view class="card pv-card">
+        <view class="pv-cover">
+          <image
+            wx:if="{{draft.cover_image}}"
+            class="pv-cover-img"
+            src="{{draft.cover_image}}"
+            mode="aspectFill"
+          />
+          <view wx:else class="pv-cover-empty">🎁</view>
+        </view>
+
+        <text class="pv-title">{{draft.title}}</text>
+
+        <view class="pv-rows">
+          <text class="pv-row">🕐 {{draft.meeting_time}}</text>
+          <text class="pv-row">📍 {{place}}</text>
+          <text class="pv-row">💰 {{feeLabel}}</text>
+        </view>
+      </view>
+
+      <view class="card" wx:if="{{draft.expected_traits.length}}">
+        <view class="card-title">期待同行者特质</view>
+        <view class="wrap gap-16">
+          <text wx:for="{{draft.expected_traits}}" wx:key="*this" class="tag-blue">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="card" wx:if="{{draft.experience_values.length}}">
+        <view class="card-title">体验价值</view>
+        <view class="wrap gap-16">
+          <text wx:for="{{draft.experience_values}}" wx:key="*this" class="tag-orange">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-bar-spacer"></view>
+    <view class="bottom-bar">
+      <view class="btn btn-outline flex-1" bindtap="onBack">返回修改</view>
+      <view
+        class="btn btn-primary flex-1 {{submitting ? 'is-disabled' : ''}}"
+        bindtap="onSubmit"
+      >{{submitting ? '发布中...' : '确认发布'}}</view>
+    </view>
+  </block>
+</view>

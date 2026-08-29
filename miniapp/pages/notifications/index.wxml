@@ -1,0 +1,34 @@
+<view class="page-wrap">
+  <view wx:if="{{notifications.length}}" class="head">
+    <text class="head-count">未读 {{unreadCount}}</text>
+    <text class="head-action" bindtap="onMarkAllRead">全部标记已读</text>
+  </view>
+
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading && !notifications.length}}" count="3" type="row" />
+
+    <block wx:elif="{{notifications.length}}">
+      <view
+        wx:for="{{notifications}}"
+        wx:key="id"
+        class="notice {{item.is_read ? '' : 'is-unread'}}"
+        bindtap="onNoticeTap"
+        data-index="{{index}}"
+      >
+        <view class="notice-top">
+          <text class="notice-title">{{item.title}}</text>
+          <text class="notice-time">{{item.time_text}}</text>
+        </view>
+        <text class="notice-content">{{item.content}}</text>
+      </view>
+
+      <view class="list-footer">
+        <text wx:if="{{loadingMore}}" class="list-footer-text">加载中...</text>
+        <text wx:elif="{{hasMore}}" class="list-footer-text" bindtap="onLoadMore">点击加载更多</text>
+        <text wx:else class="list-footer-text">— 已经到底了 —</text>
+      </view>
+    </block>
+
+    <mh-empty wx:else icon="🔔" text="暂无通知" />
+  </view>
+</view>

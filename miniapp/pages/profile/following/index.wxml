@@ -1,0 +1,30 @@
+<view class="page-wrap">
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="3" type="row" />
+
+    <block wx:elif="{{users.length}}">
+      <view wx:for="{{users}}" wx:key="id" class="card-tight follow">
+        <view class="follow-main" bindtap="onUserTap" data-id="{{item.id}}">
+          <mh-avatar src="{{item.avatar_url}}" user-id="{{item.id}}" size="96" />
+          <view class="follow-info">
+            <text class="follow-name">{{item.nickname}}</text>
+            <text class="follow-meta">{{item.meta_text}}</text>
+          </view>
+        </view>
+        <view
+          class="btn-sm follow-btn"
+          catchtap="onUnfollow"
+          data-id="{{item.id}}"
+          data-name="{{item.nickname}}"
+        >已关注</view>
+      </view>
+    </block>
+
+    <mh-empty
+      wx:else
+      icon="💫"
+      text="还没有关注的人"
+      hint="去广场发现感兴趣的发盒者吧"
+    />
+  </view>
+</view>

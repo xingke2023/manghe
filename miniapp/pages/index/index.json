@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "约会盲盒",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F5F5F5",
+  "usingComponents": {
+    "mh-box-card": "../../components/blind-box-card/index",
+    "mh-empty": "../../components/empty-state/index",
+    "mh-skeleton": "../../components/skeleton/index",
+    "mh-avatar": "../../components/avatar/index"
+  }
+}

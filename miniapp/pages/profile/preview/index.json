@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "资料预览",
+  "usingComponents": {
+    "mh-avatar": "../../../components/avatar/index"
+  }
+}

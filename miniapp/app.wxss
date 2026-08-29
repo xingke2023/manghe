@@ -1,0 +1,505 @@
+/* ==========================================================================
+   约会盲盒 · 全局样式
+   设计 token 迁移自 mini/src/app.scss；下方原子类是把 Taro 版散落在 Tailwind
+   工具类里的重复模式（卡片 / 按钮 / 标签 / 骨架屏 / 空态）收敛成语义化 class。
+
+   换算：Taro 侧 designWidth = 375，即 1px = 2rpx。
+   rounded-2xl(16px)=32rpx  rounded-xl(12px)=24rpx  text-sm(14px)=28rpx
+   ========================================================================== */
+
+page {
+  /* —— 颜色 token —— */
+  --color-bg: #f5f5f5;
+  --color-card: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-hint: #999999;
+  --color-accent: #e8373f;
+  --color-accent-bg: #fff0ee;
+  --color-accent-light: #ff6b6b;
+  --color-border: #f0f0f0;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+
+  /* Taro 版页面里大量直接用了 Tailwind 调色板，这里补齐以保证视觉一致。
+     注意：全局主按钮是近黑色（gray-900），不是 accent 红。红色只用于登录
+     CTA、角标、错误文案等次级场景。 */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-900: #1a1a1a;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --blue-500: #3b82f6;
+
+  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 28rpx;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+view,
+text,
+scroll-view,
+image,
+input,
+textarea,
+button {
+  box-sizing: border-box;
+}
+
+/* —— 布局 —— */
+.page-wrap {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.row-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+}
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* —— 卡片 —— */
+.card {
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 32rpx;
+}
+.card-tight {
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 24rpx;
+}
+.card-list {
+  padding: 24rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 24rpx;
+}
+.divider {
+  height: 1rpx;
+  background-color: var(--color-border);
+}
+
+/* —— 文本 —— */
+.t-xs {
+  font-size: 22rpx;
+}
+.t-sm {
+  font-size: 24rpx;
+}
+.t-base {
+  font-size: 28rpx;
+}
+.t-md {
+  font-size: 32rpx;
+}
+.t-lg {
+  font-size: 36rpx;
+}
+.t-xl {
+  font-size: 40rpx;
+}
+.t-2xl {
+  font-size: 48rpx;
+}
+.bold {
+  font-weight: 600;
+}
+.t-secondary {
+  color: var(--color-text-secondary);
+}
+.t-hint {
+  color: var(--color-text-hint);
+}
+.t-accent {
+  color: var(--color-accent);
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ellipsis-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* —— 按钮 ——
+   .btn-primary 是全站主 CTA：近黑底白字。
+   .btn-accent 仅用于登录 / 报名等强调场景。 */
+.btn {
+  height: 88rpx;
+  border-radius: 9999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  line-height: 1;
+}
+.btn-primary {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+.btn-primary.is-disabled {
+  background-color: var(--gray-300);
+  color: #ffffff;
+}
+.btn-accent {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+.btn-accent.is-disabled {
+  background-color: #f5a3a7;
+  color: #ffffff;
+}
+.btn-outline {
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border: 1rpx solid var(--gray-200);
+}
+.btn-sm {
+  height: 64rpx;
+  padding: 0 32rpx;
+  font-size: 26rpx;
+  border-radius: 9999rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+/* 固定在页面底部的操作条，内容区需留出 padding-bottom */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-card);
+  padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid var(--color-border);
+  display: flex;
+  gap: 24rpx;
+  z-index: 10;
+}
+.bottom-bar-spacer {
+  height: 180rpx;
+}
+
+/* —— 标签 / chip —— */
+.chip {
+  padding: 12rpx 28rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-100);
+  color: var(--color-text-secondary);
+  font-size: 24rpx;
+  line-height: 1.4;
+}
+.chip.is-active {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+.chip-outline {
+  padding: 12rpx 28rpx;
+  border-radius: 9999rpx;
+  border: 1rpx dashed var(--gray-300);
+  color: var(--color-text-hint);
+  font-size: 24rpx;
+}
+/* 只读展示用的彩色标签 */
+.tag-blue {
+  padding: 8rpx 20rpx;
+  border-radius: 9999rpx;
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-size: 22rpx;
+}
+.tag-orange {
+  padding: 8rpx 20rpx;
+  border-radius: 9999rpx;
+  background-color: #fff7ed;
+  color: #ea580c;
+  font-size: 22rpx;
+}
+.tag-accent {
+  padding: 8rpx 20rpx;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-size: 22rpx;
+}
+.badge-green {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  background-color: #f0fdf4;
+  color: #16a34a;
+  font-size: 22rpx;
+}
+.badge-amber {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  background-color: #fffbeb;
+  color: #d97706;
+  font-size: 22rpx;
+}
+.badge-gray {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-100);
+  color: var(--gray-500);
+  font-size: 22rpx;
+}
+.badge-blue {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-size: 22rpx;
+}
+
+/* —— 头像 —— */
+.avatar {
+  border-radius: 9999rpx;
+  background-color: var(--gray-100);
+}
+.avatar-40 {
+  width: 80rpx;
+  height: 80rpx;
+}
+.avatar-48 {
+  width: 96rpx;
+  height: 96rpx;
+}
+.avatar-80 {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+/* —— 表单 —— */
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid var(--color-border);
+}
+.form-row:last-child {
+  border-bottom: none;
+}
+.form-label {
+  font-size: 28rpx;
+  color: var(--color-text);
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+.form-input {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--color-text);
+  min-height: 44rpx;
+}
+.form-input-placeholder {
+  color: var(--color-text-hint);
+}
+.textarea {
+  width: 100%;
+  min-height: 160rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+/* 二选一 / 三选一 切换组 */
+.toggle-group {
+  display: flex;
+  gap: 20rpx;
+}
+.toggle-item {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 16rpx;
+  background-color: var(--gray-100);
+  color: var(--color-text-secondary);
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle-item.is-active {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+
+/* —— 骨架屏 ——
+   Taro 版每个列表页都手写了一遍 animate-pulse 占位块（重复约 12 次），
+   这里统一成一组 class + 一个 skeleton 组件。 */
+@keyframes mh-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.skeleton-block {
+  background-color: var(--gray-200);
+  border-radius: 12rpx;
+  animation: mh-pulse 1.5s ease-in-out infinite;
+}
+
+/* —— 空态 —— */
+.empty {
+  padding: 140rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+.empty-icon {
+  font-size: 72rpx;
+  line-height: 1;
+}
+.empty-text {
+  font-size: 28rpx;
+  color: var(--color-text-hint);
+}
+.empty-hint {
+  font-size: 24rpx;
+  color: var(--gray-400);
+}
+
+/* —— 遮罩 / 弹层 —— */
+.mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+/* 底部弹起的抽屉，带拖拽提示条 */
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-card);
+  border-radius: 48rpx 48rpx 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 101;
+}
+.sheet-handle {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-200);
+  margin: 20rpx auto;
+}
+/* 居中弹出的卡片式弹窗 */
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600rpx;
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx;
+  z-index: 101;
+}
+
+/* —— 自定义导航栏（detail / chat 用 navigationStyle: custom） —— */
+.nav-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 88rpx;
+}
+.nav-back {
+  position: absolute;
+  left: 12rpx;
+  top: 0;
+  bottom: 0;
+  width: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  line-height: 1;
+}
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* —— 进度条（注册向导 / 价值观测试） —— */
+.progress-track {
+  height: 8rpx;
+  border-radius: 9999rpx;
+  background-color: var(--gray-200);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent);
+  transition: width 0.25s ease;
+}
+
+/* —— 加载指示 —— */
+@keyframes mh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  width: 64rpx;
+  height: 64rpx;
+  border: 6rpx solid var(--gray-200);
+  border-top-color: var(--gray-900);
+  border-radius: 9999rpx;
+  animation: mh-spin 0.8s linear infinite;
+}

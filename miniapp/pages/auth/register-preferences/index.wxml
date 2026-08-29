@@ -1,0 +1,90 @@
+<view class="page-wrap">
+  <view class="wizard-head">
+    <view class="progress-track">
+      <view class="progress-fill" style="width: 66%"></view>
+    </view>
+    <view class="wizard-step">
+      <text class="wizard-step-title">约会偏好</text>
+      <text class="wizard-step-sub">第 2 / 3 步</text>
+    </view>
+  </view>
+
+  <view class="card-list">
+    <view class="card">
+      <view class="card-title">找搭子的目的（可多选）</view>
+      <view class="wrap chip-row">
+        <view
+          wx:for="{{purposeOptions}}"
+          wx:key="*this"
+          class="chip {{selectedPurposes[item] ? 'is-active' : ''}}"
+          bindtap="onPurposeTap"
+          data-value="{{item}}"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">对象属性</view>
+      <view class="toggle-group">
+        <view
+          class="toggle-item {{targetGender === 1 ? 'is-active' : ''}}"
+          bindtap="onTargetGenderTap"
+          data-value="1"
+        >♂ 男</view>
+        <view
+          class="toggle-item {{targetGender === 2 ? 'is-active' : ''}}"
+          bindtap="onTargetGenderTap"
+          data-value="2"
+        >♀ 女</view>
+        <view
+          class="toggle-item {{targetGender === 3 ? 'is-active' : ''}}"
+          bindtap="onTargetGenderTap"
+          data-value="3"
+        >😊 不限</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">年龄偏好</view>
+      <view class="age-row">
+        <text class="age-label">最小年龄</text>
+        <text class="age-value">{{ageMin}} 岁</text>
+      </view>
+      <slider
+        min="18"
+        max="50"
+        step="1"
+        value="{{ageMin}}"
+        activeColor="#1a1a1a"
+        backgroundColor="#e5e7eb"
+        block-size="24"
+        bindchanging="onAgeMinChange"
+        bindchange="onAgeMinChange"
+      />
+      <view class="age-row">
+        <text class="age-label">最大年龄</text>
+        <text class="age-value">{{ageMax}} 岁</text>
+      </view>
+      <slider
+        min="18"
+        max="50"
+        step="1"
+        value="{{ageMax}}"
+        activeColor="#1a1a1a"
+        backgroundColor="#e5e7eb"
+        block-size="24"
+        bindchanging="onAgeMaxChange"
+        bindchange="onAgeMaxChange"
+      />
+      <view class="age-summary">期望对方年龄 {{ageMin}} - {{ageMax}} 岁</view>
+    </view>
+  </view>
+
+  <view class="bottom-bar-spacer"></view>
+  <view class="bottom-bar">
+    <view
+      class="btn btn-primary flex-1 {{saving ? 'is-disabled' : ''}}"
+      bindtap="onNext"
+    >{{saving ? '保存中...' : '下一步'}}</view>
+  </view>
+</view>

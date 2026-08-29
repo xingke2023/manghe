@@ -1,0 +1,60 @@
+.voucher {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.voucher.is-history {
+  opacity: 0.6;
+}
+.voucher-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.voucher-label {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+.voucher-code {
+  font-size: 52rpx;
+  font-weight: 600;
+  letter-spacing: 8rpx;
+  color: var(--color-text);
+}
+.voucher-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+  border-top: 1rpx solid var(--color-border);
+}
+.voucher-time {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+.voucher-copy {
+  background-color: var(--gray-900);
+  color: #ffffff;
+}
+
+.history-label {
+  padding: 16rpx 8rpx 0;
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+
+/* 历史券的圆角描边状态标记 */
+.badge-outline-gray {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  border: 1rpx solid var(--gray-300);
+  color: var(--gray-500);
+  font-size: 22rpx;
+}
+.badge-outline-orange {
+  padding: 6rpx 18rpx;
+  border-radius: 9999rpx;
+  border: 1rpx solid #fdba74;
+  color: #ea580c;
+  font-size: 22rpx;
+}

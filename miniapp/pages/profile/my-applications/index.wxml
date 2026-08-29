@@ -1,0 +1,36 @@
+<view class="page-wrap">
+  <view class="card-list">
+    <mh-skeleton wx:if="{{loading}}" count="3" type="card" />
+
+    <block wx:elif="{{applications.length}}">
+      <view
+        wx:for="{{applications}}"
+        wx:key="id"
+        class="card-tight app"
+        bindtap="onTap"
+        data-box-id="{{item.box.id}}"
+      >
+        <image
+          wx:if="{{item.box.cover_image}}"
+          class="app-thumb"
+          src="{{item.box.cover_image}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="app-thumb app-thumb-empty">🎁</view>
+
+        <view class="app-body">
+          <view class="app-top">
+            <text class="app-title ellipsis">{{item.title_text}}</text>
+            <text class="{{item.status_class}}">{{item.status_label}}</text>
+          </view>
+          <text wx:if="{{item.box}}" class="app-meta ellipsis">🕐 {{item.box.meeting_time}}</text>
+          <text wx:if="{{item.place}}" class="app-meta ellipsis">📍 {{item.place}}</text>
+          <text wx:if="{{item.result_text}}" class="app-result">{{item.result_text}}</text>
+          <text class="app-date">报名时间 {{item.applied_at}}</text>
+        </view>
+      </view>
+    </block>
+
+    <mh-empty wx:else icon="📋" text="还没有报名记录" hint="去广场找个感兴趣的盲盒吧" />
+  </view>
+</view>

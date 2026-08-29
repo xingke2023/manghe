@@ -1,0 +1,157 @@
+<view class="page-wrap">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="spinner"></view>
+  </view>
+
+  <block wx:else>
+    <view class="card-list">
+      <!-- 封面 -->
+      <view class="card">
+        <view class="card-title">盲盒封面</view>
+        <view class="cover" bindtap="onPickCover">
+          <image wx:if="{{coverUrl}}" class="cover-img" src="{{coverUrl}}" mode="aspectFill" />
+          <view wx:else class="cover-empty">
+            <text class="cover-plus">＋</text>
+            <text class="cover-hint">{{coverUploading ? '上传中...' : '上传封面图'}}</text>
+          </view>
+          <view wx:if="{{coverUrl && coverUploading}}" class="cover-mask">上传中...</view>
+        </view>
+      </view>
+
+      <!-- 基本信息 -->
+      <view class="card">
+        <view class="form-row">
+          <text class="form-label">标题</text>
+          <input
+            class="form-input"
+            maxlength="50"
+            value="{{title}}"
+            placeholder="给这次约会起个名字"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="title"
+          />
+        </view>
+
+        <picker mode="date" value="{{meetingDate}}" start="{{today}}" bindchange="onDateChange">
+          <view class="form-row">
+            <text class="form-label">日期</text>
+            <view class="form-input {{meetingDate ? '' : 'form-input-placeholder'}}">
+              {{meetingDate || '请选择'}}
+            </view>
+          </view>
+        </picker>
+        <picker mode="time" value="{{meetingClock}}" bindchange="onTimeChange">
+          <view class="form-row">
+            <text class="form-label">时间</text>
+            <view class="form-input {{meetingClock ? '' : 'form-input-placeholder'}}">
+              {{meetingClock || '请选择'}}
+            </view>
+          </view>
+        </picker>
+
+        <view class="form-row">
+          <text class="form-label">城市</text>
+          <input
+            class="form-input"
+            maxlength="20"
+            value="{{city}}"
+            placeholder="例如 杭州"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="city"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">区域</text>
+          <input
+            class="form-input"
+            maxlength="20"
+            value="{{district}}"
+            placeholder="例如 西湖区"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="district"
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">地点</text>
+          <input
+            class="form-input"
+            maxlength="60"
+            value="{{location}}"
+            placeholder="具体见面地点"
+            placeholder-class="form-input-placeholder"
+            bindinput="onInput"
+            data-field="location"
+          />
+        </view>
+      </view>
+
+      <!-- 费用 -->
+      <view class="card">
+        <view class="card-title">费用</view>
+        <view class="toggle-group">
+          <view
+            wx:for="{{feeTypes}}"
+            wx:key="value"
+            class="toggle-item {{feeType === item.value ? 'is-active' : ''}}"
+            bindtap="onFeeTap"
+            data-value="{{item.value}}"
+          >{{item.label}}</view>
+        </view>
+      </view>
+
+      <!-- 期待同行者特质 -->
+      <view class="card">
+        <view class="card-title">期待同行者特质</view>
+        <view class="wrap chip-row">
+          <view
+            wx:for="{{traits}}"
+            wx:key="*this"
+            class="chip is-active"
+            bindtap="onRemoveTrait"
+            data-value="{{item}}"
+          >{{item}}<text class="chip-x"> ✕</text></view>
+        </view>
+        <view class="trait-add">
+          <input
+            class="trait-input"
+            maxlength="10"
+            value="{{traitInput}}"
+            placeholder="输入特质后点添加"
+            placeholder-class="form-input-placeholder"
+            bindinput="onTraitInput"
+            bindconfirm="onAddTrait"
+          />
+          <view class="btn-sm trait-btn" bindtap="onAddTrait">添加</view>
+        </view>
+      </view>
+
+      <!-- 体验价值 -->
+      <view class="card">
+        <view class="card-title">体验价值</view>
+        <view class="exp-grid">
+          <view
+            wx:for="{{expOptions}}"
+            wx:key="label"
+            class="exp-item {{selectedExp[item.label] ? 'is-active' : ''}}"
+            bindtap="onExpTap"
+            data-label="{{item.label}}"
+          >
+            <text class="exp-emoji">{{item.emoji}}</text>
+            <text class="exp-label">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-bar-spacer"></view>
+    <view class="bottom-bar">
+      <view
+        class="btn btn-primary flex-1 {{saving ? 'is-disabled' : ''}}"
+        bindtap="onSave"
+      >{{saving ? '保存中...' : '保存修改'}}</view>
+    </view>
+  </block>
+</view>

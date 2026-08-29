@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "消息",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mh-avatar": "../../../components/avatar/index",
+    "mh-empty": "../../../components/empty-state/index",
+    "mh-skeleton": "../../../components/skeleton/index"
+  }
+}

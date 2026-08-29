@@ -1,0 +1,106 @@
+.box-card {
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 28rpx;
+}
+/* 「我关注的」横向轮播里的窄卡 */
+.box-card.is-compact {
+  width: 460rpx;
+  flex-shrink: 0;
+}
+
+.box-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+.box-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+.box-fee {
+  flex-shrink: 0;
+}
+
+.box-cover {
+  margin-top: 20rpx;
+  height: 280rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffe8e0 0%, #fff0e8 100%);
+}
+.is-compact .box-cover {
+  height: 220rpx;
+}
+.box-cover-img {
+  width: 100%;
+  height: 100%;
+}
+.box-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72rpx;
+}
+
+.box-creator {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.box-creator-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+.box-vip {
+  flex-shrink: 0;
+  padding: 2rpx 12rpx;
+  border-radius: 8rpx;
+  background-color: #fef3c7;
+  color: #b45309;
+  font-size: 20rpx;
+}
+
+.box-meta {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.box-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.box-meta-icon {
+  font-size: 22rpx;
+  flex-shrink: 0;
+}
+.box-meta-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.box-stats {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--color-border);
+  display: flex;
+  gap: 32rpx;
+}
+.box-stat {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
