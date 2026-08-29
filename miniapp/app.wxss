@@ -1,11 +1,18 @@
 /* ==========================================================================
    约会盲盒 · 全局样式
-   设计 token 迁移自 mini/src/app.scss；下方原子类是把 Taro 版散落在 Tailwind
-   工具类里的重复模式（卡片 / 按钮 / 标签 / 骨架屏 / 空态）收敛成语义化 class。
+
+   第一部分引入 WeUI 官方样式表（Tencent/weui-wxss v2.6.26，未改动）。
+   它的类名全部带 weui- 前缀，与下面自定义的 .card / .btn / .chip 等不冲突，
+   可以按需混用：表单单元格、对话框、actionsheet 这类交互控件用 WeUI 更省事，
+   而广场卡片、渐变头部等按设计稿定制的部分保留自有样式。
+
+   第二部分是设计 token 与自有原子类，把 Taro 版散落在 Tailwind 工具类里的
+   重复模式（卡片 / 按钮 / 标签 / 骨架屏 / 空态）收敛成语义化 class。
 
    换算：Taro 侧 designWidth = 375，即 1px = 2rpx。
    rounded-2xl(16px)=32rpx  rounded-xl(12px)=24rpx  text-sm(14px)=28rpx
    ========================================================================== */
+@import 'styles/weui.wxss';
 
 page {
   /* —— 颜色 token —— */
@@ -41,6 +48,20 @@ page {
   font-size: 28rpx;
   color: var(--color-text);
   line-height: 1.5;
+
+  /* —— WeUI 配色桥接 ——
+     WeUI 的控件颜色全部走 CSS 变量，所以只覆盖变量就能让 weui-btn、
+     weui-cell 等自动套用本项目的配色，不必逐条改它的规则。
+     默认的 --weui-BRAND 是微信绿 #07c160，与本项目的深色 CTA 不搭。 */
+  --weui-BRAND: #1a1a1a;              /* 主按钮＝近黑，与 .btn-primary 一致 */
+  --weui-LINK: var(--color-accent);   /* 链接文字用品牌红 */
+  --weui-RED: var(--color-accent);
+  --weui-TEXTGREEN: var(--color-success);
+  --weui-BG-0: var(--color-bg);       /* 页面底色 */
+  --weui-BG-2: var(--color-card);     /* 单元格底色 */
+  --weui-FG-0: var(--color-text);
+  --weui-FG-1: var(--color-text-secondary);
+  --weui-FG-2: var(--color-text-hint);
 }
 
 view,

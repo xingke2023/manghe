@@ -61,71 +61,81 @@
       </view>
     </view>
 
-    <!-- 基本信息 -->
-    <view class="card">
-      <view class="form-row">
-        <text class="form-label">标题</text>
-        <input
-          class="form-input"
-          maxlength="50"
-          value="{{title}}"
-          placeholder="给这次约会起个名字"
-          placeholder-class="form-input-placeholder"
-          bindinput="onInput"
-          data-field="title"
-        />
+    <!-- 基本信息：用 WeUI 单元格 -->
+    <view class="weui-cells weui-cells_form form-block">
+      <view class="weui-cell">
+        <view class="weui-cell__hd"><view class="weui-label">标题</view></view>
+        <view class="weui-cell__bd">
+          <input
+            class="weui-input"
+            maxlength="50"
+            value="{{title}}"
+            placeholder="给这次约会起个名字"
+            bindinput="onInput"
+            data-field="title"
+          />
+        </view>
       </view>
       <picker mode="date" value="{{meetingDate}}" start="{{today}}" bindchange="onDateChange">
-        <view class="form-row">
-          <text class="form-label">日期</text>
-          <view class="form-input {{meetingDate ? '' : 'form-input-placeholder'}}">
-            {{meetingDate || '请选择'}}
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__hd"><view class="weui-label">日期</view></view>
+          <view class="weui-cell__bd">
+            <view class="picker-value {{meetingDate ? '' : 'is-placeholder'}}">
+              {{meetingDate || '请选择'}}
+            </view>
           </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
       </picker>
       <picker mode="time" value="{{meetingClock}}" bindchange="onTimeChange">
-        <view class="form-row">
-          <text class="form-label">时间</text>
-          <view class="form-input {{meetingClock ? '' : 'form-input-placeholder'}}">
-            {{meetingClock || '请选择'}}
+        <view class="weui-cell weui-cell_access">
+          <view class="weui-cell__hd"><view class="weui-label">时间</view></view>
+          <view class="weui-cell__bd">
+            <view class="picker-value {{meetingClock ? '' : 'is-placeholder'}}">
+              {{meetingClock || '请选择'}}
+            </view>
           </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
         </view>
       </picker>
-      <view class="form-row">
-        <text class="form-label">城市</text>
-        <input
-          class="form-input"
-          maxlength="20"
-          value="{{city}}"
-          placeholder="例如 杭州"
-          placeholder-class="form-input-placeholder"
-          bindinput="onInput"
-          data-field="city"
-        />
+      <view class="weui-cell">
+        <view class="weui-cell__hd"><view class="weui-label">城市</view></view>
+        <view class="weui-cell__bd">
+          <input
+            class="weui-input"
+            maxlength="20"
+            value="{{city}}"
+            placeholder="例如 杭州"
+            bindinput="onInput"
+            data-field="city"
+          />
+        </view>
       </view>
-      <view class="form-row">
-        <text class="form-label">区域</text>
-        <input
-          class="form-input"
-          maxlength="20"
-          value="{{district}}"
-          placeholder="例如 西湖区"
-          placeholder-class="form-input-placeholder"
-          bindinput="onInput"
-          data-field="district"
-        />
+      <view class="weui-cell">
+        <view class="weui-cell__hd"><view class="weui-label">区域</view></view>
+        <view class="weui-cell__bd">
+          <input
+            class="weui-input"
+            maxlength="20"
+            value="{{district}}"
+            placeholder="例如 西湖区"
+            bindinput="onInput"
+            data-field="district"
+          />
+        </view>
       </view>
-      <view class="form-row">
-        <text class="form-label">地点</text>
-        <input
-          class="form-input"
-          maxlength="60"
-          value="{{location}}"
-          placeholder="具体见面地点"
-          placeholder-class="form-input-placeholder"
-          bindinput="onInput"
-          data-field="location"
-        />
+      <view class="weui-cell">
+        <view class="weui-cell__hd"><view class="weui-label">地点</view></view>
+        <view class="weui-cell__bd">
+          <input
+            class="weui-input"
+            maxlength="60"
+            value="{{location}}"
+            placeholder="具体见面地点"
+            bindinput="onInput"
+            data-field="location"
+          />
+        </view>
       </view>
     </view>
 

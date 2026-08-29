@@ -203,3 +203,16 @@
   font-size: 24rpx;
   color: var(--color-text-secondary);
 }
+
+/* WeUI 单元格：加圆角以匹配本项目卡片风格 */
+.form-block {
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+.picker-value {
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+.picker-value.is-placeholder {
+  color: var(--color-text-hint);
+}

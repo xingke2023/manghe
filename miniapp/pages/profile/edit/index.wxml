@@ -12,56 +12,60 @@
 
     <view class="card-list">
       <!-- 基本信息 -->
-      <view class="card">
-        <view class="form-row">
-          <text class="form-label">昵称</text>
-          <input
-            class="form-input"
-            maxlength="12"
-            value="{{nickname}}"
-            placeholder="怎么称呼你"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="nickname"
-          />
+      <view class="weui-cells weui-cells_form form-block">
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">昵称</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              maxlength="12"
+              value="{{nickname}}"
+              placeholder="怎么称呼你"
+              bindinput="onInput"
+              data-field="nickname"
+            />
+          </view>
         </view>
-        <view class="form-row">
-          <text class="form-label">年龄</text>
-          <input
-            class="form-input"
-            type="number"
-            maxlength="2"
-            value="{{age}}"
-            placeholder="岁"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="age"
-          />
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">年龄</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              type="number"
+              maxlength="2"
+              value="{{age}}"
+              placeholder="岁"
+              bindinput="onInput"
+              data-field="age"
+            />
+          </view>
         </view>
-        <view class="form-row">
-          <text class="form-label">身高</text>
-          <input
-            class="form-input"
-            type="number"
-            maxlength="3"
-            value="{{height}}"
-            placeholder="cm"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="height"
-          />
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">身高</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              type="number"
+              maxlength="3"
+              value="{{height}}"
+              placeholder="cm"
+              bindinput="onInput"
+              data-field="height"
+            />
+          </view>
         </view>
-        <view class="form-row">
-          <text class="form-label">常驻地</text>
-          <input
-            class="form-input"
-            maxlength="10"
-            value="{{city}}"
-            placeholder="例如 杭州"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="city"
-          />
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">常驻地</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              maxlength="10"
+              value="{{city}}"
+              placeholder="例如 杭州"
+              bindinput="onInput"
+              data-field="city"
+            />
+          </view>
         </view>
       </view>
 
@@ -180,47 +184,53 @@
       </view>
 
       <!-- 真实资料 -->
-      <view class="card">
-        <view class="card-title">真实资料</view>
-        <text class="real-hint">仅平台用于核实，不展示给其他用户</text>
-        <view class="form-row real-first">
-          <text class="form-label">职业</text>
-          <input
-            class="form-input"
-            maxlength="20"
-            value="{{occupation}}"
-            placeholder="选填"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="occupation"
-          />
+      <view class="weui-cells__title real-title">
+        真实资料<text class="real-hint">（仅平台用于核实，不展示给其他用户）</text>
+      </view>
+      <view class="weui-cells weui-cells_form form-block">
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">职业</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              maxlength="20"
+              value="{{occupation}}"
+              placeholder="选填"
+              bindinput="onInput"
+              data-field="occupation"
+            />
+          </view>
         </view>
-        <view class="form-row">
-          <text class="form-label">公司</text>
-          <input
-            class="form-input"
-            maxlength="30"
-            value="{{company}}"
-            placeholder="选填"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="company"
-          />
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">公司</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              maxlength="30"
+              value="{{company}}"
+              placeholder="选填"
+              bindinput="onInput"
+              data-field="company"
+            />
+          </view>
         </view>
-        <view class="form-row">
-          <text class="form-label">学校</text>
-          <input
-            class="form-input"
-            maxlength="30"
-            value="{{school}}"
-            placeholder="选填"
-            placeholder-class="form-input-placeholder"
-            bindinput="onInput"
-            data-field="school"
-          />
+        <view class="weui-cell">
+          <view class="weui-cell__hd"><view class="weui-label">学校</view></view>
+          <view class="weui-cell__bd">
+            <input
+              class="weui-input"
+              maxlength="30"
+              value="{{school}}"
+              placeholder="选填"
+              bindinput="onInput"
+              data-field="school"
+            />
+          </view>
         </view>
+      </view>
 
-        <view class="sub-title">学历</view>
+      <view class="card">
+        <view class="sub-title sub-title-first">学历</view>
         <view class="wrap gap-16">
           <view
             wx:for="{{educationOptions}}"

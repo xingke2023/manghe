@@ -9,75 +9,82 @@
     </view>
   </view>
 
-  <view class="card-list">
-    <view class="card">
-      <view class="form-row">
-        <text class="form-label">昵称</text>
+  <!-- 表单用 WeUI 单元格：对齐、分割线、点击态都由 WeUI 负责 -->
+  <view class="weui-cells weui-cells_form form-block">
+    <view class="weui-cell">
+      <view class="weui-cell__hd"><view class="weui-label">昵称</view></view>
+      <view class="weui-cell__bd">
         <input
-          class="form-input"
+          class="weui-input"
           maxlength="12"
           value="{{nickname}}"
           placeholder="怎么称呼你"
-          placeholder-class="form-input-placeholder"
           bindinput="onInput"
           data-field="nickname"
         />
       </view>
-      <view class="form-row">
-        <text class="form-label">身高</text>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd"><view class="weui-label">身高</view></view>
+      <view class="weui-cell__bd">
         <input
-          class="form-input"
+          class="weui-input"
           type="number"
           maxlength="3"
           value="{{height}}"
           placeholder="cm"
-          placeholder-class="form-input-placeholder"
           bindinput="onInput"
           data-field="height"
         />
       </view>
-      <view class="form-row">
-        <text class="form-label">所在城市</text>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd"><view class="weui-label">所在城市</view></view>
+      <view class="weui-cell__bd">
         <input
-          class="form-input"
+          class="weui-input"
           maxlength="10"
           value="{{city}}"
           placeholder="例如 杭州"
-          placeholder-class="form-input-placeholder"
           bindinput="onInput"
           data-field="city"
         />
       </view>
-      <picker
-        mode="date"
-        value="{{birthDate}}"
-        start="1970-01-01"
-        end="2008-12-31"
-        bindchange="onBirthDateChange"
-      >
-        <view class="form-row">
-          <text class="form-label">出生日期</text>
-          <view class="form-input {{birthDate ? '' : 'form-input-placeholder'}}">
+    </view>
+    <!-- 日期选择用 weui-cell_access，右侧自带箭头 -->
+    <picker
+      mode="date"
+      value="{{birthDate}}"
+      start="1970-01-01"
+      end="2008-12-31"
+      bindchange="onBirthDateChange"
+    >
+      <view class="weui-cell weui-cell_access">
+        <view class="weui-cell__hd"><view class="weui-label">出生日期</view></view>
+        <view class="weui-cell__bd">
+          <view class="picker-value {{birthDate ? '' : 'is-placeholder'}}">
             {{birthDate || '请选择'}}
           </view>
         </view>
-      </picker>
-    </view>
-
-    <view class="card">
-      <view class="card-title">性别</view>
-      <view class="toggle-group">
-        <view
-          class="toggle-item {{gender === 1 ? 'is-active' : ''}}"
-          bindtap="onGenderTap"
-          data-value="1"
-        >♂ 男</view>
-        <view
-          class="toggle-item {{gender === 2 ? 'is-active' : ''}}"
-          bindtap="onGenderTap"
-          data-value="2"
-        >♀ 女</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
+    </picker>
+  </view>
+
+  <!-- 性别是二选一切换，WeUI 没有对应控件，保留自有样式 -->
+  <view class="weui-cells__title">性别</view>
+  <view class="card toggle-card">
+    <view class="toggle-group">
+      <view
+        class="toggle-item {{gender === 1 ? 'is-active' : ''}}"
+        bindtap="onGenderTap"
+        data-value="1"
+      >♂ 男</view>
+      <view
+        class="toggle-item {{gender === 2 ? 'is-active' : ''}}"
+        bindtap="onGenderTap"
+        data-value="2"
+      >♀ 女</view>
     </view>
   </view>
 

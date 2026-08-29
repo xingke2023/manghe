@@ -16,3 +16,23 @@
   font-size: 24rpx;
   color: var(--color-text-hint);
 }
+
+/* WeUI 的 cells 默认贴边、直角；这里给点外边距和圆角，跟本项目的卡片风格统一 */
+.form-block {
+  margin: 32rpx 32rpx 0;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+/* picker 触发行里显示的值，未选择时用占位色 */
+.picker-value {
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+.picker-value.is-placeholder {
+  color: var(--color-text-hint);
+}
+
+.toggle-card {
+  margin: 0 32rpx;
+}

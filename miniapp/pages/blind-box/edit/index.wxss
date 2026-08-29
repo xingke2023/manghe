@@ -108,3 +108,16 @@
 .exp-item.is-active .exp-label {
   color: #ffffff;
 }
+
+/* WeUI 的 cells 默认贴边直角，这里加圆角和外边距以匹配本项目的卡片风格 */
+.form-block {
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+.picker-value {
+  font-size: 28rpx;
+  color: var(--color-text);
+}
+.picker-value.is-placeholder {
+  color: var(--color-text-hint);
+}
