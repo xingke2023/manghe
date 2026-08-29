@@ -25,7 +25,8 @@
   height: 72rpx;
 }
 .hero-title {
-  font-size: 44rpx;
+  font-size: var(--fs-hero);
+  letter-spacing: 1rpx;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -36,7 +37,7 @@
   padding: 12rpx 28rpx;
   border-radius: 9999rpx;
   background-color: rgba(255, 255, 255, 0.75);
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 
@@ -54,7 +55,7 @@
 .tab {
   position: relative;
   padding: 24rpx 0;
-  font-size: 30rpx;
+  font-size: var(--fs-section);
   color: var(--color-text-secondary);
 }
 .tab.is-active {
@@ -100,7 +101,7 @@
   text-align: center;
 }
 .list-footer-text {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 
@@ -122,16 +123,16 @@
   flex-direction: column;
 }
 .group-name {
-  font-size: 28rpx;
+  font-size: var(--fs-body);
   font-weight: 600;
   color: var(--color-text);
 }
 .group-count {
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }
 .group-arrow {
-  font-size: 36rpx;
+  font-size: 40rpx;
   color: var(--gray-400);
 }
 .group-scroll {
@@ -153,7 +154,7 @@
   border-radius: 9999rpx;
   background-color: var(--gray-900);
   color: #ffffff;
-  font-size: 28rpx;
+  font-size: var(--fs-body);
   font-weight: 600;
   box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
 }

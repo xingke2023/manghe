@@ -31,20 +31,20 @@
 .app-title {
   flex: 1;
   min-width: 0;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   font-weight: 600;
   color: var(--color-text);
 }
 .app-meta {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 .app-result {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-accent);
 }
 .app-date {
   margin-top: auto;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }

@@ -43,11 +43,34 @@ page {
   --red-500: #ef4444;
   --blue-500: #3b82f6;
 
+  /* —— 字号阶梯 ——
+     中文界面的可读下限比拉丁文高，原来最小到 20rpx（10px）实在偏小。
+     这里定成一套 6 级阶梯，级差 4rpx，最小 24rpx（12px）：
+
+       hero      52rpx  页面主标题（首页品牌名、结果页大标题）
+       title     40rpx  次级大标题（向导步骤名、金额）
+       section   34rpx  卡片标题、列表项主文案
+       body      30rpx  正文（也是 page 的基准字号）
+       secondary 28rpx  次要说明、发盒者昵称
+       caption   26rpx  时间 / 地点 / 标签等辅助信息
+       mini      24rpx  角标、统计数字（下限，不再更小）
+
+     行高按字号反向配置：字大行紧、字小行松，整体更耐读。 */
+  --fs-hero: 52rpx;
+  --fs-title: 40rpx;
+  --fs-section: 34rpx;
+  --fs-body: 30rpx;
+  --fs-secondary: 28rpx;
+  --fs-caption: 26rpx;
+  --fs-mini: 24rpx;
+
   background-color: var(--color-bg);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', Roboto, sans-serif;
+  font-size: var(--fs-body);
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 
   /* —— WeUI 配色桥接 ——
      WeUI 的控件颜色全部走 CSS 变量，所以只覆盖变量就能让 weui-btn、
@@ -126,8 +149,9 @@ button {
   gap: 24rpx;
 }
 .card-title {
-  font-size: 30rpx;
+  font-size: var(--fs-section);
   font-weight: 600;
+  line-height: 1.4;
   color: var(--color-text);
   margin-bottom: 24rpx;
 }
@@ -136,18 +160,51 @@ button {
   background-color: var(--color-border);
 }
 
-/* —— 文本 —— */
+/* —— 文本 ——
+   语义化命名对应上面的字号阶梯；行高随字号反向调整。 */
+.t-mini {
+  font-size: var(--fs-mini);
+  line-height: 1.4;
+}
+.t-caption {
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+}
+.t-secondary-size {
+  font-size: var(--fs-secondary);
+  line-height: 1.55;
+}
+.t-body {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+.t-section {
+  font-size: var(--fs-section);
+  line-height: 1.4;
+  font-weight: 600;
+}
+.t-title {
+  font-size: var(--fs-title);
+  line-height: 1.3;
+  font-weight: 600;
+}
+.t-hero {
+  font-size: var(--fs-hero);
+  line-height: 1.25;
+  font-weight: 600;
+}
+/* 兼容旧命名（页面里还在用），映射到新阶梯 */
 .t-xs {
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .t-sm {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
 }
 .t-base {
-  font-size: 28rpx;
+  font-size: var(--fs-body);
 }
 .t-md {
-  font-size: 32rpx;
+  font-size: var(--fs-section);
 }
 .t-lg {
   font-size: 36rpx;
@@ -191,7 +248,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30rpx;
+  font-size: var(--fs-body);
   font-weight: 600;
   line-height: 1;
 }
@@ -219,7 +276,7 @@ button {
 .btn-sm {
   height: 64rpx;
   padding: 0 32rpx;
-  font-size: 26rpx;
+  font-size: var(--fs-caption);
   border-radius: 9999rpx;
   display: inline-flex;
   align-items: center;
@@ -249,7 +306,7 @@ button {
   border-radius: 9999rpx;
   background-color: var(--gray-100);
   color: var(--color-text-secondary);
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   line-height: 1.4;
 }
 .chip.is-active {
@@ -261,7 +318,7 @@ button {
   border-radius: 9999rpx;
   border: 1rpx dashed var(--gray-300);
   color: var(--color-text-hint);
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
 }
 /* 只读展示用的彩色标签 */
 .tag-blue {
@@ -269,49 +326,49 @@ button {
   border-radius: 9999rpx;
   background-color: #eff6ff;
   color: #2563eb;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .tag-orange {
   padding: 8rpx 20rpx;
   border-radius: 9999rpx;
   background-color: #fff7ed;
   color: #ea580c;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .tag-accent {
   padding: 8rpx 20rpx;
   border-radius: 9999rpx;
   background-color: var(--color-accent-bg);
   color: var(--color-accent);
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .badge-green {
   padding: 6rpx 18rpx;
   border-radius: 9999rpx;
   background-color: #f0fdf4;
   color: #16a34a;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .badge-amber {
   padding: 6rpx 18rpx;
   border-radius: 9999rpx;
   background-color: #fffbeb;
   color: #d97706;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .badge-gray {
   padding: 6rpx 18rpx;
   border-radius: 9999rpx;
   background-color: var(--gray-100);
   color: var(--gray-500);
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .badge-blue {
   padding: 6rpx 18rpx;
   border-radius: 9999rpx;
   background-color: #eff6ff;
   color: #2563eb;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 
 /* —— 头像 —— */
@@ -344,7 +401,7 @@ button {
   border-bottom: none;
 }
 .form-label {
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text);
   flex-shrink: 0;
   margin-right: 24rpx;
@@ -352,7 +409,7 @@ button {
 .form-input {
   flex: 1;
   text-align: right;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text);
   min-height: 44rpx;
 }
@@ -362,7 +419,7 @@ button {
 .textarea {
   width: 100%;
   min-height: 160rpx;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   line-height: 1.6;
   color: var(--color-text);
 }
@@ -377,7 +434,7 @@ button {
   border-radius: 16rpx;
   background-color: var(--gray-100);
   color: var(--color-text-secondary);
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -418,11 +475,11 @@ button {
   line-height: 1;
 }
 .empty-text {
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text-hint);
 }
 .empty-hint {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--gray-400);
 }
 
@@ -489,7 +546,7 @@ button {
   line-height: 1;
 }
 .nav-title {
-  font-size: 32rpx;
+  font-size: var(--fs-section);
   font-weight: 600;
   overflow: hidden;
   white-space: nowrap;

@@ -13,7 +13,7 @@
   color: var(--color-text);
 }
 .wizard-step-sub {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 
@@ -26,7 +26,7 @@
 
 /* picker 触发行里显示的值，未选择时用占位色 */
 .picker-value {
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text);
 }
 .picker-value.is-placeholder {

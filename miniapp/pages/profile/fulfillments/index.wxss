@@ -9,7 +9,7 @@
   border-radius: 9999rpx;
   background-color: #fef9c3;
   color: #a16207;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   font-weight: 600;
 }
 .tag-role-applicant {
@@ -17,7 +17,7 @@
   border-radius: 9999rpx;
   background-color: #dcfce7;
   color: #16a34a;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   font-weight: 600;
 }
 /* 结算结果标记 */
@@ -26,7 +26,7 @@
   border-radius: 9999rpx;
   background-color: #dcfce7;
   color: #16a34a;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   font-weight: 600;
 }
 .tag-result-mine {
@@ -34,7 +34,7 @@
   border-radius: 9999rpx;
   background-color: #fee2e2;
   color: #ef4444;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   font-weight: 600;
 }
 .tag-result-other {
@@ -42,7 +42,7 @@
   border-radius: 9999rpx;
   background-color: #ffedd5;
   color: #f97316;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   font-weight: 600;
 }
 
@@ -73,12 +73,12 @@
   gap: 8rpx;
 }
 .ff-title {
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   font-weight: 600;
   color: var(--color-text);
 }
 .ff-meta {
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-secondary);
 }
 .ff-action {
@@ -120,7 +120,7 @@
   background-color: #fff7ed;
 }
 .ff-detail-text {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   font-weight: 500;
 }
 .ff-detail-text-green {
@@ -135,7 +135,7 @@
 .ff-detail-hint {
   display: block;
   margin-top: 6rpx;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
   color: var(--gray-400);
 }
 
@@ -147,7 +147,7 @@
   gap: 16rpx;
 }
 .qr-title {
-  font-size: 30rpx;
+  font-size: var(--fs-body);
   font-weight: 600;
 }
 .qr-code {
@@ -160,11 +160,11 @@
   word-break: break-all;
 }
 .qr-hint {
-  font-size: 26rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 .qr-valid {
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }
 .qr-close {
@@ -184,7 +184,7 @@
 .appeal-sub {
   display: block;
   margin-top: 8rpx;
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 .appeal-textarea {
@@ -197,7 +197,7 @@
 .appeal-counter {
   margin-top: 8rpx;
   text-align: right;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }
 .appeal-actions {

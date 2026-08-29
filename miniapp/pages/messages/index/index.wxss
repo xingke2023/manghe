@@ -12,7 +12,7 @@
 }
 .notice-text {
   flex: 1;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text);
 }
 .notice-badge {
@@ -24,7 +24,7 @@
   border-radius: 9999rpx;
   background-color: var(--red-500);
   color: #ffffff;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
 }
 .notice-arrow {
   font-size: 36rpx;
@@ -55,13 +55,13 @@
 .session-name {
   flex: 1;
   min-width: 0;
-  font-size: 30rpx;
+  font-size: var(--fs-body);
   font-weight: 600;
   color: var(--color-text);
 }
 .session-time {
   flex-shrink: 0;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }
 .session-bottom {
@@ -73,7 +73,7 @@
 .session-preview {
   flex: 1;
   min-width: 0;
-  font-size: 26rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 .session-badge {
@@ -86,5 +86,5 @@
   border-radius: 9999rpx;
   background-color: var(--red-500);
   color: #ffffff;
-  font-size: 20rpx;
+  font-size: var(--fs-mini);
 }

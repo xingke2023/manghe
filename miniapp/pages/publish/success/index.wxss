@@ -18,7 +18,7 @@
 }
 .success-desc {
   margin-top: 8rpx;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text-secondary);
 }
 .success-actions {

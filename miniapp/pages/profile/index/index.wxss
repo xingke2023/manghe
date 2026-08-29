@@ -6,7 +6,7 @@
   padding: 80rpx 32rpx;
 }
 .guest-text {
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text-secondary);
 }
 .guest-btn {
@@ -31,7 +31,7 @@
   color: var(--color-text);
 }
 .head-meta {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 .head-edit {
@@ -59,7 +59,7 @@
 }
 .menu-label {
   flex: 1;
-  font-size: 30rpx;
+  font-size: var(--fs-body);
   color: var(--color-text);
 }
 .menu-arrow {
@@ -69,7 +69,7 @@
 
 .logout {
   text-align: center;
-  font-size: 30rpx;
+  font-size: var(--fs-body);
   color: var(--color-accent);
   padding: 8rpx 0;
 }

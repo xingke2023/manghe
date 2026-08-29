@@ -12,7 +12,7 @@
   justify-content: space-between;
 }
 .voucher-label {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 .voucher-code {
@@ -29,7 +29,7 @@
   border-top: 1rpx solid var(--color-border);
 }
 .voucher-time {
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 .voucher-copy {
@@ -39,7 +39,7 @@
 
 .history-label {
   padding: 16rpx 8rpx 0;
-  font-size: 24rpx;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
 }
 
@@ -49,12 +49,12 @@
   border-radius: 9999rpx;
   border: 1rpx solid var(--gray-300);
   color: var(--gray-500);
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }
 .badge-outline-orange {
   padding: 6rpx 18rpx;
   border-radius: 9999rpx;
   border: 1rpx solid #fdba74;
   color: #ea580c;
-  font-size: 22rpx;
+  font-size: var(--fs-mini);
 }

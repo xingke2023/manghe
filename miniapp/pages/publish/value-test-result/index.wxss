@@ -18,7 +18,7 @@
 }
 .result-desc {
   margin-top: 16rpx;
-  font-size: 28rpx;
+  font-size: var(--fs-secondary);
   color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.6;
