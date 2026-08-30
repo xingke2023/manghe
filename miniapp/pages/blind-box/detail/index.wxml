@@ -3,7 +3,7 @@
   <view class="nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="nav-bar">
       <view class="nav-back" bindtap="onBack">‹</view>
-      <text class="nav-title">{{isCreator ? '我的约会盲盒' : 'TA的约会盲盒'}}</text>
+      <text class="nav-title">{{isCreator ? '我的搭子盲盒' : 'TA的搭子盲盒'}}</text>
     </view>
   </view>
 

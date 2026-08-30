@@ -1,7 +1,7 @@
 <view class="success">
   <text class="success-emoji">🎉</text>
   <text class="success-title">发布成功！</text>
-  <text class="success-desc">你的约会盲盒已发布成功</text>
+  <text class="success-desc">你的搭子盲盒已发布成功</text>
   <text class="success-desc">等待有缘人来拆盒吧～</text>
 
   <view class="success-actions">
