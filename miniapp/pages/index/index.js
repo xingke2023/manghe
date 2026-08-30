@@ -5,10 +5,24 @@ const app = getApp()
 
 const CATEGORIES = ['美食探索', '文艺沉浸', '技能交换', '观影交流', '深度对话']
 
+/**
+ * 会员号：数据库里没有这个字段，用 user.id 补零到 8 位生成，
+ * 保证同一用户永远一致、也便于客服口述核对。
+ */
+function buildMemberNo(userId) {
+  if (!userId) return ''
+  return String(userId).padStart(8, '0')
+}
+
 Page({
   data: {
     isLoggedIn: false,
     activeTab: 'plaza',
+
+    // 左上角的我
+    me: {},
+    memberNo: '',
+    genderLabel: '',
 
     // 筛选
     categories: CATEGORIES,
@@ -33,6 +47,7 @@ Page({
 
   onLoad: function () {
     this.setData({ isLoggedIn: app.isLoggedIn() })
+    this.loadMe()
     this.loadQuota()
     this.loadBoxes(1)
   },
@@ -42,8 +57,12 @@ Page({
     // 登录态可能在别的页面变了（登录/登出），刷新一次
     if (loggedIn !== this.data.isLoggedIn) {
       this.setData({ isLoggedIn: loggedIn })
+      this.loadMe()
       this.loadQuota()
       this.loadBoxes(1)
+    } else if (loggedIn) {
+      // 资料可能在编辑页改过（昵称/头像），回到首页刷新头部
+      this.loadMe()
     }
   },
 
@@ -74,6 +93,33 @@ Page({
   },
 
   // —— 数据加载 ——
+
+  /** 左上角的我：头像、昵称、会员号、状态胶囊 */
+  loadMe: function () {
+    if (!app.isLoggedIn()) {
+      this.setData({ me: {}, memberNo: '', genderLabel: '' })
+      return
+    }
+    const self = this
+    meApi
+      .getMyProfile(app.getToken())
+      .then(function (res) {
+        const user = res.user || {}
+        self.setData({
+          me: user,
+          memberNo: buildMemberNo(user.id),
+          genderLabel: user.gender === 1 ? '♂ 男' : user.gender === 2 ? '♀ 女' : '',
+        })
+      })
+      .catch(function () {
+        // 头部信息拉不到不该影响广场浏览，静默降级
+        const cached = app.getUser() || {}
+        self.setData({
+          me: cached,
+          memberNo: buildMemberNo(cached.id),
+        })
+      })
+  },
 
   loadQuota: function () {
     if (!app.isLoggedIn()) {
@@ -224,5 +270,24 @@ Page({
 
   goPublish: function () {
     wx.navigateTo({ url: '/pages/publish/index/index' })
+  },
+
+  /** 点头像区域：已登录去「我的」，未登录去登录页 */
+  goProfile: function () {
+    if (!app.isLoggedIn()) {
+      wx.navigateTo({ url: '/pages/auth/login/index' })
+      return
+    }
+    wx.switchTab({ url: '/pages/profile/index/index' })
+  },
+
+  onCopyMemberNo: function () {
+    if (!this.data.memberNo) return
+    wx.setClipboardData({
+      data: this.data.memberNo,
+      success: function () {
+        wx.showToast({ title: '会员号已复制', icon: 'none' })
+      },
+    })
   },
 })

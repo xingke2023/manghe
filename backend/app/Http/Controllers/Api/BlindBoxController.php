@@ -19,7 +19,14 @@ class BlindBoxController extends Controller
     {
         $query = BlindBox::query()
             ->where('status', 1)
-            ->with(['creator', 'creator.profile'])
+            ->with([
+                'creator',
+                'creator.profile',
+                // 广场卡片要展示参与者头像。限制条数并预加载 applicant，
+                // 否则每张卡片都会各查一次（N+1）。
+                'applications' => fn ($query) => $query->latest()->limit(6),
+                'applications.applicant:id,avatar_url',
+            ])
             ->latest();
 
         if ($request->filled('city')) {

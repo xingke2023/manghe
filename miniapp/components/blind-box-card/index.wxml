@@ -1,38 +1,58 @@
 <view class="box-card {{compact ? 'is-compact' : ''}}" bindtap="onTap">
-  <!-- 标题 + 费用标签 -->
-  <view class="box-head">
-    <text class="box-title ellipsis-2">{{box.title}}</text>
-    <text wx:if="{{box.fee_label}}" class="tag-accent box-fee">{{box.fee_label}}</text>
-  </view>
-
-  <!-- 封面 -->
-  <view class="box-cover">
-    <image wx:if="{{box.cover_image}}" class="box-cover-img" src="{{box.cover_image}}" mode="aspectFill" />
-    <view wx:else class="box-cover-placeholder">🎁</view>
-  </view>
-
-  <!-- 发盒者 -->
-  <view class="box-creator" wx:if="{{box.creator}}">
-    <mh-avatar src="{{box.creator.avatar_url}}" user-id="{{box.creator.id}}" size="56" />
-    <text class="box-creator-name ellipsis">{{box.creator.nickname}}</text>
-    <text wx:if="{{box.creator.is_member}}" class="box-vip">VIP</text>
-  </view>
-
-  <!-- 时间地点 -->
-  <view class="box-meta">
-    <view class="box-meta-row">
-      <text class="box-meta-icon">📍</text>
-      <text class="box-meta-text ellipsis">{{place}}</text>
+  <view class="card-main">
+    <!-- 封面（竖版，带分类角标） -->
+    <view class="cover">
+      <image wx:if="{{box.cover_image}}" class="cover-img" src="{{box.cover_image}}" mode="aspectFill" />
+      <view wx:else class="cover-placeholder">🎁</view>
+      <view wx:if="{{categoryLabel}}" class="cover-badge">
+        <text class="cover-badge-dot">●</text>{{categoryLabel}}
+      </view>
     </view>
-    <view class="box-meta-row">
-      <text class="box-meta-icon">🕐</text>
-      <text class="box-meta-text ellipsis">{{box.meeting_time}}</text>
+
+    <!-- 右侧信息 -->
+    <view class="info">
+      <text class="title ellipsis-2">{{box.title}}</text>
+
+      <view wx:if="{{box.creator}}" class="creator">
+        <mh-avatar src="{{box.creator.avatar_url}}" user-id="{{box.creator.id}}" size="40" />
+        <text class="creator-name ellipsis">{{box.creator.nickname}}</text>
+        <text wx:if="{{box.creator.is_member}}" class="vip">VIP</text>
+      </view>
+
+      <view class="meta">
+        <view class="meta-row">
+          <text class="meta-icon">🕐</text>
+          <text class="meta-text ellipsis">{{box.meeting_time}}</text>
+        </view>
+        <view class="meta-row">
+          <text class="meta-icon">📍</text>
+          <text class="meta-text ellipsis">{{place}}</text>
+        </view>
+      </view>
+
+      <text class="fee">{{box.fee_label}}</text>
     </view>
   </view>
 
-  <!-- 浏览 / 报名数 -->
-  <view class="box-stats">
-    <text class="box-stat">👁 {{box.view_count || 0}}</text>
-    <text class="box-stat">✋ {{box.apply_count || 0}}</text>
+  <!-- 参与者头像行 -->
+  <view class="participants">
+    <view wx:if="{{applicants.length}}" class="avatar-stack">
+      <!-- 用普通 view 包一层再叠放：自定义组件的 host 节点上直接加边框/负边距，
+           圆环容易不圆，包一层更可控 -->
+      <view
+        wx:for="{{applicants}}"
+        wx:key="id"
+        class="stack-item"
+        style="margin-left: {{index === 0 ? '0' : '-18rpx'}}; z-index: {{10 - index}};"
+      >
+        <mh-avatar src="{{item.avatar_url}}" user-id="{{item.id}}" size="52" />
+      </view>
+    </view>
+    <text wx:else class="no-one">还没有人报名，来做第一个</text>
+
+    <view class="count-wrap">
+      <text wx:if="{{box.apply_count}}" class="count"><text class="count-num">{{box.apply_count}}</text> 人报名</text>
+      <text class="go">›</text>
+    </view>
   </view>
 </view>

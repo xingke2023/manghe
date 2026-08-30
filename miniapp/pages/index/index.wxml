@@ -1,10 +1,31 @@
 <view class="plaza">
-  <!-- 渐变头部 -->
+  <!-- 渐变头部：左上角是我的头像与会员号 -->
   <view class="hero">
-    <view class="hero-brand">
-      <image class="hero-logo" src="/assets/images/logo-head.png" mode="aspectFit" />
-      <text class="hero-title">搭子盲盒</text>
+    <view class="me" bindtap="goProfile">
+      <mh-avatar
+        class="me-avatar"
+        src="{{me.avatar_url}}"
+        user-id="{{me.id}}"
+        size="128"
+      />
+      <view class="me-info">
+        <text class="me-name">{{me.nickname || '未登录'}}</text>
+        <view wx:if="{{memberNo}}" class="me-no">
+          <text class="me-no-label">会员号:</text>
+          <text class="me-no-value">{{memberNo}}</text>
+          <text class="me-no-copy" catchtap="onCopyMemberNo">⧉</text>
+        </view>
+        <view wx:else class="me-no">
+          <text class="me-no-label">登录后开启拆盒</text>
+        </view>
+        <view class="me-pills">
+          <text wx:if="{{me.is_member}}" class="me-pill is-vip">◈ 会员</text>
+          <text wx:if="{{genderLabel}}" class="me-pill">{{genderLabel}}</text>
+          <text wx:if="{{me.credit_score}}" class="me-pill">⛨ 信誉 {{me.credit_score}}</text>
+        </view>
+      </view>
     </view>
+
     <view wx:if="{{quota}}" class="quota-pill">
       🎲 今日剩余拆盒 {{quota.remaining}}/{{quota.limit}} 次
     </view>

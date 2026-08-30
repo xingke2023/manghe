@@ -1,47 +1,35 @@
 .box-card {
   background-color: var(--color-card);
   border-radius: 32rpx;
-  padding: 28rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.04);
 }
 /* 「我关注的」横向轮播里的窄卡 */
 .box-card.is-compact {
-  width: 460rpx;
+  width: 560rpx;
   flex-shrink: 0;
 }
 
-.box-head {
+/* —— 上半：封面 + 信息 —— */
+.card-main {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16rpx;
-}
-.box-title {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--fs-section);
-  font-weight: 600;
-  color: var(--color-text);
-  line-height: 1.35;
-}
-.box-fee {
-  flex-shrink: 0;
+  gap: 24rpx;
 }
 
-.box-cover {
-  margin-top: 20rpx;
+.cover {
+  position: relative;
+  width: 220rpx;
   height: 280rpx;
+  flex-shrink: 0;
   border-radius: 24rpx;
   overflow: hidden;
   background: linear-gradient(135deg, #ffe8e0 0%, #fff0e8 100%);
 }
-.is-compact .box-cover {
-  height: 220rpx;
-}
-.box-cover-img {
+.cover-img {
   width: 100%;
   height: 100%;
 }
-.box-cover-placeholder {
+.cover-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -49,20 +37,52 @@
   justify-content: center;
   font-size: 72rpx;
 }
-
-.box-creator {
-  margin-top: 20rpx;
+/* 分类角标：半透明深底 + 橙点，压在封面左上角 */
+.cover-badge {
+  position: absolute;
+  left: 12rpx;
+  top: 12rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 9999rpx;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: var(--fs-mini);
+  line-height: 1.4;
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: 6rpx;
 }
-.box-creator-name {
+.cover-badge-dot {
+  color: #ff9f45;
+  font-size: 16rpx;
+}
+
+.info {
   flex: 1;
   min-width: 0;
-  font-size: var(--fs-secondary);
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.35;
+}
+
+.creator {
+  margin-top: 14rpx;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.creator-name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
-.box-vip {
+.vip {
   flex-shrink: 0;
   padding: 2rpx 12rpx;
   border-radius: 8rpx;
@@ -71,36 +91,95 @@
   font-size: var(--fs-mini);
 }
 
-.box-meta {
-  margin-top: 16rpx;
+.meta {
+  margin-top: 14rpx;
   display: flex;
   flex-direction: column;
   gap: 8rpx;
 }
-.box-meta-row {
+.meta-row {
   display: flex;
   align-items: center;
   gap: 8rpx;
 }
-.box-meta-icon {
+.meta-icon {
   font-size: var(--fs-mini);
   flex-shrink: 0;
 }
-.box-meta-text {
+.meta-text {
   flex: 1;
   min-width: 0;
   font-size: var(--fs-caption);
   color: var(--color-text-secondary);
 }
 
-.box-stats {
+/* 费用：参考图里价格是醒目的橙色大字，这里沿用品牌红 */
+.fee {
+  margin-top: auto;
+  padding-top: 12rpx;
+  font-size: var(--fs-title);
+  font-weight: 600;
+  color: var(--color-accent);
+  line-height: 1.2;
+}
+
+/* —— 下半：参与者 —— */
+.participants {
   margin-top: 20rpx;
   padding-top: 20rpx;
   border-top: 1rpx solid var(--color-border);
   display: flex;
-  gap: 32rpx;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
 }
-.box-stat {
-  font-size: var(--fs-mini);
+/* 头像负边距叠放，靠前的层级更高；白色描边把相邻头像分开 */
+.avatar-stack {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+.stack-item {
+  position: relative;
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 9999rpx;
+  border: 3rpx solid var(--color-card);
+  box-sizing: content-box;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--color-card);
+}
+.no-one {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-caption);
   color: var(--color-text-hint);
+}
+
+.count-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.count {
+  font-size: var(--fs-caption);
+  color: var(--color-text-secondary);
+}
+.count-num {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.go {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent);
+  color: #ffffff;
+  font-size: 30rpx;
+  line-height: 40rpx;
+  text-align: center;
 }

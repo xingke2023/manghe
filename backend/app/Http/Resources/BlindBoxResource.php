@@ -7,6 +7,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BlindBoxResource extends JsonResource
 {
+    /** 广场卡片最多展示几个参与者头像 */
+    private const RECENT_APPLICANT_LIMIT = 6;
+
     public function toArray(Request $request): array
     {
         $creator = $this->creator;
@@ -27,6 +30,7 @@ class BlindBoxResource extends JsonResource
             'experience_values' => $this->experience_values ?? [],
             'view_count' => $this->view_count,
             'apply_count' => $this->apply_count,
+            'recent_applicants' => $this->resolveRecentApplicants(),
             'status' => $this->status,
             'created_at' => $this->created_at,
             'creator' => $creator ? [
@@ -50,6 +54,31 @@ class BlindBoxResource extends JsonResource
                 }),
             ] : null,
         ];
+    }
+
+    /**
+     * 广场卡片上展示的参与者头像（前几个报名者）。
+     *
+     * 只在 applications 关系已预加载时返回，避免列表页 N+1；
+     * 控制器需要 with(['applications' => fn ($q) => $q->latest()->limit(6), 'applications.applicant'])。
+     *
+     * @return array<int, array{id: int, avatar_url: string|null}>
+     */
+    private function resolveRecentApplicants(): array
+    {
+        if (! $this->resource->relationLoaded('applications')) {
+            return [];
+        }
+
+        return $this->resource->applications
+            ->take(self::RECENT_APPLICANT_LIMIT)
+            ->map(fn ($application) => [
+                'id' => $application->applicant?->id,
+                'avatar_url' => $application->applicant?->avatar_url,
+            ])
+            ->filter(fn (array $item): bool => $item['id'] !== null)
+            ->values()
+            ->all();
     }
 
     private function resolveGenerationLabel(?\Carbon\Carbon $birthDate, ?int $age): ?string
