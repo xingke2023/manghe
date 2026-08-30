@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BoxApplication;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,6 +33,7 @@ class BlindBoxResource extends JsonResource
             'apply_count' => $this->apply_count,
             'recent_applicants' => $this->resolveRecentApplicants(),
             'status' => $this->status,
+            'my_application' => $this->resolveMyApplication($request),
             'created_at' => $this->created_at,
             'creator' => $creator ? [
                 'id' => $creator->id,
@@ -53,6 +55,29 @@ class BlindBoxResource extends JsonResource
                     ] : null;
                 }),
             ] : null,
+        ];
+    }
+
+    private function resolveMyApplication(Request $request): ?array
+    {
+        $user = auth('sanctum')->user();
+        if (! $user) {
+            return null;
+        }
+
+        $app = BoxApplication::query()
+            ->where('box_id', $this->id)
+            ->where('applicant_id', $user->id)
+            ->first();
+
+        if (! $app) {
+            return null;
+        }
+
+        return [
+            'id' => $app->id,
+            'status' => $app->status,   // 1=pending, 2=matched, 3=rejected
+            'is_locked' => $app->is_locked,
         ];
     }
 

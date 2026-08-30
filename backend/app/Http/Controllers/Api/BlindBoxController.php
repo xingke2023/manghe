@@ -132,6 +132,10 @@ class BlindBoxController extends Controller
     {
         $user = $request->user();
 
+        if ($user->has_box_permission !== 1) {
+            return response()->json(['message' => '请先通过价值观测试才能发布盲盒'], 403);
+        }
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
             'meeting_time' => ['required', 'date', 'after:now'],
