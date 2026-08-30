@@ -1,29 +1,34 @@
+/* 盲盒广场卡片。
+   布局与视觉细节参考 gemini-3.1-pro-preview 的方案（双层柔和阴影、虚线分隔
+   参与者区、VIP 渐变角标、带品牌色阴影的「去看看」胶囊），字号统一走全局 token。 */
+
 .box-card {
   background-color: var(--color-card);
   border-radius: 32rpx;
-  padding: 24rpx;
-  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.04);
+  padding: 28rpx;
+  /* 两层阴影：大而淡的做体积感，小而近的做贴合感 */
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.03), 0 2rpx 8rpx rgba(0, 0, 0, 0.02);
 }
 /* 「我关注的」横向轮播里的窄卡 */
 .box-card.is-compact {
-  width: 560rpx;
+  width: 600rpx;
   flex-shrink: 0;
 }
 
 /* —— 上半：封面 + 信息 —— */
 .card-main {
   display: flex;
-  gap: 24rpx;
+  gap: 28rpx;
 }
 
 .cover {
   position: relative;
-  width: 220rpx;
-  height: 280rpx;
+  width: 200rpx;
+  height: 260rpx;
   flex-shrink: 0;
-  border-radius: 24rpx;
+  border-radius: 20rpx;
   overflow: hidden;
-  background: linear-gradient(135deg, #ffe8e0 0%, #fff0e8 100%);
+  background: linear-gradient(135deg, var(--color-accent-bg) 0%, #fff5f0 100%);
 }
 .cover-img {
   width: 100%;
@@ -35,26 +40,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 72rpx;
+  font-size: 80rpx;
 }
-/* 分类角标：半透明深底 + 橙点，压在封面左上角 */
+/* 分类角标。backdrop-filter 在部分机型不生效，靠半透明底色兜底 */
 .cover-badge {
   position: absolute;
-  left: 12rpx;
   top: 12rpx;
+  left: 12rpx;
   padding: 6rpx 16rpx;
   border-radius: 9999rpx;
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8rpx);
   color: #ffffff;
   font-size: var(--fs-mini);
-  line-height: 1.4;
   display: flex;
   align-items: center;
-  gap: 6rpx;
+  gap: 8rpx;
+  z-index: 1;
 }
 .cover-badge-dot {
   color: #ff9f45;
-  font-size: 16rpx;
+  font-size: var(--fs-mini);
+  transform: scale(0.6);
 }
 
 .info {
@@ -67,89 +74,104 @@
   font-size: var(--fs-section);
   font-weight: 600;
   color: var(--color-text);
-  line-height: 1.35;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .creator {
-  margin-top: 14rpx;
+  margin-top: 16rpx;
   display: flex;
   align-items: center;
-  gap: 10rpx;
+  gap: 12rpx;
 }
 .creator-name {
   flex: 1;
   min-width: 0;
   font-size: var(--fs-caption);
   color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .vip {
   flex-shrink: 0;
-  padding: 2rpx 12rpx;
+  padding: 2rpx 10rpx;
   border-radius: 8rpx;
-  background-color: #fef3c7;
+  background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
   color: #b45309;
   font-size: var(--fs-mini);
+  font-weight: 600;
 }
 
 .meta {
-  margin-top: 14rpx;
+  margin-top: 16rpx;
   display: flex;
   flex-direction: column;
-  gap: 8rpx;
+  gap: 10rpx;
 }
 .meta-row {
   display: flex;
   align-items: center;
-  gap: 8rpx;
+  gap: 10rpx;
 }
 .meta-icon {
-  font-size: var(--fs-mini);
+  font-size: var(--fs-caption);
   flex-shrink: 0;
 }
 .meta-text {
   flex: 1;
   min-width: 0;
   font-size: var(--fs-caption);
-  color: var(--color-text-secondary);
+  color: var(--color-text-hint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* 费用：参考图里价格是醒目的橙色大字，这里沿用品牌红 */
+/* 费用：列表里最抓眼的数字 */
 .fee {
   margin-top: auto;
-  padding-top: 12rpx;
+  padding-top: 16rpx;
   font-size: var(--fs-title);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-accent);
-  line-height: 1.2;
+  line-height: 1;
 }
 
 /* —— 下半：参与者 —— */
 .participants {
-  margin-top: 20rpx;
-  padding-top: 20rpx;
-  border-top: 1rpx solid var(--color-border);
+  margin-top: 28rpx;
+  padding-top: 24rpx;
+  /* 虚线分隔比实线更轻，避免把卡片切成两半 */
+  border-top: 2rpx dashed var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16rpx;
+  gap: 20rpx;
 }
-/* 头像负边距叠放，靠前的层级更高；白色描边把相邻头像分开 */
+
+/* 头像叠放：容器补 padding 抵掉首个的负边距，靠前的层级更高 */
 .avatar-stack {
   display: flex;
   align-items: center;
   flex: 1;
   min-width: 0;
+  padding-left: 16rpx;
 }
 .stack-item {
   position: relative;
-  width: 52rpx;
-  height: 52rpx;
+  width: 48rpx;
+  height: 48rpx;
   border-radius: 9999rpx;
-  border: 3rpx solid var(--color-card);
+  border: 4rpx solid var(--color-card);
+  margin-left: -16rpx;
+  background-color: var(--gray-100);
+  overflow: hidden;
   box-sizing: content-box;
   flex-shrink: 0;
-  overflow: hidden;
-  background-color: var(--color-card);
 }
 .no-one {
   flex: 1;
@@ -158,28 +180,32 @@
   color: var(--color-text-hint);
 }
 
-.count-wrap {
-  flex-shrink: 0;
+.action-area {
   display: flex;
   align-items: center;
-  gap: 8rpx;
+  gap: 16rpx;
+  flex-shrink: 0;
 }
-.count {
-  font-size: var(--fs-caption);
-  color: var(--color-text-secondary);
+.count-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
 }
 .count-num {
   font-size: var(--fs-body);
   font-weight: 600;
   color: var(--color-text);
 }
-.go {
-  width: 44rpx;
-  height: 44rpx;
+.count {
+  font-size: var(--fs-caption);
+  color: var(--color-text-secondary);
+}
+.go-btn {
+  padding: 10rpx 28rpx;
   border-radius: 9999rpx;
   background-color: var(--color-accent);
   color: #ffffff;
-  font-size: 30rpx;
-  line-height: 40rpx;
-  text-align: center;
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  box-shadow: 0 4rpx 12rpx rgba(232, 55, 63, 0.3);
 }

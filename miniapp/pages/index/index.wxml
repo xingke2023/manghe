@@ -2,23 +2,21 @@
   <!-- 渐变头部：左上角是我的头像与会员号 -->
   <view class="hero">
     <view class="me" bindtap="goProfile">
-      <mh-avatar
-        class="me-avatar"
-        src="{{me.avatar_url}}"
-        user-id="{{me.id}}"
-        size="128"
-      />
+      <view class="me-avatar-wrap">
+        <mh-avatar src="{{me.avatar_url}}" user-id="{{me.id}}" size="104" />
+      </view>
       <view class="me-info">
-        <text class="me-name">{{me.nickname || '未登录'}}</text>
-        <view wx:if="{{memberNo}}" class="me-no">
-          <text class="me-no-label">会员号:</text>
-          <text class="me-no-value">{{memberNo}}</text>
-          <text class="me-no-copy" catchtap="onCopyMemberNo">⧉</text>
+        <view class="me-name-row">
+          <text class="me-name ellipsis">{{me.nickname || '未登录'}}</text>
+          <view wx:if="{{memberNo}}" class="me-no" catchtap="onCopyMemberNo">
+            <text class="me-no-label">NO.{{memberNo}}</text>
+            <text class="me-no-copy">⧉</text>
+          </view>
         </view>
-        <view wx:else class="me-no">
-          <text class="me-no-label">登录后开启拆盒</text>
-        </view>
-        <view class="me-pills">
+
+        <view wx:if="{{!isLoggedIn}}" class="me-login-hint">登录后开启拆盒 ✨</view>
+
+        <view wx:else class="me-pills">
           <text wx:if="{{me.is_member}}" class="me-pill is-vip">◈ 会员</text>
           <text wx:if="{{genderLabel}}" class="me-pill">{{genderLabel}}</text>
           <text wx:if="{{me.credit_score}}" class="me-pill">⛨ 信誉 {{me.credit_score}}</text>
@@ -26,12 +24,18 @@
       </view>
     </view>
 
-    <view wx:if="{{quota}}" class="quota-pill">
-      🎲 今日剩余拆盒 {{quota.remaining}}/{{quota.limit}} 次
+    <!-- 今日配额单独成卡，比原来的小胶囊更有存在感 -->
+    <view wx:if="{{quota}}" class="quota-card">
+      <text class="quota-icon">🎲</text>
+      <text class="quota-text">今日剩余拆盒</text>
+      <view class="quota-val">
+        <text class="quota-hl">{{quota.remaining}}</text>
+        <text class="quota-total">/{{quota.limit}}</text>
+      </view>
     </view>
   </view>
 
-  <!-- Tab 切换 -->
+  <!-- Tab 栏 -->
   <view class="tabs">
     <view
       class="tab {{activeTab === 'plaza' ? 'is-active' : ''}}"
@@ -47,36 +51,36 @@
 
   <!-- ============ 盲盒广场 ============ -->
   <block wx:if="{{activeTab === 'plaza'}}">
-    <!-- 排序 / 地区 -->
-    <scroll-view class="chip-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
-      <view class="chip-row">
+    <view class="filters">
+      <!-- 排序 / 地区：固定三项，不横滑 -->
+      <view class="filter-bar">
         <view
-          class="chip {{!sort && !city ? 'is-active' : ''}}"
+          class="filter-item {{!category && !city && !sort ? 'is-active' : ''}}"
           bindtap="onResetFilters"
         >全部</view>
         <view
-          class="chip {{sort === 'meeting_time' ? 'is-active' : ''}}"
+          class="filter-item {{sort === 'meeting_time' ? 'is-active' : ''}}"
           bindtap="onSortTap"
-        >时间 {{sort === 'meeting_time' ? '✓' : '▾'}}</view>
+        >时间 <text class="filter-icon">{{sort === 'meeting_time' ? '✓' : '▾'}}</text></view>
         <view
-          class="chip {{city ? 'is-active' : ''}}"
+          class="filter-item {{city ? 'is-active' : ''}}"
           bindtap="onCityTap"
-        >{{city || '地区'}} ▾</view>
+        >{{city || '地区'}} <text class="filter-icon">▾</text></view>
       </view>
-    </scroll-view>
 
-    <!-- 分类 -->
-    <scroll-view class="chip-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
-      <view class="chip-row">
-        <view
-          wx:for="{{categories}}"
-          wx:key="*this"
-          class="chip {{category === item ? 'is-active' : ''}}"
-          bindtap="onCategoryTap"
-          data-value="{{item}}"
-        >{{item}}</view>
-      </view>
-    </scroll-view>
+      <!-- 分类：横滑 -->
+      <scroll-view class="category-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+        <view class="category-row">
+          <view
+            wx:for="{{categories}}"
+            wx:key="*this"
+            class="category-chip {{category === item ? 'is-active' : ''}}"
+            bindtap="onCategoryTap"
+            data-value="{{item}}"
+          >{{item}}</view>
+        </view>
+      </scroll-view>
+    </view>
 
     <view class="list">
       <mh-skeleton wx:if="{{loading && !boxes.length}}" count="3" type="card" />
@@ -112,17 +116,18 @@
       <block wx:elif="{{followingGroups.length}}">
         <view wx:for="{{followingGroups}}" wx:key="index" class="group">
           <view class="group-head" bindtap="onCreatorTap" data-id="{{item.creator.id}}">
-            <mh-avatar
-              src="{{item.creator.avatar_url}}"
-              user-id="{{item.creator.id}}"
-              size="72"
-            />
-            <view class="group-head-info">
-              <text class="group-name">{{item.creator.nickname}}</text>
+            <view class="group-head-left">
+              <mh-avatar
+                src="{{item.creator.avatar_url}}"
+                user-id="{{item.creator.id}}"
+                size="56"
+              />
+              <text class="group-name ellipsis">{{item.creator.nickname}}</text>
               <text class="group-count">{{item.boxes.length}} 个盲盒</text>
             </view>
             <text class="group-arrow">›</text>
           </view>
+
           <scroll-view class="group-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
             <view class="group-row">
               <mh-box-card
@@ -148,5 +153,7 @@
   </block>
 
   <!-- 发盒入口 -->
-  <view wx:if="{{isLoggedIn}}" class="fab" bindtap="goPublish">🎁 我要发盒</view>
+  <view wx:if="{{isLoggedIn}}" class="fab" bindtap="goPublish">
+    <text class="fab-icon">🎁</text>我要发盒
+  </view>
 </view>
