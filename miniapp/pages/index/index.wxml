@@ -3,7 +3,7 @@
   <view class="hero">
     <view class="hero-brand">
       <image class="hero-logo" src="/assets/images/logo-head.png" mode="aspectFit" />
-      <text class="hero-title">约会盲盒</text>
+      <text class="hero-title">搭子盲盒</text>
     </view>
     <view wx:if="{{quota}}" class="quota-pill">
       🎲 今日剩余拆盒 {{quota.remaining}}/{{quota.limit}} 次

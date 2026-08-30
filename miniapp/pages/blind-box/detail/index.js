@@ -57,7 +57,7 @@ Page({
   onShareAppMessage: function () {
     const box = this.data.box
     return {
-      title: box ? box.title : '约会盲盒',
+      title: box ? box.title : '搭子盲盒',
       path: '/pages/blind-box/detail/index?id=' + this.data.boxId,
       imageUrl: box && box.cover_image ? box.cover_image : '',
     }

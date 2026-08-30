@@ -2,7 +2,7 @@
 <view wx:if="{{step === 'intro'}}" class="page-wrap">
   <view class="card-list">
     <view class="intro-card">
-      <text class="intro-title">发布约会盲盒</text>
+      <text class="intro-title">发布搭子盲盒</text>
       <text class="intro-sub">能帮你更高效筛选到「对的人」</text>
       <view class="intro-inner">
         🌟 发布前，请先完成小恶魔的灵魂考验～

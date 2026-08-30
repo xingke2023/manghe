@@ -68,7 +68,7 @@ Page({
 
   onShareAppMessage: function () {
     return {
-      title: '约会盲盒 — 拆盒遇见有趣的人',
+      title: '搭子盲盒 — 拆盒遇见有趣的人',
       path: '/pages/index/index',
     }
   },
