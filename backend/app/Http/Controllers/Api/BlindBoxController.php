@@ -123,7 +123,13 @@ class BlindBoxController extends Controller
 
     public function show(BlindBox $blindBox): BlindBoxResource
     {
-        $blindBox->load(['creator', 'creator.profile']);
+        $blindBox->load([
+            'creator',
+            'creator.profile',
+            // 详情页也要展示参与者头像
+            'applications' => fn ($query) => $query->latest()->limit(6),
+            'applications.applicant:id,avatar_url',
+        ]);
 
         return new BlindBoxResource($blindBox);
     }

@@ -3,136 +3,179 @@
   <view class="nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="nav-bar">
       <view class="nav-back" bindtap="onBack">‹</view>
-      <text class="nav-title">{{isCreator ? '我的搭子盲盒' : 'TA的搭子盲盒'}}</text>
+      <text class="nav-title">活动详情</text>
     </view>
   </view>
 
   <!-- 骨架 -->
   <view wx:if="{{loading}}" class="skeleton-wrap">
-    <view class="skeleton-block sk-hero"></view>
+    <view class="skeleton-block sk-cover"></view>
     <view class="skeleton-block sk-card"></view>
     <view class="skeleton-block sk-card"></view>
   </view>
 
   <block wx:elif="{{box}}">
-    <!-- 发盒者 -->
-    <view class="hero">
-      <mh-avatar
-        class="hero-avatar"
-        src="{{box.creator.avatar_url}}"
-        user-id="{{box.creator.id}}"
-        size="160"
-      />
-      <view class="hero-name-row">
-        <text class="hero-name">{{box.creator.nickname}}</text>
-        <text wx:if="{{box.creator.is_member}}" class="hero-vip">会员</text>
+    <!-- ============ 活动封面 + 标题 ============ -->
+    <view class="cover">
+      <image wx:if="{{box.cover_image}}" class="cover-img" src="{{box.cover_image}}" mode="aspectFill" />
+      <view wx:else class="cover-empty">🎁</view>
+      <view wx:if="{{categoryLabel}}" class="cover-badge">
+        <text class="cover-badge-dot">●</text>{{categoryLabel}}
       </view>
-      <view class="hero-pills">
-        <text wx:if="{{box.creator.generation_label}}" class="hero-pill">{{box.creator.generation_label}}</text>
-        <text wx:if="{{box.creator.height}}" class="hero-pill">{{box.creator.height}}cm</text>
-        <text wx:if="{{box.creator.age}}" class="hero-pill">{{box.creator.age}}岁</text>
+      <text wx:if="{{statusLabel}}" class="cover-status {{statusClass}}">{{statusLabel}}</text>
+    </view>
+
+    <view class="head">
+      <text class="head-title">{{box.title}}</text>
+      <view class="head-row">
+        <text class="head-fee">{{box.fee_label}}</text>
+        <text wx:if="{{countdown}}" class="head-countdown">{{countdown}}</text>
       </view>
-      <view
-        wx:if="{{!isCreator}}"
-        class="follow-btn {{isFollowing ? 'is-following' : ''}}"
-        bindtap="onToggleFollow"
-      >{{followLoading ? '...' : (isFollowing ? '已关注' : '关注 TA')}}</view>
     </view>
 
     <view class="card-list">
-      <!-- 盲盒计划 -->
+      <!-- ============ 活动信息 ============ -->
       <view class="card">
-        <view class="plan-head">
-          <text class="card-title plan-title">盲盒计划 ⚡</text>
-          <text class="badge-blue">{{box.apply_count || 0}}人已报名</text>
-        </view>
+        <view class="card-title">活动信息</view>
+
         <view class="info-row">
-          <text class="info-label">主题</text>
-          <text class="info-value">{{box.title}}</text>
+          <text class="info-icon">🕐</text>
+          <view class="info-body">
+            <text class="info-label">活动时间</text>
+            <text class="info-value">{{meetingText}}</text>
+          </view>
         </view>
+
         <view class="info-row">
-          <text class="info-label">时间</text>
-          <text class="info-value">{{box.meeting_time_full || box.meeting_time}}</text>
+          <text class="info-icon">📍</text>
+          <view class="info-body">
+            <text class="info-label">活动地点</text>
+            <text class="info-value">{{box.location}}</text>
+            <text wx:if="{{regionText}}" class="info-sub">{{regionText}}</text>
+          </view>
         </view>
-        <view class="info-row" wx:if="{{regionText}}">
-          <text class="info-label">地区</text>
-          <text class="info-value">{{regionText}}</text>
-        </view>
+
         <view class="info-row">
-          <text class="info-label">地点</text>
-          <text class="info-value">{{box.location}}</text>
+          <text class="info-icon">👥</text>
+          <view class="info-body">
+            <text class="info-label">招募人数</text>
+            <text class="info-value">{{participantText}}</text>
+          </view>
         </view>
+
+        <view wx:if="{{box.checkin_start_time}}" class="info-row">
+          <text class="info-icon">✅</text>
+          <view class="info-body">
+            <text class="info-label">打卡时段</text>
+            <text class="info-value">{{box.checkin_start_time}} — {{box.checkin_end_time}}</text>
+            <text class="info-sub">需在活动地点 300 米内完成 GPS 打卡</text>
+          </view>
+        </view>
+
         <view class="info-row">
-          <text class="info-label">费用</text>
-          <text class="tag-accent">{{box.fee_label}}</text>
+          <text class="info-icon">💰</text>
+          <view class="info-body">
+            <text class="info-label">费用方式</text>
+            <text class="info-value">{{box.fee_label}}</text>
+          </view>
         </view>
       </view>
 
-      <!-- 期待同行者特质 -->
-      <view class="card" wx:if="{{box.expected_traits.length}}">
-        <view class="card-title">期待同行者特质</view>
-        <view class="wrap chip-gap">
-          <text wx:for="{{box.expected_traits}}" wx:key="*this" class="tag-blue">{{item}}</text>
-        </view>
-      </view>
-
-      <!-- 体验价值 -->
+      <!-- ============ 体验价值 ============ -->
       <view class="card" wx:if="{{box.experience_values.length}}">
-        <view class="card-title">体验价值</view>
+        <view class="card-title">这场活动能收获什么</view>
         <view class="wrap chip-gap">
           <text wx:for="{{box.experience_values}}" wx:key="*this" class="tag-orange">{{item}}</text>
         </view>
       </view>
 
-      <!-- 关于我 -->
-      <view class="card" wx:if="{{box.creator.profile.about_me}}">
-        <view class="card-title">{{isCreator ? '关于我' : '关于 TA'}}</view>
-        <text class="about-text">{{box.creator.profile.about_me}}</text>
-      </view>
-
-      <!-- 兴趣 -->
-      <view class="card" wx:if="{{box.creator.profile.interests.length}}">
-        <view class="card-title">{{isCreator ? '我的兴趣' : 'TA的兴趣'}}</view>
+      <!-- ============ 期待同行者 ============ -->
+      <view class="card" wx:if="{{box.expected_traits.length}}">
+        <view class="card-title">期待什么样的同行者</view>
         <view class="wrap chip-gap">
-          <text wx:for="{{box.creator.profile.interests}}" wx:key="*this" class="chip">{{item}}</text>
+          <text wx:for="{{box.expected_traits}}" wx:key="*this" class="tag-blue">{{item}}</text>
         </view>
       </view>
 
-      <!-- 兴趣相册：非本人看到的是模糊图，需申请授权 -->
-      <view class="card" wx:if="{{hasPhotos}}">
-        <view class="card-title">兴趣相册</view>
-        <view class="photo-row">
+      <!-- ============ 已报名的人 ============ -->
+      <view class="card">
+        <view class="plan-head">
+          <view class="card-title plan-title">已报名</view>
+          <text class="stat-inline">{{box.apply_count || 0}} 人报名 · {{box.view_count || 0}} 人看过</text>
+        </view>
+        <view wx:if="{{applicantAvatars.length}}" class="avatar-stack">
           <view
-            wx:for="{{box.creator.profile.interest_photos}}"
-            wx:key="*this"
-            class="photo-slot"
-            bindtap="onPhotoTap"
-            data-url="{{item}}"
+            wx:for="{{applicantAvatars}}"
+            wx:key="id"
+            class="stack-item"
+            style="margin-left: {{index === 0 ? '0' : '-18rpx'}}; z-index: {{10 - index}};"
           >
-            <image
-              class="photo-img {{canViewPhotos ? '' : 'is-blurred'}}"
-              src="{{item}}"
-              mode="aspectFill"
-            />
-            <view wx:if="{{!canViewPhotos}}" class="photo-lock">🔒</view>
+            <mh-avatar src="{{item.avatar_url}}" user-id="{{item.id}}" size="64" />
           </view>
         </view>
-        <!-- 相册授权入口（Taro 版缺这块 UI，接口本来就有） -->
-        <view wx:if="{{!canViewPhotos}}" class="photo-request">
-          <text class="photo-request-text">{{photoRequestHint}}</text>
-          <view
-            wx:if="{{photoRequestStatus === 0 || photoRequestStatus === 3}}"
-            class="btn-sm photo-request-btn"
-            bindtap="onRequestPhotos"
-          >{{photoRequesting ? '提交中...' : '申请查看'}}</view>
-        </view>
-      </view>
-      <view class="card" wx:elif="{{!isCreator}}">
-        <view class="card-title">兴趣相册</view>
-        <view class="photo-empty">🔒 TA 还没有上传相册</view>
+        <text wx:else class="none-yet">还没有人报名，来做第一个</text>
       </view>
 
-      <!-- 报名名单（仅发盒者可见） -->
+      <!-- ============ 发起人（次要信息，放在活动内容之后）============ -->
+      <view class="card" wx:if="{{box.creator}}">
+        <view class="card-title">发起人</view>
+        <view class="owner">
+          <mh-avatar
+            src="{{box.creator.avatar_url}}"
+            user-id="{{box.creator.id}}"
+            size="96"
+            bindtap="onCreatorTap"
+          />
+          <view class="owner-info" bindtap="onCreatorTap">
+            <view class="owner-name-row">
+              <text class="owner-name">{{box.creator.nickname}}</text>
+              <text wx:if="{{box.creator.is_member}}" class="owner-vip">会员</text>
+            </view>
+            <text wx:if="{{creatorMeta}}" class="owner-meta">{{creatorMeta}}</text>
+          </view>
+          <view
+            wx:if="{{!isCreator}}"
+            class="btn-sm follow-btn {{isFollowing ? 'is-following' : ''}}"
+            catchtap="onToggleFollow"
+          >{{followLoading ? '...' : (isFollowing ? '已关注' : '关注')}}</view>
+        </view>
+
+        <text wx:if="{{box.creator.profile.about_me}}" class="owner-about">{{box.creator.profile.about_me}}</text>
+
+        <view wx:if="{{box.creator.profile.interests.length}}" class="owner-interests">
+          <text wx:for="{{box.creator.profile.interests}}" wx:key="*this" class="chip">{{item}}</text>
+        </view>
+
+        <!-- 兴趣相册：非本人看到的是模糊图，需申请授权 -->
+        <block wx:if="{{hasPhotos}}">
+          <view class="photo-row">
+            <view
+              wx:for="{{box.creator.profile.interest_photos}}"
+              wx:key="*this"
+              class="photo-slot"
+              bindtap="onPhotoTap"
+              data-url="{{item}}"
+            >
+              <image
+                class="photo-img {{canViewPhotos ? '' : 'is-blurred'}}"
+                src="{{item}}"
+                mode="aspectFill"
+              />
+              <view wx:if="{{!canViewPhotos}}" class="photo-lock">🔒</view>
+            </view>
+          </view>
+          <view wx:if="{{!canViewPhotos}}" class="photo-request">
+            <text class="photo-request-text">{{photoRequestHint}}</text>
+            <view
+              wx:if="{{photoRequestStatus === 0 || photoRequestStatus === 3}}"
+              class="btn-sm photo-request-btn"
+              catchtap="onRequestPhotos"
+            >{{photoRequesting ? '提交中...' : '申请查看'}}</view>
+          </view>
+        </block>
+      </view>
+
+      <!-- ============ 报名名单（仅发起人可见）============ -->
       <view class="card" wx:if="{{isCreator}}">
         <view class="card-title">报名名单</view>
         <view wx:if="{{applicationsLoading}}" class="applicant-loading">加载中...</view>
@@ -168,6 +211,8 @@
         </block>
         <view wx:else class="applicant-empty">还没有人报名，再等等～</view>
       </view>
+
+      <view class="publish-time">发布于 {{publishedText}}</view>
     </view>
 
     <view class="bottom-bar-spacer"></view>

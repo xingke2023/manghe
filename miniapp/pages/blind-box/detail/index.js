@@ -5,6 +5,55 @@ const format = require('../../../utils/format')
 
 const app = getApp()
 
+/** 盲盒状态：1 进行中 / 2 已满员 / 3 已下架 / 4 已过期 */
+const STATUS_MAP = {
+  2: { label: '已满员', cls: 'is-blue' },
+  3: { label: '已下架', cls: 'is-gray' },
+  4: { label: '已结束', cls: 'is-gray' },
+}
+
+const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六']
+
+/**
+ * 活动时间的完整文案：09-05 周六 14:59
+ *
+ * 注意 meeting_time_full 是「把本地时间当 UTC」序列化的，墙上时间藏在 UTC
+ * 字段里（详见 blind-box/edit 的 splitMeetingTime）。拿不到就退回后端已经
+ * 格式化好的 meeting_time。
+ */
+function buildMeetingText(box) {
+  const date = format.parseDate(box.meeting_time_full)
+  if (!date) return box.meeting_time || ''
+  const pad = function (n) {
+    return String(n).padStart(2, '0')
+  }
+  return (
+    pad(date.getUTCMonth() + 1) +
+    '-' +
+    pad(date.getUTCDate()) +
+    ' 周' +
+    WEEKDAYS[date.getUTCDay()] +
+    ' ' +
+    pad(date.getUTCHours()) +
+    ':' +
+    pad(date.getUTCMinutes())
+  )
+}
+
+/** 距开始还有多久；已开始则不显示 */
+function buildCountdown(box) {
+  const date = format.parseDate(box.meeting_time_full)
+  if (!date) return ''
+  // meeting_time_full 的墙上时间在 UTC 字段里，换算成真实时间戳要减掉本地时区偏移
+  const wallClock = date.getTime() + new Date().getTimezoneOffset() * 60000
+  const diff = wallClock - Date.now()
+  if (diff <= 0) return ''
+  const hours = Math.floor(diff / 3600000)
+  if (hours < 1) return '即将开始'
+  if (hours < 24) return hours + ' 小时后开始'
+  return Math.floor(hours / 24) + ' 天后开始'
+}
+
 Page({
   data: {
     statusBarHeight: 20,
@@ -13,6 +62,17 @@ Page({
     loading: true,
     isCreator: false,
     regionText: '',
+
+    // 活动内容派生文案
+    meetingText: '',
+    countdown: '',
+    participantText: '',
+    categoryLabel: '',
+    statusLabel: '',
+    statusClass: '',
+    publishedText: '',
+    creatorMeta: '',
+    applicantAvatars: [],
 
     // 关注
     isFollowing: false,
@@ -82,12 +142,36 @@ Page({
         const isCreator = !!(me && box.creator && box.creator.id === me.id)
         const photos =
           (box.creator && box.creator.profile && box.creator.profile.interest_photos) || []
+        const status = STATUS_MAP[box.status]
+        const creator = box.creator || {}
+        // 发起人的次要信息拼一行，避免占太多版面
+        const creatorBits = []
+        if (creator.generation_label) creatorBits.push(creator.generation_label)
+        if (creator.gender === 1) creatorBits.push('♂')
+        else if (creator.gender === 2) creatorBits.push('♀')
+        if (creator.age) creatorBits.push(creator.age + '岁')
+        if (creator.height) creatorBits.push(creator.height + 'cm')
+
+        const maxP = box.max_participants || 1
+        const curP = box.current_participants || 0
 
         self.setData({
           box: box,
           loading: false,
           isCreator: isCreator,
-          regionText: format.joinPlace(box.city, box.district),
+          regionText: format.joinPlace(box.province, box.city, box.district),
+
+          meetingText: buildMeetingText(box),
+          countdown: buildCountdown(box),
+          participantText: '招募 ' + maxP + ' 人 · 已锁定 ' + curP + ' 人',
+          // 后端没有独立分类字段，取体验价值首项当角标
+          categoryLabel: (box.experience_values || [])[0] || '',
+          statusLabel: status ? status.label : '',
+          statusClass: status ? status.cls : '',
+          publishedText: format.formatTime(box.created_at),
+          creatorMeta: creatorBits.join(' · '),
+          applicantAvatars: (box.recent_applicants || []).slice(0, 6),
+
           hasPhotos: photos.length > 0,
           canViewPhotos: isCreator,
         })
@@ -341,6 +425,13 @@ Page({
       url:
         '/pages/profile/other/index?userId=' + userId + '&box_id=' + this.data.boxId,
     })
+  },
+
+  /** 点发起人头像/昵称进 TA 的主页 */
+  onCreatorTap: function () {
+    const creator = this.data.box && this.data.box.creator
+    if (!creator || this.data.isCreator) return
+    wx.navigateTo({ url: '/pages/profile/other/index?userId=' + creator.id })
   },
 
   goEdit: function () {

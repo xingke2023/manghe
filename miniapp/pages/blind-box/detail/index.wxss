@@ -8,130 +8,258 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: linear-gradient(180deg, #ffe8e0 0%, #ffeee6 100%);
+  background-color: var(--color-card);
+  border-bottom: 1rpx solid var(--color-border);
 }
 
 /* —— 骨架 —— */
 .skeleton-wrap {
-  padding: 32rpx;
+  padding: 0 0 32rpx;
   display: flex;
   flex-direction: column;
   gap: 24rpx;
 }
-.sk-hero {
-  height: 320rpx;
-  border-radius: 32rpx;
+.sk-cover {
+  height: 480rpx;
+  border-radius: 0;
 }
 .sk-card {
   height: 220rpx;
   border-radius: 32rpx;
+  margin: 0 32rpx;
 }
 
-/* —— 发盒者 hero —— */
-.hero {
-  background: linear-gradient(180deg, #ffeee6 0%, #fff5f0 55%, #f5f5f5 100%);
-  padding: 24rpx 32rpx 48rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* —— 活动封面 —— */
+.cover {
+  position: relative;
+  height: 480rpx;
+  background: linear-gradient(135deg, #ffe8e0 0%, #fff0e8 100%);
 }
-.hero-avatar {
-  border: 6rpx solid #ffffff;
+.cover-img {
+  width: 100%;
+  height: 100%;
+}
+.cover-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120rpx;
+}
+.cover-badge {
+  position: absolute;
+  left: 24rpx;
+  top: 24rpx;
+  padding: 8rpx 20rpx;
   border-radius: 9999rpx;
-}
-.hero-name-row {
-  margin-top: 20rpx;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: var(--fs-mini);
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: 8rpx;
 }
-.hero-name {
-  font-size: 40rpx;
-  font-weight: 600;
-  color: var(--color-text);
+.cover-badge-dot {
+  color: #ff9f45;
+  font-size: 16rpx;
 }
-.hero-vip {
-  padding: 4rpx 14rpx;
-  border-radius: 8rpx;
-  background-color: #fef3c7;
-  color: #b45309;
-  font-size: var(--fs-mini);
-}
-.hero-pills {
-  margin-top: 16rpx;
-  display: flex;
-  gap: 16rpx;
-}
-.hero-pill {
+/* 非「进行中」的状态盖在封面右上角 */
+.cover-status {
+  position: absolute;
+  right: 24rpx;
+  top: 24rpx;
   padding: 8rpx 22rpx;
   border-radius: 9999rpx;
-  background-color: rgba(255, 255, 255, 0.8);
   font-size: var(--fs-mini);
-  color: var(--color-text-secondary);
-}
-.follow-btn {
-  margin-top: 28rpx;
-  padding: 14rpx 48rpx;
-  border-radius: 9999rpx;
-  background-color: var(--color-accent);
   color: #ffffff;
-  font-size: var(--fs-caption);
-  font-weight: 500;
 }
-.follow-btn.is-following {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: var(--color-text-secondary);
+.cover-status.is-blue {
+  background-color: rgba(37, 99, 235, 0.85);
+}
+.cover-status.is-gray {
+  background-color: rgba(0, 0, 0, 0.55);
 }
 
-/* —— 盲盒计划 —— */
-.plan-head {
+/* —— 标题区 —— */
+.head {
+  background-color: var(--color-card);
+  padding: 32rpx;
+}
+.head-title {
+  display: block;
+  font-size: 42rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.35;
+}
+.head-row {
+  margin-top: 20rpx;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: baseline;
+  gap: 20rpx;
 }
-.plan-title {
-  margin-bottom: 0;
+.head-fee {
+  font-size: var(--fs-title);
+  font-weight: 600;
+  color: var(--color-accent);
+  line-height: 1.2;
 }
+.head-countdown {
+  padding: 6rpx 20rpx;
+  border-radius: 9999rpx;
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-size: var(--fs-mini);
+}
+
+/* —— 活动信息行 —— */
 .info-row {
   display: flex;
   align-items: flex-start;
-  padding: 18rpx 0;
+  gap: 20rpx;
+  padding: 22rpx 0;
   border-bottom: 1rpx solid var(--color-border);
 }
 .info-row:last-child {
   border-bottom: none;
   padding-bottom: 0;
 }
-.info-label {
-  width: 100rpx;
+.info-icon {
+  font-size: var(--fs-section);
+  line-height: 1.4;
   flex-shrink: 0;
-  font-size: var(--fs-caption);
+}
+.info-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.info-label {
+  font-size: var(--fs-mini);
   color: var(--color-text-hint);
 }
 .info-value {
-  flex: 1;
-  font-size: var(--fs-secondary);
+  font-size: var(--fs-body);
   color: var(--color-text);
+  line-height: 1.5;
+}
+.info-sub {
+  font-size: var(--fs-mini);
+  color: var(--color-text-hint);
+  line-height: 1.5;
 }
 
 .chip-gap {
   gap: 16rpx;
 }
-.about-text {
+
+/* —— 已报名 —— */
+.plan-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.plan-title {
+  margin-bottom: 0;
+}
+.stat-inline {
+  font-size: var(--fs-mini);
+  color: var(--color-text-hint);
+  flex-shrink: 0;
+}
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+.stack-item {
+  position: relative;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 9999rpx;
+  border: 3rpx solid var(--color-card);
+  box-sizing: content-box;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--color-card);
+}
+.none-yet {
+  font-size: var(--fs-caption);
+  color: var(--color-text-hint);
+}
+
+/* —— 发起人（次要区块）—— */
+.owner {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.owner-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+.owner-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.owner-name {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.owner-vip {
+  padding: 2rpx 14rpx;
+  border-radius: 8rpx;
+  background-color: #fef3c7;
+  color: #b45309;
+  font-size: var(--fs-mini);
+}
+.owner-meta {
+  font-size: var(--fs-caption);
+  color: var(--color-text-secondary);
+}
+.follow-btn {
+  flex-shrink: 0;
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+.follow-btn.is-following {
+  background-color: var(--color-card);
+  border: 1rpx solid var(--gray-200);
+  color: var(--color-text-secondary);
+}
+.owner-about {
+  display: block;
+  margin-top: 24rpx;
   font-size: var(--fs-secondary);
   color: var(--color-text-secondary);
   line-height: 1.7;
 }
+.owner-interests {
+  margin-top: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
 
 /* —— 兴趣相册 —— */
 .photo-row {
+  margin-top: 24rpx;
   display: flex;
   gap: 16rpx;
 }
 .photo-slot {
   position: relative;
   flex: 1;
-  height: 200rpx;
+  height: 180rpx;
   border-radius: 24rpx;
   overflow: hidden;
   background-color: var(--gray-100);
@@ -155,7 +283,7 @@
   font-size: 40rpx;
 }
 .photo-request {
-  margin-top: 24rpx;
+  margin-top: 20rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -170,12 +298,6 @@
   flex-shrink: 0;
   background-color: var(--gray-900);
   color: #ffffff;
-}
-.photo-empty {
-  padding: 40rpx 0;
-  text-align: center;
-  font-size: var(--fs-caption);
-  color: var(--color-text-hint);
 }
 
 /* —— 报名名单 —— */
@@ -222,6 +344,13 @@
   text-align: center;
   font-size: var(--fs-caption);
   color: var(--color-text-hint);
+}
+
+.publish-time {
+  padding: 8rpx 8rpx 0;
+  text-align: center;
+  font-size: var(--fs-mini);
+  color: var(--gray-400);
 }
 
 /* —— 底部操作栏 —— */
